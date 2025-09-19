@@ -1,42 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Floom Design System - Web3 Audio Spaces */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    /* Floom Brand Colors - HSL Format */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    
+    --card: 0 0% 2%;
+    --card-foreground: 0 0% 100%;
+    
+    --popover: 0 0% 2%;
+    --popover-foreground: 0 0% 100%;
+    
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 0 0% 8%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 0 0% 5%;
+    --muted-foreground: 0 0% 60%;
+    
+    --accent: 74 89% 60%;
+    --accent-foreground: 0 0% 0%;
+    
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 0 0% 12%;
+    --input: 0 0% 8%;
+    --ring: 74 89% 60%;
+    
+    --radius: 1rem;
+    
+    /* Floom Gradients */
+    --gradient-floom: linear-gradient(45deg, hsl(0 0% 0%), hsl(74 89% 60%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 1%), hsl(0 0% 3%));
+    --gradient-accent: linear-gradient(135deg, hsl(74 89% 60%), hsl(74 89% 70%));
+    
+    /* Floom Shadows */
+    --shadow-soft: 0 10px 24px hsla(74, 89%, 60%, 0.08);
+    --shadow-glow: 0 0 40px hsla(74, 89%, 60%, 0.35);
+    --shadow-card: 0 4px 16px hsla(0, 0%, 0%, 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +116,126 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@layer components {
+  /* Typography Classes */
+  .font-heading {
+    font-family: 'Blacknode', 'Comfortaa', 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+  }
+  
+  .font-body {
+    font-family: 'Comfortaa', 'Inter', system-ui, sans-serif;
+  }
+  
+  /* Floom Component Styles */
+  .floom-gradient {
+    background: var(--gradient-floom);
+  }
+  
+  .accent-gradient {
+    background: var(--gradient-accent);
+  }
+  
+  .subtle-gradient {
+    background: var(--gradient-subtle);
+  }
+  
+  .glow-accent {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .speaker-ring {
+    position: relative;
+  }
+  
+  .speaker-ring::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: inherit;
+    background: conic-gradient(hsl(var(--accent)), transparent, hsl(var(--accent)));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .speaker-ring.speaking::before {
+    opacity: 1;
+    animation: speaker-pulse 2s ease-in-out infinite;
+  }
+  
+  .holographic-grid {
+    background-image: 
+      linear-gradient(rgba(167, 241, 57, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(167, 241, 57, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .neon-border {
+    border: 1px solid hsla(74, 89%, 60%, 0.4);
+    box-shadow: 0 0 10px hsla(74, 89%, 60%, 0.1);
+  }
+  
+  .earn-meter {
+    background: linear-gradient(90deg, 
+      hsl(var(--accent)) 0%, 
+      hsl(var(--accent)) var(--progress, 0%), 
+      hsl(var(--muted)) var(--progress, 0%), 
+      hsl(var(--muted)) 100%
+    );
+  }
+}
+
+@layer utilities {
+  .transition-floom {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-fast {
+    transition: var(--transition-fast);
+  }
+  
+  .transition-slow {
+    transition: var(--transition-slow);
+  }
+}
+
+@keyframes speaker-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes count-up {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

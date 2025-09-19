@@ -58,10 +58,36 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      fontFamily: {
+        heading: ['Blacknode', 'Comfortaa', 'Inter', 'system-ui', 'sans-serif'],
+        body: ['Comfortaa', 'Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        'display': '3rem',
+        'h1': '2.25rem',
+        'h2': '1.75rem',
+        'h3': '1.375rem',
+      },
+      spacing: {
+        '4': '0.25rem',
+        '8': '0.5rem',
+        '12': '0.75rem',
+        '16': '1rem',
+        '20': '1.25rem',
+        '24': '1.5rem',
+        '32': '2rem',
+        '40': '2.5rem',
+      },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        sm: '10px',
+        md: '16px',
+        lg: '24px',
+        xl: '28px',
+      },
+      boxShadow: {
+        'soft': '0 10px 24px hsla(74, 89%, 60%, 0.08)',
+        'glow': '0 0 40px hsla(74, 89%, 60%, 0.35)',
+        'card': '0 4px 16px hsla(0, 0%, 0%, 0.4)',
       },
       keyframes: {
         "accordion-down": {
