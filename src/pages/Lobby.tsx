@@ -79,49 +79,50 @@ export default function Lobby() {
       
       <main className="relative">
         {/* Hero Section */}
-        <section className="py-16 px-4">
+        <section className="py-8 sm:py-12 lg:py-16 px-4">
           <div className="container mx-auto text-center">
-            <div className="max-w-4xl mx-auto space-y-6">
-              <Badge variant="outline" className="mb-4">
+            <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+              <Badge variant="outline" className="mb-2 sm:mb-4 text-xs">
                 <Zap size={12} className="mr-1" />
                 Powered by FAKE Quality Engine
               </Badge>
               
-              <h1 className="text-4xl md:text-6xl font-heading leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-headline leading-tight">
                 Live Quality <span className="floom-gradient bg-clip-text text-transparent">Spaces</span>
               </h1>
               
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-body">
+              <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto font-body px-4">
                 Join conversations where FAKE-scanned posts flow live. 
                 Talk, stake, and earn together.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-8 px-4">
                 <Button 
                   size="lg" 
-                  className="text-lg"
+                  className="text-sm sm:text-base lg:text-lg w-full sm:w-auto"
                   onClick={() => window.location.href = '/create'}
+                  glow={true}
                 >
-                  <Plus className="mr-2" size={20} />
+                  <Plus className="mr-2" size={16} />
                   Start a Space
                 </Button>
-                <Button variant="outline" size="lg" className="text-lg">
+                <Button variant="outline" size="lg" className="text-sm sm:text-base lg:text-lg w-full sm:w-auto">
                   Explore Spaces
                 </Button>
               </div>
               
               {/* Stats */}
-              <div className="flex justify-center gap-8 mt-12 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Users size={16} />
+              <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8 sm:mt-12 text-xs sm:text-sm text-muted-foreground px-4">
+                <div className="flex items-center justify-center gap-2">
+                  <Users size={14} />
                   <span>12.5K+ Creators</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Star size={16} />
+                <div className="flex items-center justify-center gap-2">
+                  <Star size={14} />
                   <span>98% Quality Score</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Zap size={16} />
+                <div className="flex items-center justify-center gap-2">
+                  <Zap size={14} />
                   <span>$2.3M Earned</span>
                 </div>
               </div>
@@ -130,22 +131,22 @@ export default function Lobby() {
         </section>
 
         {/* Live Spaces */}
-        <section className="py-12 px-4">
+        <section className="py-8 sm:py-12 px-4">
           <div className="container mx-auto">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
               <div>
-                <h2 className="text-2xl font-heading">Live Now</h2>
-                <p className="text-muted-foreground font-body">
+                <h2 className="text-xl sm:text-2xl font-heading">Live Now</h2>
+                <p className="text-sm sm:text-base text-muted-foreground font-body">
                   Join active conversations happening right now
                 </p>
               </div>
-              <Badge variant="outline" className="flex items-center gap-1">
-                <div className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+              <Badge variant="outline" className="flex items-center gap-1 self-start sm:self-auto text-xs">
+                <div className="h-2 w-2 rounded-full bg-floom-accent animate-pulse" />
                 {mockLiveSpaces.length} Live
               </Badge>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {mockLiveSpaces.map((space) => (
                 <SpaceCard 
                   key={space.id} 
@@ -158,18 +159,18 @@ export default function Lobby() {
         </section>
 
         {/* Scheduled Spaces */}
-        <section className="py-12 px-4">
+        <section className="py-8 sm:py-12 px-4 pb-16">
           <div className="container mx-auto">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <div>
-                <h2 className="text-2xl font-heading">Scheduled</h2>
-                <p className="text-muted-foreground font-body">
+                <h2 className="text-xl sm:text-2xl font-heading">Scheduled</h2>
+                <p className="text-sm sm:text-base text-muted-foreground font-body">
                   Upcoming spaces you won't want to miss
                 </p>
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {mockScheduledSpaces.map((space) => (
                 <SpaceCard 
                   key={space.id} 

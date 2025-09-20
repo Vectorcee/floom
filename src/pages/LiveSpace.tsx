@@ -135,18 +135,54 @@ export default function LiveSpace() {
       </header>
 
       {/* Main Content */}
-      <main className="relative">
-        <div className="container mx-auto px-4 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+      <main className="relative pb-20 lg:pb-24">
+        <div className="container mx-auto px-4 py-4 lg:py-6">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-6 min-h-[calc(100vh-240px)]">
             
-            {/* Left: Stage (65% on desktop) */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Speakers Grid */}
+            {/* Mobile: Quality Conveyor First */}
+            <div className="lg:hidden space-y-4 max-h-[40vh] overflow-hidden">
+              {/* Pinned Post */}
+              <div>
+                <h3 className="font-headline text-sm text-muted-foreground mb-2 flex items-center gap-2">
+                  📌 Pinned Quality Post
+                </h3>
+                <PinnedPostCard 
+                  post={mockPinnedPost}
+                  onEngage={() => console.log('Engage')}
+                  onStake={() => setEarnedAmount(prev => prev + 25)}
+                  onClip={() => console.log('Clip')}
+                  onShare={() => console.log('Share')}
+                />
+              </div>
+
+              {/* Quality Feed - Mobile */}
+              <div className="flex-1 overflow-hidden">
+                <h3 className="font-headline text-sm text-muted-foreground mb-2">
+                  Live Quality Feed
+                </h3>
+                <div className="space-y-3 h-32 overflow-y-auto">
+                  {mockQualityFeed.slice(0, 2).map((post) => (
+                    <PinnedPostCard 
+                      key={post.id}
+                      post={post}
+                      className="scale-95"
+                      onEngage={() => console.log('Engage')}
+                      onStake={() => setEarnedAmount(prev => prev + 15)}
+                      onClip={() => console.log('Clip')}
+                      onShare={() => console.log('Share')}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Stage (Mobile second, Desktop first 65%) */}
+            <div className="lg:col-span-2 flex-1">
               <Card className="h-full">
-                <CardContent className="p-6 h-full flex flex-col">
-                  <h3 className="font-heading text-lg mb-4">On Stage</h3>
+                <CardContent className="p-4 lg:p-6 h-full flex flex-col">
+                  <h3 className="font-heading text-base lg:text-lg mb-4">On Stage</h3>
                   
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 flex-1 place-items-center">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 flex-1 place-items-center">
                     {mockSpeakers.map((speaker, index) => (
                       <SpeakerAvatar
                         key={index}
@@ -159,10 +195,11 @@ export default function LiveSpace() {
                   </div>
 
                   {/* Stage Controls */}
-                  <div className="flex justify-center mt-6">
+                  <div className="flex justify-center mt-4 lg:mt-6">
                     <Button 
                       variant="outline"
-                      className={hasRaisedHand ? "bg-accent text-accent-foreground" : ""}
+                      size="sm"
+                      className={hasRaisedHand ? "bg-floom-accent text-black" : ""}
                       onClick={() => setHasRaisedHand(!hasRaisedHand)}
                     >
                       <Hand size={16} className="mr-2" />
@@ -173,11 +210,11 @@ export default function LiveSpace() {
               </Card>
             </div>
 
-            {/* Right: Quality Conveyor (35% on desktop) */}
-            <div className="space-y-4 h-full overflow-hidden">
+            {/* Desktop: Quality Conveyor (35% on desktop) */}
+            <div className="hidden lg:block space-y-4 h-full overflow-hidden">
               {/* Pinned Post */}
               <div>
-                <h3 className="font-heading text-sm text-muted-foreground mb-2 flex items-center gap-2">
+                <h3 className="font-headline text-sm text-muted-foreground mb-2 flex items-center gap-2">
                   📌 Pinned Quality Post
                 </h3>
                 <PinnedPostCard 
@@ -189,9 +226,9 @@ export default function LiveSpace() {
                 />
               </div>
 
-              {/* Quality Feed */}
+              {/* Quality Feed - Desktop */}
               <div className="flex-1 overflow-hidden">
-                <h3 className="font-heading text-sm text-muted-foreground mb-2">
+                <h3 className="font-headline text-sm text-muted-foreground mb-2">
                   Live Quality Feed
                 </h3>
                 <div className="space-y-3 h-full overflow-y-auto">
@@ -214,28 +251,28 @@ export default function LiveSpace() {
       </main>
 
       {/* Footer Controls */}
-      <footer className="fixed bottom-0 left-0 right-0 border-t border-border bg-card/90 backdrop-blur-md">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+      <footer className="fixed bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-md z-50">
+        <div className="container mx-auto px-4 py-3 lg:py-4">
+          <div className="flex items-center justify-between gap-2">
             {/* Mic Toggle */}
             <Button
               variant={isMuted ? "outline" : "default"}
               size="sm"
               onClick={() => setIsMuted(!isMuted)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-1 lg:gap-2 text-xs lg:text-sm"
             >
-              {isMuted ? <MicOff size={16} /> : <Mic size={16} />}
-              {isMuted ? "Unmute" : "Mute"}
+              {isMuted ? <MicOff size={14} /> : <Mic size={14} />}
+              <span className="hidden sm:inline">{isMuted ? "Unmute" : "Mute"}</span>
             </Button>
 
             {/* Reactions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 lg:gap-2">
               {reactions.map((Reaction, index) => (
                 <Button
                   key={index}
                   variant="ghost"
                   size="sm"
-                  className="text-lg"
+                  className="text-sm lg:text-lg p-2 lg:p-3"
                   onClick={() => console.log('React', Reaction.label)}
                 >
                   {Reaction.label}
@@ -244,10 +281,10 @@ export default function LiveSpace() {
             </div>
 
             {/* Earn Meter */}
-            <div className="flex items-center gap-4">
-              <EarnMeter currentAmount={earnedAmount} className="w-32" />
-              <Button variant="default" size="sm">
-                Quick Stake
+            <div className="flex items-center gap-2 lg:gap-4">
+              <EarnMeter currentAmount={earnedAmount} className="w-20 lg:w-32" />
+              <Button variant="default" size="sm" className="text-xs lg:text-sm">
+                <span className="hidden sm:inline">Quick </span>Stake
               </Button>
             </div>
           </div>

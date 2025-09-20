@@ -34,12 +34,12 @@ export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }:
           </div>
 
           {/* Search & Tags */}
-          <div className="hidden md:flex items-center gap-4 flex-1 max-w-md mx-8">
+          <div className="hidden lg:flex items-center gap-4 flex-1 max-w-md mx-8">
             <div className="relative flex-1">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input 
                 placeholder="Search spaces, topics..." 
-                className="pl-10 bg-background/50"
+                className="pl-10 bg-input/50 border-border"
               />
             </div>
             <div className="flex gap-1">
@@ -47,7 +47,7 @@ export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }:
                 <Badge 
                   key={tag} 
                   variant="outline" 
-                  className="text-xs cursor-pointer hover:bg-accent hover:text-accent-foreground transition-floom"
+                  className="text-xs cursor-pointer hover:bg-floom-accent hover:text-black transition-floom"
                 >
                   {tag}
                 </Badge>
@@ -95,20 +95,20 @@ export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }:
         </div>
 
         {/* Mobile search */}
-        <div className="md:hidden mt-4">
+        <div className="lg:hidden mt-4">
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input 
               placeholder="Search spaces, topics..." 
-              className="pl-10 bg-background/50"
+              className="pl-10 bg-input/50 border-border"
             />
           </div>
-          <div className="flex gap-1 mt-2 overflow-x-auto">
+          <div className="flex gap-1 mt-2 overflow-x-auto pb-1">
             {topicTags.map((tag) => (
               <Badge 
                 key={tag} 
                 variant="outline" 
-                className="text-xs cursor-pointer hover:bg-accent hover:text-accent-foreground transition-floom whitespace-nowrap"
+                className="text-xs cursor-pointer hover:bg-floom-accent hover:text-black transition-floom whitespace-nowrap"
               >
                 {tag}
               </Badge>

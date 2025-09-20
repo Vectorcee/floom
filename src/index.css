@@ -1,113 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Floom Design System - Web3 Audio Spaces */
+/* Brand variables — 60/30/10 usage: black / accent / white */
+:root {
+  /* HSL values for Tailwind tokens */
+  --floom-bg: 0 0% 0%;           /* #000000 */
+  --floom-accent: 83 86% 61%;     /* #a7f139 */
+  --floom-fg: 0 0% 100%;         /* #ffffff */
+  --floom-hairline: 83 86% 61% / 0.4; /* accent at 40% */
 
-@layer base {
-  :root {
-    /* Floom Brand Colors - HSL Format */
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    
-    --card: 0 0% 2%;
-    --card-foreground: 0 0% 100%;
-    
-    --popover: 0 0% 2%;
-    --popover-foreground: 0 0% 100%;
-    
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 0 0% 8%;
-    --secondary-foreground: 0 0% 100%;
-    
-    --muted: 0 0% 5%;
-    --muted-foreground: 0 0% 60%;
-    
-    --accent: 74 89% 60%;
-    --accent-foreground: 0 0% 0%;
-    
-    --destructive: 0 75% 60%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 0 0% 12%;
-    --input: 0 0% 8%;
-    --ring: 74 89% 60%;
-    
-    --radius: 1rem;
-    
-    /* Floom Gradients */
-    --gradient-floom: linear-gradient(45deg, hsl(0 0% 0%), hsl(74 89% 60%));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 1%), hsl(0 0% 3%));
-    --gradient-accent: linear-gradient(135deg, hsl(74 89% 60%), hsl(74 89% 70%));
-    
-    /* Floom Shadows */
-    --shadow-soft: 0 10px 24px hsla(74, 89%, 60%, 0.08);
-    --shadow-glow: 0 0 40px hsla(74, 89%, 60%, 0.35);
-    --shadow-card: 0 4px 16px hsla(0, 0%, 0%, 0.4);
-    
-    /* Animations */
-    --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-fast: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-slow: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --background: var(--floom-bg);
+  --foreground: var(--floom-fg);
 
-    --sidebar-background: 0 0% 98%;
+  --card: 0 0% 3%;
+  --card-foreground: var(--floom-fg);
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+  --popover: 0 0% 3%;
+  --popover-foreground: var(--floom-fg);
 
-    --sidebar-primary: 240 5.9% 10%;
+  --primary: var(--floom-accent);
+  --primary-foreground: 0 0% 0%;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 10%;
+  --secondary-foreground: var(--floom-fg);
 
-    --sidebar-accent: 240 4.8% 95.9%;
+  --muted: 0 0% 12%;
+  --muted-foreground: 0 0% 80%;
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+  --accent: var(--floom-accent);
+  --accent-foreground: 0 0% 0%;
 
-    --sidebar-border: 220 13% 91%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  --border: 0 0% 12%;
+  --input: 0 0% 18%;
+  --ring: var(--floom-accent);
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  --radius: 16px; /* base radius for shadcn */
+}
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+/* Typography — register fonts (replace src with actual URLs/files) */
+@font-face {
+  font-family: "Blacknode";
+  src: url("/fonts/Blacknode.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+@font-face {
+  font-family: "Comfortaa";
+  src: url("/fonts/Comfortaa-VariableFont_wght.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+html, body, :root { 
+  height: 100%; 
+  background: #000; 
+  color: #fff; 
 }
 
 @layer base {
@@ -116,8 +72,27 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-floom-bg text-floom-fg font-body antialiased;
   }
+}
+
+/* Gradient helpers */
+.floom-gradient { 
+  background: linear-gradient(45deg, #000000 0%, #0b0f0a 40%, #a7f139 100%); 
+}
+.floom-glow { 
+  box-shadow: 0 0 40px rgba(167,241,57,0.35); 
+}
+
+/* Focus ring */
+:focus-visible { 
+  outline: 2px solid #a7f139; 
+  outline-offset: 2px; 
+}
+
+/* Hairline divider */
+.hr-hairline { 
+  border-top: 1px solid color-mix(in oklab, #a7f139 40%, transparent); 
 }
 
 @layer components {
@@ -132,22 +107,6 @@
   }
   
   /* Floom Component Styles */
-  .floom-gradient {
-    background: var(--gradient-floom);
-  }
-  
-  .accent-gradient {
-    background: var(--gradient-accent);
-  }
-  
-  .subtle-gradient {
-    background: var(--gradient-subtle);
-  }
-  
-  .glow-accent {
-    box-shadow: var(--shadow-glow);
-  }
-  
   .speaker-ring {
     position: relative;
   }
@@ -160,7 +119,7 @@
     right: -4px;
     bottom: -4px;
     border-radius: inherit;
-    background: conic-gradient(hsl(var(--accent)), transparent, hsl(var(--accent)));
+    background: conic-gradient(hsl(var(--floom-accent)), transparent, hsl(var(--floom-accent)));
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: -1;
@@ -179,14 +138,14 @@
   }
   
   .neon-border {
-    border: 1px solid hsla(74, 89%, 60%, 0.4);
-    box-shadow: 0 0 10px hsla(74, 89%, 60%, 0.1);
+    border: 1px solid hsla(83, 86%, 61%, 0.4);
+    box-shadow: 0 0 10px hsla(83, 86%, 61%, 0.1);
   }
   
   .earn-meter {
     background: linear-gradient(90deg, 
-      hsl(var(--accent)) 0%, 
-      hsl(var(--accent)) var(--progress, 0%), 
+      hsl(var(--floom-accent)) 0%, 
+      hsl(var(--floom-accent)) var(--progress, 0%), 
       hsl(var(--muted)) var(--progress, 0%), 
       hsl(var(--muted)) 100%
     );
@@ -195,15 +154,15 @@
 
 @layer utilities {
   .transition-floom {
-    transition: var(--transition-smooth);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .transition-fast {
-    transition: var(--transition-fast);
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .transition-slow {
-    transition: var(--transition-slow);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
