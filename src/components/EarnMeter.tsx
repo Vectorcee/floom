@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import tokenIcon from "@/assets/token-icon.jpg";
+import fuumPointsIcon from "@/assets/fuum-points-icon.png";
 
 interface EarnMeterProps {
   currentAmount: number;
@@ -31,7 +31,7 @@ export function EarnMeter({ currentAmount, targetAmount = 1000, className }: Ear
       <CardContent className="p-3">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <img src={tokenIcon} alt="FUUM Token" className="h-5 w-5 rounded-full" />
+            <img src={fuumPointsIcon} alt="FUUM Points" className="h-5 w-5 rounded-full" />
             <span className="text-xs font-heading text-muted-foreground">FUUM Points</span>
           </div>
           <div className={cn(

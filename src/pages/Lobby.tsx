@@ -70,17 +70,7 @@ export default function Lobby() {
         }}
       />
       
-      <FloomHeader 
-        user={{
-          name: "DevAlpha",
-          handle: "devalpha",
-          avatar: ""
-        }}
-      />
-      
-      <div className="container mx-auto px-4 pt-4">
-        <WalletBar />
-      </div>
+      <FloomHeader />
       
       <main className="relative">
         {/* Hero Section */}
