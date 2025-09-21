@@ -4,6 +4,7 @@ import { SpaceCard } from "@/components/SpaceCard";
 import { Badge } from "@/components/ui/badge";
 import { Users, Zap, Star, Plus } from "lucide-react";
 import holographicGrid from "@/assets/holographic-grid.jpg";
+import WalletBar from "@/components/wallet/WalletBar";
 
 const mockLiveSpaces = [
   {
@@ -77,6 +78,10 @@ export default function Lobby() {
         }}
       />
       
+      <div className="container mx-auto px-4 pt-4">
+        <WalletBar />
+      </div>
+      
       <main className="relative">
         {/* Hero Section */}
         <section className="py-8 sm:py-12 lg:py-16 px-4">
@@ -84,11 +89,11 @@ export default function Lobby() {
             <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
               <Badge variant="outline" className="mb-2 sm:mb-4 text-xs">
                 <Zap size={12} className="mr-1" />
-                Powered by FAKE Quality Engine
+                Powered by FUUM
               </Badge>
               
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-headline leading-tight">
-                Live Quality <span className="floom-gradient bg-clip-text text-transparent">Spaces</span>
+                <span className="animate-color-shift">Live Quality Engagement</span>
               </h1>
               
               <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto font-body px-4">

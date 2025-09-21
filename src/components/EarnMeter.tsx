@@ -32,7 +32,7 @@ export function EarnMeter({ currentAmount, targetAmount = 1000, className }: Ear
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <img src={tokenIcon} alt="FUUM Token" className="h-5 w-5 rounded-full" />
-            <span className="text-xs font-heading text-muted-foreground">FUUM Earned</span>
+            <span className="text-xs font-heading text-muted-foreground">FUUM Points</span>
           </div>
           <div className={cn(
             "text-lg font-heading transition-all duration-200",

@@ -94,7 +94,7 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        headline: ["Blacknode", "Inter", "system-ui", "sans-serif"],
+        headline: ["Blacknode 123", "Blacknode", "Inter", "system-ui", "sans-serif"],
         body: ["Comfortaa", "Inter", "system-ui", "sans-serif"],
       },
     },

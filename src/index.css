@@ -45,6 +45,14 @@
 
 /* Typography — register fonts (replace src with actual URLs/files) */
 @font-face {
+  font-family: "Blacknode 123";
+  src: url("/fonts/Blacknode123.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Blacknode";
   src: url("/fonts/Blacknode.woff2") format("woff2");
   font-weight: 700;
@@ -197,4 +205,15 @@ html, body, :root {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+/* Animated color change for Live Quality Engagement */
+@keyframes colorShift {
+  0% { color: #ffffff; }
+  50% { color: #ffffff; }
+  100% { color: #a7f139; }
+}
+
+.animate-color-shift {
+  animation: colorShift 3s ease-in-out infinite;
 }

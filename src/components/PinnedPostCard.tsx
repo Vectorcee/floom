@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, DollarSign, Scissors, Share } from "lucide-react";
+import { Heart, DollarSign, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PinnedPostCardProps {
@@ -21,11 +21,10 @@ interface PinnedPostCardProps {
   className?: string;
   onEngage?: () => void;
   onStake?: () => void;
-  onClip?: () => void;
   onShare?: () => void;
 }
 
-export function PinnedPostCard({ post, className, onEngage, onStake, onClip, onShare }: PinnedPostCardProps) {
+export function PinnedPostCard({ post, className, onEngage, onStake, onShare }: PinnedPostCardProps) {
   const qScoreColor = post.qScore >= 80 ? "text-accent" : post.qScore >= 60 ? "text-yellow-400" : "text-orange-400";
 
   return (
@@ -71,7 +70,7 @@ export function PinnedPostCard({ post, className, onEngage, onStake, onClip, onS
         </div>
 
         {/* Actions */}
-        <div className="grid grid-cols-4 gap-1">
+        <div className="grid grid-cols-3 gap-1">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -89,15 +88,6 @@ export function PinnedPostCard({ post, className, onEngage, onStake, onClip, onS
           >
             <DollarSign size={12} className="mr-1" />
             Stake
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-8 text-xs"
-            onClick={onClip}
-          >
-            <Scissors size={12} className="mr-1" />
-            Clip
           </Button>
           <Button 
             variant="ghost" 

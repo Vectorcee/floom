@@ -25,6 +25,7 @@ export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }:
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
+            <img src="/src/assets/floom-logo.png" alt="Floom" className="w-8 h-8" />
             <h1 className="text-2xl font-heading floom-gradient bg-clip-text text-transparent">
               Floom
             </h1>

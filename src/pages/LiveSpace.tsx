@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SpeakerAvatar } from "@/components/SpeakerAvatar";
 import { PinnedPostCard } from "@/components/PinnedPostCard";
 import { EarnMeter } from "@/components/EarnMeter";
+import { StakeComingSoonModal } from "@/components/StakeComingSoonModal";
 import { 
   Users, 
   Clock, 
@@ -69,6 +70,7 @@ export default function LiveSpace() {
   const [isMuted, setIsMuted] = useState(true);
   const [hasRaisedHand, setHasRaisedHand] = useState(false);
   const [earnedAmount, setEarnedAmount] = useState(156);
+  const [showStakeModal, setShowStakeModal] = useState(false);
 
   const reactions = [
     { icon: Heart, label: "❤️" },
@@ -149,8 +151,7 @@ export default function LiveSpace() {
                 <PinnedPostCard 
                   post={mockPinnedPost}
                   onEngage={() => console.log('Engage')}
-                  onStake={() => setEarnedAmount(prev => prev + 25)}
-                  onClip={() => console.log('Clip')}
+                  onStake={() => setShowStakeModal(true)}
                   onShare={() => console.log('Share')}
                 />
               </div>
@@ -167,8 +168,7 @@ export default function LiveSpace() {
                       post={post}
                       className="scale-95"
                       onEngage={() => console.log('Engage')}
-                      onStake={() => setEarnedAmount(prev => prev + 15)}
-                      onClip={() => console.log('Clip')}
+                      onStake={() => setShowStakeModal(true)}
                       onShare={() => console.log('Share')}
                     />
                   ))}
@@ -220,8 +220,7 @@ export default function LiveSpace() {
                 <PinnedPostCard 
                   post={mockPinnedPost}
                   onEngage={() => console.log('Engage')}
-                  onStake={() => setEarnedAmount(prev => prev + 25)}
-                  onClip={() => console.log('Clip')}
+                  onStake={() => setShowStakeModal(true)}
                   onShare={() => console.log('Share')}
                 />
               </div>
@@ -238,8 +237,7 @@ export default function LiveSpace() {
                       post={post}
                       className="scale-95"
                       onEngage={() => console.log('Engage')}
-                      onStake={() => setEarnedAmount(prev => prev + 15)}
-                      onClip={() => console.log('Clip')}
+                      onStake={() => setShowStakeModal(true)}
                       onShare={() => console.log('Share')}
                     />
                   ))}
@@ -262,7 +260,7 @@ export default function LiveSpace() {
               className="flex items-center gap-1 lg:gap-2 text-xs lg:text-sm"
             >
               {isMuted ? <MicOff size={14} /> : <Mic size={14} />}
-              <span className="hidden sm:inline">{isMuted ? "Unmute" : "Mute"}</span>
+              <span className="hidden sm:inline">{isMuted ? "Unmute to Speak" : "Mute"}</span>
             </Button>
 
             {/* Reactions */}
@@ -290,6 +288,11 @@ export default function LiveSpace() {
           </div>
         </div>
       </footer>
+      
+      <StakeComingSoonModal 
+        isOpen={showStakeModal} 
+        onClose={() => setShowStakeModal(false)} 
+      />
     </div>
   );
 }
