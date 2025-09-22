@@ -27,11 +27,11 @@ export function useAuth() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signInWithProvider = async (provider: 'google' | 'twitter') => {
+  const signInWithProvider = async (provider: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signInWithOAuth({
-      provider,
+      provider: provider as any,
       options: {
         redirectTo: redirectUrl
       }
@@ -39,7 +39,6 @@ export function useAuth() {
     
     return { error };
   };
-
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     return { error };

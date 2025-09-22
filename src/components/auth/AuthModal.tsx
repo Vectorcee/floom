@@ -14,7 +14,7 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
   const { signInWithProvider } = useAuth();
   const [loading, setLoading] = useState<string | null>(null);
 
-  const handleProviderSignIn = async (provider: 'google' | 'twitter') => {
+  const handleProviderSignIn = async (provider: string) => {
     setLoading(provider);
     const { error } = await signInWithProvider(provider);
     setLoading(null);
@@ -42,6 +42,16 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
           >
             <Chrome size={20} />
             {loading === 'google' ? 'Connecting...' : 'Continue with Google'}
+          </Button>
+
+          <Button
+            onClick={() => handleProviderSignIn('farcaster')}
+            variant="outline"
+            className="w-full flex items-center gap-3 h-12"
+            disabled={loading === 'farcaster'}
+          >
+            <Globe size={20} />
+            {loading === 'farcaster' ? 'Connecting...' : 'Continue with Farcaster'}
           </Button>
 
           <Button

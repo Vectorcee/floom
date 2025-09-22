@@ -11,13 +11,6 @@ import floomLogo from "@/assets/floom-logo.png";
 
 interface FloomHeaderProps {
   className?: string;
-  onCreateSpace?: () => void;
-  onConnectWallet?: () => void;
-  user?: {
-    name: string;
-    avatar?: string;
-    handle: string;
-  };
 }
 
 export function FloomHeader({ className }: FloomHeaderProps) {
