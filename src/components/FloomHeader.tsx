@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Search, Plus, Wallet } from "lucide-react";
+import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { useAuth } from "@/hooks/useAuth";
+import floomLogo from "@/assets/floom-logo.png";
 
 interface FloomHeaderProps {
   className?: string;
@@ -16,8 +20,9 @@ interface FloomHeaderProps {
   };
 }
 
-export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }: FloomHeaderProps) {
-  const topicTags = ["#DeFi", "#Builders", "#Creators", "#AIxWeb3", "#OpenSource"];
+export function FloomHeader({ className }: FloomHeaderProps) {
+  const { user, loading } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   return (
     <header className={cn("border-b border-border bg-card/50 backdrop-blur-sm", className)}>
@@ -25,11 +30,11 @@ export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }:
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img src="/src/assets/floom-logo.png" alt="Floom" className="w-10 h-10" />
-            <h1 className="text-2xl font-heading text-floom-fg">
+            <img src={floomLogo} alt="Floom" className="w-12 h-12 block" />
+            <h1 className="text-2xl font-heading text-floom-fg hidden sm:block">
               Floom
             </h1>
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className="text-xs hidden sm:block">
               BETA
             </Badge>
           </div>
@@ -47,23 +52,20 @@ export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }:
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => window.location.href = '/create'}
-                className="hidden sm:flex items-center gap-2"
-              >
-                <Plus size={16} />
-                Create Space
-              </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex items-center gap-2"
-            >
-              Sign In
-            </Button>
+            {!loading && (
+              user ? (
+                <UserMenu />
+              ) : (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setAuthModalOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  Sign In
+                </Button>
+              )
+            )}
           </div>
         </div>
 
@@ -78,6 +80,8 @@ export function FloomHeader({ className, onCreateSpace, onConnectWallet, user }:
           </div>
         </div>
       </div>
+      
+      <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
     </header>
   );
 }

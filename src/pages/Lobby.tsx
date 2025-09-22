@@ -4,7 +4,7 @@ import { SpaceCard } from "@/components/SpaceCard";
 import { Badge } from "@/components/ui/badge";
 import { Users, Zap, Star, Plus } from "lucide-react";
 import holographicGrid from "@/assets/holographic-grid.jpg";
-import WalletBar from "@/components/wallet/WalletBar";
+import { useAuth } from "@/hooks/useAuth";
 
 const mockLiveSpaces = [
   {
@@ -58,6 +58,7 @@ const mockScheduledSpaces = [
 ];
 
 export default function Lobby() {
+  const { user } = useAuth();
   return (
     <div className="min-h-screen bg-background">
       {/* Background */}
@@ -95,7 +96,7 @@ export default function Lobby() {
                 <Button 
                   size="lg" 
                   className="text-sm sm:text-base lg:text-lg w-full sm:w-auto"
-                  onClick={() => window.location.href = '/create'}
+                  onClick={() => user ? window.location.href = '/create' : alert('Please sign in to create a space')}
                   glow={true}
                 >
                   <Plus className="mr-2" size={16} />
