@@ -64,7 +64,7 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 lg:py-32 px-4">
           <div className="container mx-auto text-center">
             <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-headline leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-heading leading-tight">
                 Talk live. Surface Quality. Earn together.
               </h1>
               
@@ -100,7 +100,7 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 px-4">
           <div className="container mx-auto">
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline mb-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-4">
                 How It Works
               </h2>
             </div>
@@ -143,7 +143,7 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 px-4 bg-card/30">
           <div className="container mx-auto">
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline mb-6">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-6">
                 Rewards Split
               </h2>
               <p className="text-lg sm:text-xl text-muted-foreground font-body max-w-3xl mx-auto">
@@ -154,7 +154,7 @@ export default function Lobby() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
               <Card className="bg-card/50 border-floom-accent/20">
                 <CardHeader className="text-center pb-4">
-                  <div className="text-4xl sm:text-5xl font-headline text-floom-accent mb-2">70%</div>
+                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2">70%</div>
                   <CardTitle className="text-lg sm:text-xl font-heading">Creator's Fee</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
@@ -166,7 +166,7 @@ export default function Lobby() {
               
               <Card className="bg-card/50 border-floom-accent/20">
                 <CardHeader className="text-center pb-4">
-                  <div className="text-4xl sm:text-5xl font-headline text-floom-accent mb-2">20%</div>
+                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2">20%</div>
                   <CardTitle className="text-lg sm:text-xl font-heading">Host(s)</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
@@ -178,7 +178,7 @@ export default function Lobby() {
               
               <Card className="bg-card/50 border-floom-accent/20">
                 <CardHeader className="text-center pb-4">
-                  <div className="text-4xl sm:text-5xl font-headline text-floom-accent mb-2">10%</div>
+                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2">10%</div>
                   <CardTitle className="text-lg sm:text-xl font-heading">FUUM Treasury</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
@@ -195,7 +195,7 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 px-4">
           <div className="container mx-auto">
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline mb-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-4">
                 Core Features
               </h2>
             </div>
@@ -222,7 +222,7 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 px-4 bg-floom-accent/5">
           <div className="container mx-auto text-center">
             <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading">
                 Ready to set the vibe?
               </h2>
               
