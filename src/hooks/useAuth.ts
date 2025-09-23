@@ -30,14 +30,24 @@ export function useAuth() {
   const signInWithProvider = async (provider: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: provider as any,
-      options: {
-        redirectTo: redirectUrl
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider as any,
+        options: {
+          redirectTo: redirectUrl
+        }
+      });
+      
+      if (error) {
+        console.error('Auth error:', error);
+        throw error;
       }
-    });
-    
-    return { error };
+      
+      return { error: null };
+    } catch (error) {
+      console.error('Sign in error:', error);
+      return { error };
+    }
   };
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();

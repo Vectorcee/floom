@@ -16,11 +16,20 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
 
   const handleProviderSignIn = async (provider: string) => {
     setLoading(provider);
-    const { error } = await signInWithProvider(provider);
-    setLoading(null);
-    
-    if (!error) {
-      onOpenChange(false);
+    try {
+      const { error } = await signInWithProvider(provider);
+      if (error) {
+        console.error(`${provider} sign in error:`, error);
+        // Show user-friendly error message
+        alert(`Failed to sign in with ${provider}. Please ensure the provider is enabled in your Supabase project.`);
+      } else {
+        onOpenChange(false);
+      }
+    } catch (error) {
+      console.error(`${provider} sign in error:`, error);
+      alert(`Failed to sign in with ${provider}. Please try again later.`);
+    } finally {
+      setLoading(null);
     }
   };
 
