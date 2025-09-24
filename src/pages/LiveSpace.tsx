@@ -93,43 +93,45 @@ export default function LiveSpace() {
 
       {/* Top Bar */}
       <header className="relative border-b border-border bg-card/80 backdrop-blur-md">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" onClick={() => window.location.href = '/'}>
-                <ArrowLeft size={16} className="mr-1" />
-                Back
+        <div className="container mx-auto px-4 py-3 lg:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 lg:gap-4 min-w-0 flex-1">
+              <Button variant="ghost" size="sm" onClick={() => window.location.href = '/'} className="shrink-0">
+                <ArrowLeft size={16} className="lg:mr-1" />
+                <span className="hidden lg:inline">Back</span>
               </Button>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 min-w-0">
                 <SpeakerAvatar 
                   name={mockSpace.host.name}
                   size="sm"
                   isHost={true}
                 />
-                <div>
-                  <h1 className="font-heading text-lg">{mockSpace.title}</h1>
-                  <p className="text-xs text-muted-foreground">
+                <div className="min-w-0">
+                  <h1 className="font-heading text-sm lg:text-lg truncate">{mockSpace.title}</h1>
+                  <p className="text-xs text-muted-foreground truncate">
                     by @{mockSpace.host.handle}
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center gap-4 text-sm">
+            <div className="flex items-center gap-2 lg:gap-4 text-xs lg:text-sm shrink-0">
               <div className="flex items-center gap-1">
-                <Users size={16} />
-                <span>{mockSpace.listeners.toLocaleString()}</span>
+                <Users size={14} className="lg:size-4" />
+                <span className="hidden sm:inline">{mockSpace.listeners.toLocaleString()}</span>
+                <span className="sm:hidden">{(mockSpace.listeners / 1000).toFixed(1)}k</span>
               </div>
               <div className="flex items-center gap-1">
-                <Clock size={16} />
+                <Clock size={14} className="lg:size-4" />
                 <span>{mockSpace.duration}</span>
               </div>
               <Button 
                 variant="destructive" 
                 size="sm"
                 onClick={() => window.location.href = '/'}
+                className="text-xs lg:text-sm"
               >
-                End Space
+                <span className="hidden lg:inline">End </span>Leave
               </Button>
             </div>
           </div>
@@ -137,12 +139,12 @@ export default function LiveSpace() {
       </header>
 
       {/* Main Content */}
-      <main className="relative pb-20 lg:pb-24">
+      <main className="relative pb-20 lg:pb-28">
         <div className="container mx-auto px-4 py-4 lg:py-6">
-          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-6 min-h-[calc(100vh-240px)]">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-6 min-h-[calc(100vh-200px)] lg:min-h-[calc(100vh-240px)]">
             
             {/* Mobile: Quality Conveyor First */}
-            <div className="lg:hidden space-y-4 max-h-[40vh] overflow-hidden">
+            <div className="lg:hidden space-y-3 max-h-[35vh] overflow-hidden">
               {/* Pinned Post */}
               <div>
                 <h3 className="font-headline text-sm text-muted-foreground mb-2 flex items-center gap-2">
@@ -158,10 +160,10 @@ export default function LiveSpace() {
 
               {/* Quality Feed - Mobile */}
               <div className="flex-1 overflow-hidden">
-                <h3 className="font-headline text-sm text-muted-foreground mb-2">
+                <h3 className="font-heading text-sm text-muted-foreground mb-2">
                   Live Quality Feed
                 </h3>
-                <div className="space-y-3 h-32 overflow-y-auto">
+                <div className="space-y-2 h-28 overflow-y-auto">
                   {mockQualityFeed.slice(0, 2).map((post) => (
                     <PinnedPostCard 
                       key={post.id}

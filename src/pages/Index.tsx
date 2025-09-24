@@ -1,7 +1,22 @@
 import Lobby from "./Lobby";
+import Dashboard from "./Dashboard";
+import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
-  return <Lobby />;
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground font-body">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return user ? <Dashboard /> : <Lobby />;
 };
 
 export default Index;

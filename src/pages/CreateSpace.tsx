@@ -42,25 +42,25 @@ export default function CreateSpace() {
     <div className="min-h-screen bg-background">
       <FloomHeader />
       
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+      <main className="container mx-auto px-4 py-6 lg:py-8">
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <Button variant="ghost" onClick={() => window.location.href = '/'}>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
+            <Button variant="ghost" onClick={() => window.location.href = '/'} className="self-start">
               <ArrowLeft size={16} className="mr-2" />
-              Back to Lobby
+              <span className="hidden sm:inline">Back to </span>Dashboard
             </Button>
-            <div>
-              <h1 className="text-3xl font-heading">Create Your Space</h1>
-              <p className="text-muted-foreground font-body">
+            <div className="flex-1">
+              <h1 className="text-2xl lg:text-3xl font-heading">Create Your Space</h1>
+              <p className="text-muted-foreground font-body text-sm lg:text-base">
                 Start a live conversation where quality content flows
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Form */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-4 lg:space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle className="font-heading">Space Details</CardTitle>
@@ -157,10 +157,10 @@ export default function CreateSpace() {
             </div>
 
             {/* Preview */}
-            <div className="space-y-6">
+            <div className="space-y-4 lg:space-y-6 lg:sticky lg:top-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="font-heading text-lg">Preview</CardTitle>
+                  <CardTitle className="font-heading text-base lg:text-lg">Preview</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Mock Space Card Preview */}

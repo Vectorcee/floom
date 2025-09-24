@@ -8,6 +8,7 @@ import LiveSpace from "./pages/LiveSpace";
 import CreateSpace from "./pages/CreateSpace";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 
 
 
@@ -19,6 +20,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/space/:id" element={<LiveSpace />} />
           <Route path="/create" element={<CreateSpace />} />
           <Route path="/profile/:handle" element={<Profile />} />

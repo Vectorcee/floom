@@ -27,7 +27,7 @@ export function FloomHeader({ className }: FloomHeaderProps) {
             <h1 className="text-2xl font-heading text-floom-fg hidden sm:block">
               Floom
             </h1>
-            <Badge variant="secondary" className="text-xs hidden sm:block">
+            <Badge variant="secondary" className="text-xs">
               BETA
             </Badge>
           </div>
@@ -44,19 +44,29 @@ export function FloomHeader({ className }: FloomHeaderProps) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {!loading && (
               user ? (
                 <UserMenu />
               ) : (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => setAuthModalOpen(true)}
-                  className="flex items-center gap-2"
-                >
-                  Sign In
-                </Button>
+                <>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setAuthModalOpen(true)}
+                    className="text-sm hidden sm:flex"
+                  >
+                    Sign In
+                  </Button>
+                  <Button 
+                    variant="default" 
+                    size="sm" 
+                    onClick={() => setAuthModalOpen(true)}
+                    className="text-sm"
+                  >
+                    Sign Up
+                  </Button>
+                </>
               )
             )}
           </div>
