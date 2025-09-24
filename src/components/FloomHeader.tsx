@@ -27,8 +27,17 @@ export function FloomHeader({ className }: FloomHeaderProps) {
             <h1 className="text-2xl font-heading text-floom-fg hidden sm:block">
               Floom
             </h1>
-            <Badge variant="secondary" className="text-xs">
+            <Badge 
+              variant="secondary" 
+              className="bg-primary/20 text-primary-foreground border-primary/30 px-2 py-1 text-xs font-medium hidden sm:inline-flex"
+            >
               BETA
+            </Badge>
+            <Badge 
+              variant="secondary" 
+              className="bg-primary/20 text-primary-foreground border-primary/30 px-1.5 py-0.5 text-xs font-medium sm:hidden"
+            >
+              β
             </Badge>
           </div>
 

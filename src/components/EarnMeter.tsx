@@ -30,12 +30,12 @@ export function EarnMeter({ currentAmount, targetAmount = 1000, className }: Ear
     <Card className={cn("relative overflow-hidden", className)}>
       <CardContent className="p-3">
         <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <img src={fuumPointsIcon} alt="FUUM Points" className="h-5 w-5 rounded-full" />
-            <span className="text-xs font-heading text-muted-foreground">FUUM Points</span>
+          <div className="flex items-center gap-2 min-w-0">
+            <img src={fuumPointsIcon} alt="FUUM Points" className="h-4 w-4 sm:h-5 sm:w-5 rounded-full shrink-0" />
+            <span className="text-xs font-heading text-muted-foreground whitespace-nowrap">FP</span>
           </div>
           <div className={cn(
-            "text-lg font-heading transition-all duration-200",
+            "text-sm sm:text-lg font-heading transition-all duration-200 tabular-nums",
             isAnimating && "animate-[count-up_0.2s_ease-out]"
           )}>
             {displayAmount.toLocaleString()}

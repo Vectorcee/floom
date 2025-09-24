@@ -50,6 +50,86 @@ export type Database = {
         }
         Relationships: []
       }
+      space_participants: {
+        Row: {
+          id: string
+          is_speaker: boolean
+          joined_at: string
+          space_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          is_speaker?: boolean
+          joined_at?: string
+          space_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          is_speaker?: boolean
+          joined_at?: string
+          space_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_participants_space_id_fkey"
+            columns: ["space_id"]
+            isOneToOne: false
+            referencedRelation: "spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      spaces: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration: number | null
+          host_id: string
+          id: string
+          is_live: boolean
+          listener_count: number
+          privacy: string
+          quality_threshold: number | null
+          scheduled_time: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          host_id: string
+          id?: string
+          is_live?: boolean
+          listener_count?: number
+          privacy?: string
+          quality_threshold?: number | null
+          scheduled_time?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          host_id?: string
+          id?: string
+          is_live?: boolean
+          listener_count?: number
+          privacy?: string
+          quality_threshold?: number | null
+          scheduled_time?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

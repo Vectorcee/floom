@@ -1,107 +1,124 @@
+import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, Clock, Calendar } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-interface Space {
-  id: string;
-  title: string;
-  host: {
-    name: string;
-    avatar?: string;
-    handle: string;
-  };
-  listeners: number;
-  duration?: string; // for live spaces
-  scheduledTime?: string; // for scheduled spaces
-  tags: string[];
-  isLive: boolean;
-}
+import { Badge } from "@/components/ui/badge";
+import { Clock, Users, Mic } from 'lucide-react';
+import { Space } from '@/hooks/useSpaces';
 
 interface SpaceCardProps {
   space: Space;
   className?: string;
-  onJoin?: () => void;
-  onRemind?: () => void;
+  onJoin?: (spaceId: string) => void;
+  onRemind?: (spaceId: string) => void;
 }
 
-export function SpaceCard({ space, className, onJoin, onRemind }: SpaceCardProps) {
+const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemind }) => {
+  const formatTime = (timeString?: string) => {
+    if (!timeString) return '';
+    const date = new Date(timeString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const formatDuration = (minutes?: number) => {
+    if (!minutes) return '0m';
+    if (minutes < 60) return `${minutes}m`;
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+  };
+
   return (
-    <Card className={cn(
-      "group relative overflow-hidden transition-floom hover:shadow-soft",
-      "hover:border-accent/20",
-      className
-    )}>
-      <CardContent className="p-4 space-y-3">
-        {/* Status indicator */}
-        {space.isLive && (
-          <div className="absolute top-2 right-2 flex items-center gap-1">
-            <div className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-            <span className="text-xs font-heading text-accent">LIVE</span>
-          </div>
-        )}
-
-        {/* Host */}
-        <div className="flex items-center gap-2">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src={space.host.avatar} alt={space.host.name} />
-            <AvatarFallback className="bg-secondary text-xs">
-              {space.host.name.slice(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <p className="text-sm font-body font-medium">{space.host.name}</p>
-            <p className="text-xs text-muted-foreground">@{space.host.handle}</p>
-          </div>
-        </div>
-
-        {/* Title */}
-        <h3 className="font-heading text-lg leading-tight line-clamp-2">
-          {space.title}
-        </h3>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1">
-          {space.tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-
-        {/* Stats */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <Users size={12} />
-              <span>{space.listeners.toLocaleString()}</span>
+    <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 border-border/50 ${className}`}>
+      <CardContent className="p-0">
+        <div className="bg-gradient-to-br from-primary/20 to-secondary/20 p-4 relative">
+          {/* Live indicator */}
+          {space.is_live && (
+            <div className="absolute top-3 right-3">
+              <Badge variant="destructive" className="bg-red-500 text-white animate-pulse">
+                <Mic className="w-3 h-3 mr-1" />
+                LIVE
+              </Badge>
             </div>
-            {space.isLive && space.duration && (
-              <div className="flex items-center gap-1">
-                <Clock size={12} />
-                <span>{space.duration}</span>
-              </div>
-            )}
-            {!space.isLive && space.scheduledTime && (
-              <div className="flex items-center gap-1">
-                <Calendar size={12} />
-                <span>{space.scheduledTime}</span>
-              </div>
+          )}
+          
+          {/* Host info */}
+          <div className="flex items-center gap-3 mb-3">
+            <Avatar className="w-10 h-10 border-2 border-white/20">
+              <AvatarImage src={space.host?.avatar_url} alt={space.host?.display_name || 'Host'} />
+              <AvatarFallback className="bg-primary/30 text-primary-foreground font-semibold">
+                {(space.host?.display_name || 'H').split(' ').map(n => n[0]).join('').slice(0, 2)}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-foreground truncate">{space.host?.display_name || 'Unknown Host'}</p>
+              <p className="text-sm text-muted-foreground truncate">@{space.host?.handle || 'unknown'}</p>
+            </div>
+          </div>
+
+          {/* Space title */}
+          <h3 className="font-semibold text-lg text-foreground mb-3 line-clamp-2 leading-tight">
+            {space.title}
+          </h3>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {space.tags.slice(0, 3).map((tag, index) => (
+              <Badge 
+                key={index} 
+                variant="secondary" 
+                className="text-xs px-2 py-1 bg-secondary/60 text-secondary-foreground border-secondary-foreground/20"
+              >
+                #{tag}
+              </Badge>
+            ))}
+            {space.tags.length > 3 && (
+              <Badge 
+                variant="outline" 
+                className="text-xs px-2 py-1 border-secondary-foreground/30 text-muted-foreground"
+              >
+                +{space.tags.length - 3}
+              </Badge>
             )}
           </div>
-        </div>
 
-        {/* Action */}
-        <Button 
-          className="w-full transition-floom"
-          variant={space.isLive ? "default" : "outline"}
-          onClick={space.isLive ? onJoin : onRemind}
-        >
-          {space.isLive ? "Join Space" : "Remind Me"}
-        </Button>
+          {/* Stats and actions */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <Users className="w-4 h-4" />
+                <span className="tabular-nums">{space.participant_count || 0}</span>
+              </div>
+              {space.is_live ? (
+                <div className="flex items-center gap-1">
+                  <Clock className="w-4 h-4" />
+                  <span className="tabular-nums">{formatDuration(space.duration)}</span>
+                </div>
+              ) : (
+                space.scheduled_time && (
+                  <div className="flex items-center gap-1">
+                    <Clock className="w-4 h-4" />
+                    <span className="tabular-nums">{formatTime(space.scheduled_time)}</span>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+        
+        {/* Action button */}
+        <div className="p-4 bg-card">
+          <Button 
+            className="w-full font-medium transition-all duration-200" 
+            onClick={() => space.is_live ? onJoin?.(space.id) : onRemind?.(space.id)}
+            variant={space.is_live ? "default" : "outline"}
+          >
+            {space.is_participant ? 'Join Space' : space.is_live ? 'Join Space' : 'Remind Me'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
-}
+};
+
+export { SpaceCard };

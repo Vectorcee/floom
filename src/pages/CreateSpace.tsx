@@ -1,242 +1,343 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+import { FloomHeader } from '@/components/FloomHeader';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { FloomHeader } from "@/components/FloomHeader";
-import { ArrowLeft, Calendar, Users, Shield, Zap } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon, Clock, Users, Globe, Lock, X } from 'lucide-react';
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useNavigate } from 'react-router-dom';
+import { useSpaces } from '@/hooks/useSpaces';
+import { useAuth } from '@/hooks/useAuth';
 
-const topicTags = ["#DeFi", "#Builders", "#Creators", "#AIxWeb3", "#OpenSource", "#NFTs", "#Gaming", "#DAO"];
-
-export default function CreateSpace() {
+const CreateSpace = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { createSpace } = useSpaces();
+  const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     tags: [] as string[],
-    language: "English",
-    isPublic: true,
-    qMinThreshold: 70,
-    scheduledTime: "",
-    cohosts: [],
+    isPrivate: false,
+    qualityThreshold: [50],
+    scheduledDate: undefined as Date | undefined,
+    scheduledTime: '',
+    isLive: false
   });
+
+  const topicTags = [
+    'Tech', 'Gaming', 'Music', 'Sports', 'Business', 'Art', 'Science', 
+    'Politics', 'Health', 'Education', 'Entertainment', 'Travel',
+    'DeFi', 'NFT', 'Web3', 'Crypto', 'Blockchain', 'DAO'
+  ];
 
   const toggleTag = (tag: string) => {
     setFormData(prev => ({
       ...prev,
-      tags: prev.tags.includes(tag) 
+      tags: prev.tags.includes(tag)
         ? prev.tags.filter(t => t !== tag)
         : [...prev.tags, tag]
     }));
   };
 
-  const handleCreate = () => {
-    console.log('Creating space:', formData);
-    // Navigate to live space
-    window.location.href = '/space/new';
+  const handleCreate = async (goLive = false) => {
+    if (!user) {
+      return;
+    }
+
+    setIsCreating(true);
+    
+    try {
+      let scheduledTime: string | undefined;
+      
+      if (!goLive && formData.scheduledDate && formData.scheduledTime) {
+        const [hours, minutes] = formData.scheduledTime.split(':');
+        const scheduledDateTime = new Date(formData.scheduledDate);
+        scheduledDateTime.setHours(parseInt(hours), parseInt(minutes));
+        scheduledTime = scheduledDateTime.toISOString();
+      }
+
+      const space = await createSpace({
+        title: formData.title,
+        description: formData.description,
+        tags: formData.tags,
+        privacy: formData.isPrivate ? 'private' : 'public',
+        quality_threshold: formData.qualityThreshold[0],
+        scheduled_time: scheduledTime,
+        is_live: goLive
+      });
+
+      if (space) {
+        navigate(goLive ? `/space/${space.id}` : '/dashboard');
+      }
+    } catch (error) {
+      console.error('Error creating space:', error);
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background">
       <FloomHeader />
       
-      <main className="container mx-auto px-4 py-6 lg:py-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
-            <Button variant="ghost" onClick={() => window.location.href = '/'} className="self-start">
-              <ArrowLeft size={16} className="mr-2" />
-              <span className="hidden sm:inline">Back to </span>Dashboard
-            </Button>
-            <div className="flex-1">
-              <h1 className="text-2xl lg:text-3xl font-heading">Create Your Space</h1>
-              <p className="text-muted-foreground font-body text-sm lg:text-base">
-                Start a live conversation where quality content flows
-              </p>
-            </div>
+      <main className="container mx-auto px-4 py-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-6">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+              Create Your Space
+            </h1>
+            <p className="text-muted-foreground">
+              Start a conversation that matters
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-            {/* Form */}
-            <div className="lg:col-span-2 space-y-4 lg:space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Form Section */}
+            <div className="space-y-4">
+              {/* Basic Details */}
               <Card>
-                <CardHeader>
-                  <CardTitle className="font-heading">Space Details</CardTitle>
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Users className="w-5 h-5" />
+                    Space Details
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="title" className="font-body">Space Title</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="title">Space Title *</Label>
                     <Input
                       id="title"
-                      placeholder="e.g., Base Builders Night"
+                      placeholder="What's your space about?"
                       value={formData.title}
                       onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                      className="mt-1"
+                      className="bg-background"
                     />
                   </div>
-
-                  <div>
-                    <Label htmlFor="description" className="font-body">Description (Optional)</Label>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="description"
-                      placeholder="What will you discuss in this space?"
+                      placeholder="Describe your space..."
                       value={formData.description}
                       onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                      className="mt-1"
-                      rows={3}
+                      className="bg-background min-h-[80px] resize-none"
                     />
                   </div>
 
-                  <div>
-                    <Label className="font-body">Topic Tags</Label>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                  <div className="space-y-3">
+                    <Label>Topic Tags</Label>
+                    <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto">
                       {topicTags.map((tag) => (
                         <Badge
                           key={tag}
                           variant={formData.tags.includes(tag) ? "default" : "outline"}
-                          className="cursor-pointer transition-floom"
+                          className="cursor-pointer transition-all hover:scale-105 text-xs"
                           onClick={() => toggleTag(tag)}
                         >
                           {tag}
                         </Badge>
                       ))}
                     </div>
+                    {formData.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        <span className="text-sm text-muted-foreground">Selected:</span>
+                        {formData.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="text-xs">
+                            {tag}
+                            <X 
+                              className="w-3 h-3 ml-1 cursor-pointer" 
+                              onClick={() => toggleTag(tag)}
+                            />
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
 
+              {/* Settings */}
               <Card>
-                <CardHeader>
-                  <CardTitle className="font-heading">Space Settings</CardTitle>
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Globe className="w-5 h-5" />
+                    Settings
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <div>
-                      <Label className="font-body">Public Space</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Anyone can join and listen
+                    <div className="space-y-1">
+                      <Label className="flex items-center gap-2 text-sm">
+                        {formData.isPrivate ? <Lock className="w-4 h-4" /> : <Globe className="w-4 h-4" />}
+                        {formData.isPrivate ? 'Private' : 'Public'}
+                      </Label>
+                      <p className="text-xs text-muted-foreground">
+                        {formData.isPrivate 
+                          ? 'Invite only' 
+                          : 'Anyone can join'
+                        }
                       </p>
                     </div>
                     <Switch
-                      checked={formData.isPublic}
-                      onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isPublic: checked }))}
+                      checked={formData.isPrivate}
+                      onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isPrivate: checked }))}
                     />
                   </div>
 
-                  <div>
-                    <Label className="font-body">Quality Threshold</Label>
-                    <div className="flex items-center gap-4 mt-2">
-                      <Input
-                        type="number"
-                        min={50}
-                        max={95}
-                        value={formData.qMinThreshold}
-                        onChange={(e) => setFormData(prev => ({ ...prev, qMinThreshold: Number(e.target.value) }))}
-                        className="w-20"
-                      />
-                      <span className="text-sm text-muted-foreground">
-                        Only posts with Q-Score ≥ {formData.qMinThreshold} will appear
-                      </span>
+                  <div className="space-y-2">
+                    <Label className="text-sm">Quality Threshold: {formData.qualityThreshold[0]}%</Label>
+                    <Slider
+                      value={formData.qualityThreshold}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, qualityThreshold: value }))}
+                      max={100}
+                      step={10}
+                      className="py-2"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Minimum score for speaker approval
+                    </p>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label className="text-sm">Schedule (Optional)</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className={cn(
+                              "justify-start text-left font-normal h-9",
+                              !formData.scheduledDate && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {formData.scheduledDate ? format(formData.scheduledDate, "MM/dd") : "Date"}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={formData.scheduledDate}
+                            onSelect={(date) => setFormData(prev => ({ ...prev, scheduledDate: date }))}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+
+                      <div className="relative">
+                        <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-3 h-3" />
+                        <Input
+                          type="time"
+                          value={formData.scheduledTime}
+                          onChange={(e) => setFormData(prev => ({ ...prev, scheduledTime: e.target.value }))}
+                          className="pl-9 h-9 text-sm"
+                        />
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="scheduled" className="font-body">Schedule for Later (Optional)</Label>
-                    <Input
-                      id="scheduled"
-                      type="datetime-local"
-                      value={formData.scheduledTime}
-                      onChange={(e) => setFormData(prev => ({ ...prev, scheduledTime: e.target.value }))}
-                      className="mt-1"
-                    />
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Preview */}
-            <div className="space-y-4 lg:space-y-6 lg:sticky lg:top-6">
+            {/* Preview Section */}
+            <div className="space-y-4">
               <Card>
-                <CardHeader>
-                  <CardTitle className="font-heading text-base lg:text-lg">Preview</CardTitle>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg">Preview</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Mock Space Card Preview */}
-                  <div className="p-4 border border-border rounded-lg bg-card/50">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="h-8 w-8 rounded-full bg-accent" />
-                      <div>
-                        <p className="text-sm font-body font-medium">You</p>
-                        <p className="text-xs text-muted-foreground">@host</p>
-                      </div>
-                      {!formData.scheduledTime && (
-                        <Badge variant="outline" className="ml-auto">
-                          <div className="h-2 w-2 rounded-full bg-accent mr-1" />
-                          LIVE
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 border rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10">
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="font-semibold text-base leading-tight">
+                          {formData.title || 'Your Space Title'}
+                        </h3>
+                        <Badge variant={formData.scheduledDate ? "outline" : "destructive"} className="ml-2 shrink-0">
+                          {formData.scheduledDate ? 'Scheduled' : 'LIVE'}
                         </Badge>
-                      )}
-                    </div>
-                    
-                    <h3 className="font-heading text-base mb-2">
-                      {formData.title || "Your Space Title"}
-                    </h3>
-                    
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {formData.tags.slice(0, 3).map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                    
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <Users size={12} />
-                        <span>0</span>
                       </div>
-                      {formData.scheduledTime ? (
-                        <div className="flex items-center gap-1">
-                          <Calendar size={12} />
-                          <span>Scheduled</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-1">
-                          <Zap size={12} />
-                          <span>Starting</span>
+                      
+                      {formData.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mb-3">
+                          {formData.tags.slice(0, 4).map((tag) => (
+                            <Badge key={tag} variant="secondary" className="text-xs">
+                              #{tag}
+                            </Badge>
+                          ))}
+                          {formData.tags.length > 4 && (
+                            <Badge variant="outline" className="text-xs">
+                              +{formData.tags.length - 4}
+                            </Badge>
+                          )}
                         </div>
                       )}
+                      
+                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                        {formData.description || 'Space description will appear here...'}
+                      </p>
+                      
+                      <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-3">
+                          <span className="flex items-center gap-1 tabular-nums">
+                            <Users className="w-3 h-3" />
+                            0
+                          </span>
+                          {formData.scheduledDate && formData.scheduledTime && (
+                            <span className="flex items-center gap-1 tabular-nums">
+                              <Clock className="w-3 h-3" />
+                              {formData.scheduledTime}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {formData.isPrivate ? <Lock className="w-3 h-3" /> : <Globe className="w-3 h-3" />}
+                          <span>{formData.isPrivate ? 'Private' : 'Public'}</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Quality Info */}
-                  <div className="p-3 bg-accent/10 rounded-lg border border-accent/20">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Shield size={16} className="text-accent" />
-                      <span className="text-sm font-heading">Quality Filter</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Posts with Q-Score ≥ {formData.qMinThreshold} will flow into your space, 
-                      ensuring high-quality conversations.
-                    </p>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Create Button */}
-              <Button 
-                size="lg" 
-                className="w-full"
-                onClick={handleCreate}
-                disabled={!formData.title.trim()}
-              >
-                {formData.scheduledTime ? "Schedule Space" : "Go Live Now"}
-              </Button>
+              {/* Action Buttons */}
+              <div className="space-y-2">
+                <Button 
+                  className="w-full h-12 text-base font-semibold" 
+                  onClick={() => handleCreate(true)}
+                  disabled={!formData.title.trim() || isCreating}
+                >
+                  {isCreating ? 'Creating...' : 'Go Live Now'}
+                </Button>
+                
+                {formData.scheduledDate && formData.scheduledTime && (
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-12 text-base" 
+                    onClick={() => handleCreate(false)}
+                    disabled={!formData.title.trim() || isCreating}
+                  >
+                    {isCreating ? 'Scheduling...' : 'Schedule Space'}
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </main>
     </div>
   );
-}
+};
+
+export default CreateSpace;

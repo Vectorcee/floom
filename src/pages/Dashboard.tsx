@@ -1,184 +1,178 @@
-import React from "react";
+import React, { useState } from 'react';
+import { FloomHeader } from '@/components/FloomHeader';
+import { SpaceCard } from '@/components/SpaceCard';
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { SpaceCard } from "@/components/SpaceCard";
-import { FloomHeader } from "@/components/FloomHeader";
-import { Plus, TrendingUp, Clock, Zap } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, TrendingUp, Calendar, Play, Search } from 'lucide-react';
+import { Input } from "@/components/ui/input";
+import { useNavigate } from 'react-router-dom';
+import { useSpaces } from '@/hooks/useSpaces';
+import { useAuth } from '@/hooks/useAuth';
 
-const trendingSpaces = [
-  {
-    id: "1",
-    title: "Base Builders Night",
-    host: { name: "DevAlpha", avatar: "", handle: "devalpha" },
-    listeners: 542,
-    duration: "45m",
-    scheduledTime: null,
-    tags: ["#DeFi", "#Builders", "#Base"],
-    isLive: true
-  },
-  {
-    id: "2", 
-    title: "AI x Web3 Future",
-    host: { name: "Sarah Chen", avatar: "", handle: "sarahc" },
-    listeners: 328,
-    duration: "32m",
-    scheduledTime: null,
-    tags: ["#AI", "#Web3", "#Future"],
-    isLive: true
-  },
-  {
-    id: "3",
-    title: "NFT Creator Spotlight",
-    host: { name: "ArtistDAO", avatar: "", handle: "artistdao" },
-    listeners: 199,
-    duration: "1h 12m",
-    scheduledTime: null,
-    tags: ["#NFTs", "#Creators", "#Art"],
-    isLive: true
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { spaces, loading, joinSpace, leaveSpace } = useSpaces();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleJoinSpace = async (spaceId: string) => {
+    const success = await joinSpace(spaceId);
+    if (success) {
+      navigate(`/space/${spaceId}`);
+    }
+  };
+
+  const handleRemindMe = (spaceId: string) => {
+    console.log('Setting reminder for space:', spaceId);
+  };
+
+  // Filter spaces based on search query
+  const filteredSpaces = spaces.filter(space =>
+    space.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    space.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    space.host?.display_name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Categorize spaces
+  const trendingSpaces = filteredSpaces.filter(space => space.is_live);
+  const newSpaces = filteredSpaces.filter(space => !space.is_live);
+  const mySpaces = filteredSpaces.filter(space => space.host_id === user?.id);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <FloomHeader />
+        <main className="container mx-auto px-4 py-6">
+          <div className="text-center py-20">
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading spaces...</p>
+          </div>
+        </main>
+      </div>
+    );
   }
-];
 
-const newSpaces = [
-  {
-    id: "4",
-    title: "DAO Governance Deep Dive",
-    host: { name: "Marcus AI", avatar: "", handle: "marcusai" },
-    listeners: 0,
-    duration: "0m",
-    scheduledTime: "2024-01-20T19:00:00",
-    tags: ["#DAO", "#Governance"],
-    isLive: false
-  },
-  {
-    id: "5",
-    title: "DeFi Yield Strategies",
-    host: { name: "YieldGuru", avatar: "", handle: "yieldguru" },
-    listeners: 0,
-    duration: "0m", 
-    scheduledTime: "2024-01-20T21:30:00",
-    tags: ["#DeFi", "#Yield"],
-    isLive: false
-  }
-];
-
-const clips = [
-  {
-    id: "1",
-    title: "Best practices for smart contract security",
-    creator: "DevAlpha",
-    duration: "2:45",
-    views: "1.2k",
-    likes: 89
-  },
-  {
-    id: "2", 
-    title: "Why modular rollups are the future",
-    creator: "Sarah Chen",
-    duration: "3:21",
-    views: "856",
-    likes: 67
-  },
-  {
-    id: "3",
-    title: "Building user-friendly DeFi protocols",
-    creator: "YieldGuru", 
-    duration: "4:12",
-    views: "632",
-    likes: 45
-  }
-];
-
-export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <FloomHeader />
       
-      <main className="container mx-auto px-4 py-6 lg:py-8">
-        {/* Welcome Section */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl lg:text-4xl font-heading text-foreground">
-              Welcome to Floom
-            </h1>
-            <p className="text-muted-foreground font-body mt-2">
-              Discover trending spaces, join conversations, and create quality content
-            </p>
+      <main className="container mx-auto px-4 py-4 space-y-6">
+        {/* Welcome section */}
+        <div className="text-center space-y-4 py-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+            Welcome to Floom
+          </h1>
+          
+          {/* Search and Create */}
+          <div className="max-w-md mx-auto space-y-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                placeholder="Search spaces, topics..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-muted/50"
+              />
+            </div>
+            <Button 
+              size="lg" 
+              className="w-full"
+              onClick={() => navigate('/create')}
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Create Space
+            </Button>
           </div>
-          <Button size="lg" className="w-full sm:w-auto" onClick={() => window.location.href = '/create'}>
-            <Plus size={20} className="mr-2" />
-            Create Space
-          </Button>
         </div>
 
-        <div className="grid gap-8">
-          {/* Trending Spaces */}
-          <section>
-            <div className="flex items-center gap-3 mb-6">
-              <TrendingUp className="text-primary" size={24} />
-              <h2 className="text-2xl font-heading">Trending Spaces</h2>
-              <Badge variant="secondary" className="text-xs">LIVE</Badge>
+        {/* Tabs for different sections */}
+        <Tabs defaultValue="trending" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="trending" className="text-sm">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Trending</span>
+              <span className="sm:hidden">Live</span>
+            </TabsTrigger>
+            <TabsTrigger value="new" className="text-sm">
+              <Calendar className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">New Spaced</span>
+              <span className="sm:hidden">New</span>
+            </TabsTrigger>
+            <TabsTrigger value="clips" className="text-sm">
+              <Play className="w-4 h-4 mr-2" />
+              Clips
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="trending" className="space-y-4">
+            {trendingSpaces.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {trendingSpaces.map((space) => (
+                  <SpaceCard
+                    key={space.id}
+                    space={space}
+                    onJoin={handleJoinSpace}
+                    onRemind={handleRemindMe}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                  <TrendingUp className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No live spaces right now</h3>
+                <p className="text-muted-foreground mb-4">Be the first to start a conversation!</p>
+                <Button onClick={() => navigate('/create')}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create Space
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+          
+          <TabsContent value="new" className="space-y-4">
+            {newSpaces.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {newSpaces.map((space) => (
+                  <SpaceCard
+                    key={space.id}
+                    space={space}
+                    onJoin={handleJoinSpace}
+                    onRemind={handleRemindMe}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                  <Calendar className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No scheduled spaces</h3>
+                <p className="text-muted-foreground mb-4">Schedule your next conversation!</p>
+                <Button onClick={() => navigate('/create')}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Schedule Space
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+          
+          <TabsContent value="clips" className="space-y-4">
+            <div className="text-center py-12">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                <Play className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Clips coming soon</h3>
+              <p className="text-muted-foreground">Save and share your favorite moments from spaces!</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {trendingSpaces.map((space) => (
-                <SpaceCard
-                  key={space.id}
-                  space={space}
-                  onJoin={() => window.location.href = `/space/${space.id}`}
-                />
-              ))}
-            </div>
-          </section>
-
-          {/* New Spaces */}
-          <section>
-            <div className="flex items-center gap-3 mb-6">
-              <Clock className="text-accent" size={24} />
-              <h2 className="text-2xl font-heading">New Spaces</h2>
-              <Badge variant="outline" className="text-xs">SCHEDULED</Badge>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {newSpaces.map((space) => (
-                <SpaceCard
-                  key={space.id}
-                  space={space}
-                  onRemind={() => console.log('Remind me:', space.id)}
-                />
-              ))}
-            </div>
-          </section>
-
-          {/* Clips */}
-          <section>
-            <div className="flex items-center gap-3 mb-6">
-              <Zap className="text-accent" size={24} />
-              <h2 className="text-2xl font-heading">Trending Clips</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {clips.map((clip) => (
-                <Card key={clip.id} className="group hover:shadow-lg transition-all duration-300 cursor-pointer">
-                  <CardContent className="p-4">
-                    <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg mb-3 flex items-center justify-center">
-                      <Zap size={32} className="text-primary" />
-                    </div>
-                    <h3 className="font-heading text-sm mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                      {clip.title}
-                    </h3>
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span className="font-body">by {clip.creator}</span>
-                      <span>{clip.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
-                      <span>{clip.views} views</span>
-                      <span>{clip.likes} likes</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-        </div>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
-}
+};
+
+export default Dashboard;
