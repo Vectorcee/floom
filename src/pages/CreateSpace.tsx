@@ -10,18 +10,21 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Clock, Users, Globe, Lock, X } from 'lucide-react';
+import { CalendarIcon, Clock, Users, Globe, Lock, X, Upload, ImageIcon } from 'lucide-react';
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useNavigate } from 'react-router-dom';
 import { useSpaces } from '@/hooks/useSpaces';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 const CreateSpace = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { createSpace } = useSpaces();
   const [isCreating, setIsCreating] = useState(false);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -48,6 +51,40 @@ const CreateSpace = () => {
     }));
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCoverImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setCoverImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadImage = async (): Promise<string | null> => {
+    if (!coverImage || !user) return null;
+
+    const fileExt = coverImage.name.split('.').pop();
+    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+    const { error } = await supabase.storage
+      .from('space-images')
+      .upload(fileName, coverImage);
+
+    if (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+
+    const { data } = supabase.storage
+      .from('space-images')
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
+  };
+
   const handleCreate = async (goLive = false) => {
     if (!user) {
       return;
@@ -57,6 +94,12 @@ const CreateSpace = () => {
     
     try {
       let scheduledTime: string | undefined;
+      let coverImageUrl: string | null = null;
+      
+      // Upload image if provided
+      if (coverImage) {
+        coverImageUrl = await uploadImage();
+      }
       
       if (!goLive && formData.scheduledDate && formData.scheduledTime) {
         const [hours, minutes] = formData.scheduledTime.split(':');
@@ -72,7 +115,8 @@ const CreateSpace = () => {
         privacy: formData.isPrivate ? 'private' : 'public',
         quality_threshold: formData.qualityThreshold[0],
         scheduled_time: scheduledTime,
-        is_live: goLive
+        is_live: goLive,
+        cover_image_url: coverImageUrl
       });
 
       if (space) {
@@ -162,6 +206,57 @@ const CreateSpace = () => {
                         ))}
                       </div>
                     )}
+                  </div>
+
+                  {/* Cover Image Upload */}
+                  <div className="space-y-2">
+                    <Label>Cover Image (Optional)</Label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
+                      {coverImagePreview ? (
+                        <div className="relative">
+                          <img 
+                            src={coverImagePreview} 
+                            alt="Cover preview" 
+                            className="w-full h-32 object-cover rounded-md"
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            className="absolute top-2 right-2"
+                            onClick={() => {
+                              setCoverImage(null);
+                              setCoverImagePreview(null);
+                            }}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="text-center">
+                          <ImageIcon className="mx-auto h-12 w-12 text-muted-foreground mb-2" />
+                          <div className="text-sm text-muted-foreground mb-2">
+                            Upload a cover image for your space
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => document.getElementById('cover-upload')?.click()}
+                          >
+                            <Upload className="w-4 h-4 mr-2" />
+                            Choose Image
+                          </Button>
+                          <input
+                            id="cover-upload"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="hidden"
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -259,51 +354,65 @@ const CreateSpace = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="p-4 border rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10">
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="font-semibold text-base leading-tight">
-                          {formData.title || 'Your Space Title'}
-                        </h3>
-                        <Badge variant={formData.scheduledDate ? "outline" : "destructive"} className="ml-2 shrink-0">
-                          {formData.scheduledDate ? 'Scheduled' : 'LIVE'}
-                        </Badge>
-                      </div>
-                      
-                      {formData.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mb-3">
-                          {formData.tags.slice(0, 4).map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
-                              #{tag}
-                            </Badge>
-                          ))}
-                          {formData.tags.length > 4 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{formData.tags.length - 4}
-                            </Badge>
-                          )}
+                    <div className="relative p-4 border rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden">
+                      {/* Cover Image Preview */}
+                      {coverImagePreview && (
+                        <div className="absolute inset-0">
+                          <img 
+                            src={coverImagePreview} 
+                            alt="Cover preview" 
+                            className="w-full h-full object-cover opacity-40"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                         </div>
                       )}
                       
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                        {formData.description || 'Space description will appear here...'}
-                      </p>
-                      
-                      <div className="flex items-center justify-between text-xs">
-                        <div className="flex items-center gap-3">
-                          <span className="flex items-center gap-1 tabular-nums">
-                            <Users className="w-3 h-3" />
-                            0
-                          </span>
-                          {formData.scheduledDate && formData.scheduledTime && (
-                            <span className="flex items-center gap-1 tabular-nums">
-                              <Clock className="w-3 h-3" />
-                              {formData.scheduledTime}
-                            </span>
-                          )}
+                      <div className="relative z-10">
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="font-semibold text-base leading-tight text-white">
+                            {formData.title || 'Your Space Title'}
+                          </h3>
+                          <Badge variant={formData.scheduledDate ? "outline" : "destructive"} className="ml-2 shrink-0">
+                            {formData.scheduledDate ? 'Scheduled' : 'LIVE'}
+                          </Badge>
                         </div>
-                        <div className="flex items-center gap-1">
-                          {formData.isPrivate ? <Lock className="w-3 h-3" /> : <Globe className="w-3 h-3" />}
-                          <span>{formData.isPrivate ? 'Private' : 'Public'}</span>
+                        
+                        {formData.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            {formData.tags.slice(0, 4).map((tag) => (
+                              <Badge key={tag} variant="secondary" className="text-xs bg-white/20 text-white border-white/30">
+                                #{tag}
+                              </Badge>
+                            ))}
+                            {formData.tags.length > 4 && (
+                              <Badge variant="outline" className="text-xs bg-white/10 text-white border-white/30">
+                                +{formData.tags.length - 4}
+                              </Badge>
+                            )}
+                          </div>
+                        )}
+                        
+                        <p className="text-sm text-white/80 mb-4 line-clamp-2">
+                          {formData.description || 'Space description will appear here...'}
+                        </p>
+                        
+                        <div className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-3">
+                            <span className="flex items-center gap-1 tabular-nums text-white/80">
+                              <Users className="w-3 h-3" />
+                              0
+                            </span>
+                            {formData.scheduledDate && formData.scheduledTime && (
+                              <span className="flex items-center gap-1 tabular-nums text-white/80">
+                                <Clock className="w-3 h-3" />
+                                {formData.scheduledTime}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-1 text-white/80">
+                            {formData.isPrivate ? <Lock className="w-3 h-3" /> : <Globe className="w-3 h-3" />}
+                            <span>{formData.isPrivate ? 'Private' : 'Public'}</span>
+                          </div>
                         </div>
                       </div>
                     </div>

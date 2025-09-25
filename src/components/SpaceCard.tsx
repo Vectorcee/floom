@@ -31,7 +31,21 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
   return (
     <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 border-border/50 ${className}`}>
       <CardContent className="p-0">
-        <div className="bg-gradient-to-br from-primary/20 to-secondary/20 p-4 relative">
+        {/* Cover Image Section */}
+        <div className="relative">
+          {space.cover_image_url ? (
+            <div className="relative h-32 overflow-hidden">
+              <img 
+                src={space.cover_image_url} 
+                alt={space.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            </div>
+          ) : (
+            <div className="h-32 bg-gradient-to-br from-primary/20 to-secondary/20" />
+          )}
+          
           {/* Live indicator */}
           {space.is_live && (
             <div className="absolute top-3 right-3">
@@ -41,9 +55,11 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
               </Badge>
             </div>
           )}
-          
+        </div>
+        
+        <div className="p-4 space-y-3">
           {/* Host info */}
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3">
             <Avatar className="w-10 h-10 border-2 border-white/20">
               <AvatarImage src={space.host?.avatar_url} alt={space.host?.display_name || 'Host'} />
               <AvatarFallback className="bg-primary/30 text-primary-foreground font-semibold">
@@ -107,7 +123,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
         </div>
         
         {/* Action button */}
-        <div className="p-4 bg-card">
+        <div className="px-4 pb-4">
           <Button 
             className="w-full font-medium transition-all duration-200" 
             onClick={() => space.is_live ? onJoin?.(space.id) : onRemind?.(space.id)}

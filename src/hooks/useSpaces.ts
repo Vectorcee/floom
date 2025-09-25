@@ -17,6 +17,7 @@ export interface Space {
   quality_threshold: number;
   created_at: string;
   updated_at: string;
+  cover_image_url?: string;
   host?: {
     display_name?: string;
     handle?: string;
@@ -89,6 +90,7 @@ export function useSpaces() {
             quality_threshold: space.quality_threshold,
             created_at: space.created_at,
             updated_at: space.updated_at,
+            cover_image_url: space.cover_image_url,
             host: space.profiles as { display_name?: string; handle?: string; avatar_url?: string } | undefined,
             participant_count: count || 0,
             is_participant: isParticipant,
@@ -114,6 +116,7 @@ export function useSpaces() {
     quality_threshold: number;
     scheduled_time?: string;
     is_live?: boolean;
+    cover_image_url?: string | null;
   }) => {
     if (!user) {
       toast({
