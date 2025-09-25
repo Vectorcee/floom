@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FloomHeader } from "@/components/FloomHeader";
 import { SpaceCard } from "@/components/SpaceCard";
+import { useSpaces } from "@/hooks/useSpaces";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   Users, 
   Clock, 
@@ -31,27 +33,6 @@ const mockProfile = {
   }
 };
 
-const mockHostedSpaces = [
-  {
-    id: "1",
-    title: "Base Builders Night",
-    host: { name: "DevAlpha", avatar: "", handle: "devalpha" },
-    listeners: 542,
-    duration: "45m",
-    tags: ["#DeFi", "#Builders"],
-    isLive: false,
-  },
-  {
-    id: "2",
-    title: "DeFi Innovation Panel",
-    host: { name: "DevAlpha", avatar: "", handle: "devalpha" },
-    listeners: 289,
-    duration: "1h 12m",
-    tags: ["#DeFi", "#Innovation"],
-    isLive: false,
-  },
-];
-
 const mockClips = [
   {
     id: "1",
@@ -70,6 +51,11 @@ const mockClips = [
 ];
 
 export default function Profile() {
+  const { user } = useAuth();
+  const { spaces } = useSpaces();
+  
+  // Filter spaces hosted by the current user
+  const hostedSpaces = spaces.filter(space => space.host_id === user?.id);
   return (
     <div className="min-h-screen bg-background">
       <FloomHeader />
@@ -177,8 +163,13 @@ export default function Profile() {
             
             <TabsContent value="hosted" className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {mockHostedSpaces.map((space) => (
-                  <SpaceCard key={space.id} space={space} />
+                {hostedSpaces.map((space) => (
+                  <SpaceCard 
+                    key={space.id} 
+                    space={space}
+                    onJoin={() => {}}
+                    onRemind={() => {}}
+                  />
                 ))}
               </div>
             </TabsContent>
