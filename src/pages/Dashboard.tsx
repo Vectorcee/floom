@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FloomHeader } from '@/components/FloomHeader';
+import { BottomNavigation } from '@/components/BottomNavigation';
 import { SpaceCard } from '@/components/SpaceCard';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -55,7 +56,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       <FloomHeader />
       
       <main className="container mx-auto px-4 py-4 space-y-6">
@@ -171,6 +172,8 @@ const Dashboard = () => {
           </TabsContent>
         </Tabs>
       </main>
+      
+      <BottomNavigation />
     </div>
   );
 };

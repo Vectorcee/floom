@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FloomHeader } from "@/components/FloomHeader";
+import { BottomNavigation } from "@/components/BottomNavigation";
 import { SpaceCard } from "@/components/SpaceCard";
 import { useSpaces } from "@/hooks/useSpaces";
 import { useAuth } from "@/hooks/useAuth";
@@ -57,7 +58,7 @@ export default function Profile() {
   // Filter spaces hosted by the current user
   const hostedSpaces = spaces.filter(space => space.host_id === user?.id);
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       <FloomHeader />
       
       <main className="container mx-auto px-4 py-8">
@@ -214,6 +215,8 @@ export default function Profile() {
           </Tabs>
         </div>
       </main>
+      
+      <BottomNavigation />
     </div>
   );
 }
