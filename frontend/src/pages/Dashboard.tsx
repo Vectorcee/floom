@@ -138,7 +138,34 @@ const Dashboard = () => {
             )}
           </TabsContent>
           
-          <TabsContent value="new" className="space-y-4">
+          <TabsContent value="live" className="space-y-4">
+            {trendingSpaces.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {trendingSpaces.map((space) => (
+                  <SpaceCard
+                    key={space.id}
+                    space={space}
+                    onJoin={handleJoinSpace}
+                    onRemind={handleRemindMe}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                  <Radio className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No live spaces right now</h3>
+                <p className="text-muted-foreground mb-4">Be the first to go live!</p>
+                <Button onClick={() => navigate('/create')}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Go Live
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+          
+          <TabsContent value="upcoming" className="space-y-4">
             {newSpaces.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {newSpaces.map((space) => (
@@ -153,9 +180,9 @@ const Dashboard = () => {
             ) : (
               <div className="text-center py-12">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-                  <Calendar className="w-8 h-8 text-muted-foreground" />
+                  <Clock className="w-8 h-8 text-muted-foreground" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">No scheduled spaces</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No upcoming spaces</h3>
                 <p className="text-muted-foreground mb-4">Schedule your next conversation!</p>
                 <Button onClick={() => navigate('/create')}>
                   <Plus className="w-4 h-4 mr-2" />
