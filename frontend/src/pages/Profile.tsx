@@ -28,9 +28,33 @@ import tokenIcon from "@/assets/token-icon.jpg";
 export default function Profile() {
   const { user } = useAuth();
   const { spaces } = useSpaces();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState({
+    name: user?.name || 'Anonymous User',
+    username: user?.username || 'user',
+    bio: user?.bio || '',
+    avatar: user?.avatar || ''
+  });
   
   // Filter spaces hosted by the current user
   const hostedSpaces = spaces.filter(space => space.host_id === user?.id);
+  
+  const handleSaveProfile = () => {
+    // Here you would typically save to backend
+    console.log('Saving profile:', editedProfile);
+    setIsEditing(false);
+    // TODO: Implement actual save functionality
+  };
+  
+  const handleCancelEdit = () => {
+    setEditedProfile({
+      name: user?.name || 'Anonymous User',  
+      username: user?.username || 'user',
+      bio: user?.bio || '',
+      avatar: user?.avatar || ''
+    });
+    setIsEditing(false);
+  };
   return (
     <div className="min-h-screen bg-background pb-20">
       <FloomHeader />
