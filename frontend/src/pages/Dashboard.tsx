@@ -128,8 +128,8 @@ const Dashboard = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                   <TrendingUp className="w-8 h-8 text-muted-foreground" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">No live spaces right now</h3>
-                <p className="text-muted-foreground mb-4">Be the first to start a conversation!</p>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No trending spaces right now</h3>
+                <p className="text-muted-foreground mb-4">Check out what's happening in other tabs!</p>
                 <Button onClick={() => navigate('/create')}>
                   <Plus className="w-4 h-4 mr-2" />
                   Create Space
