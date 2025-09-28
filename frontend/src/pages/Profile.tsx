@@ -72,9 +72,9 @@ export default function Profile() {
             <div className="flex-1">
               <h1 className="text-3xl font-heading">Profile</h1>
             </div>
-            {user && (
-              <div className="flex gap-2">
-                {isEditing ? (
+            <div className="flex gap-2">
+              {user ? (
+                isEditing ? (
                   <>
                     <Button variant="outline" size="sm" onClick={handleCancelEdit}>
                       <X size={16} className="mr-2" />
@@ -90,9 +90,14 @@ export default function Profile() {
                     <Edit size={16} className="mr-2" />
                     Edit Profile
                   </Button>
-                )}
-              </div>
-            )}
+                )
+              ) : (
+                <Button variant="outline" size="sm" disabled>
+                  <Edit size={16} className="mr-2" />
+                  Sign in to Edit
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Profile Header */}
