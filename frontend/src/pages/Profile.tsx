@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import tokenIcon from "@/assets/token-icon.jpg";
+import fpIcon from "@/assets/fp-icon-new.png";
 
 // Remove all mock data - use real user data only
 
