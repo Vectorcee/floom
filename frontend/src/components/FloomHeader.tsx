@@ -41,16 +41,7 @@ export function FloomHeader({ className }: FloomHeaderProps) {
             </Badge>
           </div>
 
-          {/* Search */}
-          <div className="hidden lg:flex items-center flex-1 max-w-md mx-8">
-            <div className="relative flex-1">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <Input 
-                placeholder="Search spaces, topics..." 
-                className="pl-10 bg-input/50 border-border"
-              />
-            </div>
-          </div>
+          {/* Search section removed */}
 
           {/* Actions */}
           <div className="flex items-center gap-2">
