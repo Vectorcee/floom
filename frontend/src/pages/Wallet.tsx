@@ -89,7 +89,7 @@ export default function Wallet() {
                 </p>
                 <div className="grid grid-cols-2 gap-2">
                   <Button size="sm" className="w-full" disabled>
-                    <Download className="h-4 w-4 mr-1" />
+                    <img src={tokenIcon} alt="FP" className="h-4 w-4 mr-1" />
                     Buy
                   </Button>
                   <Button variant="outline" size="sm" className="w-full" disabled>
