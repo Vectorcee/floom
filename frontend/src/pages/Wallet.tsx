@@ -40,7 +40,7 @@ export default function Wallet() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="font-heading flex items-center gap-2">
-                    <img src={tokenIcon} alt="FUUM Points" className="h-6 w-6" />
+                    <img src={fpIcon} alt="FUUM Points" className="h-6 w-6" />
                     FUUM Points (FP)
                   </CardTitle>
                   <Badge variant="secondary" className="bg-primary/10 text-primary">
