@@ -23,9 +23,22 @@ export default function Store() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-heading mb-2">FUUM Store</h1>
-            <p className="text-muted-foreground font-body">
+            <p className="text-muted-foreground font-body mb-6">
               Get exclusive FUUM merchandise, NFTs, and IRL event tickets
             </p>
+            
+            {/* Search for Store Items */}
+            <div className="max-w-md mx-auto">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Input
+                  placeholder="Search store items..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-muted/50"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
