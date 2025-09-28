@@ -167,9 +167,9 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="upcoming" className="space-y-4">
-            {newSpaces.length > 0 ? (
+            {upcomingSpaces.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {newSpaces.map((space) => (
+                {upcomingSpaces.map((space) => (
                   <SpaceCard
                     key={space.id}
                     space={space}
