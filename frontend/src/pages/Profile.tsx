@@ -163,7 +163,7 @@ export default function Profile() {
               <CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center mb-2">
                   <img src={tokenIcon} alt="FUUM" className="h-6 w-6 mr-1" />
-                  <span className="text-2xl font-heading">{mockProfile.stats.fuumBalance.toLocaleString()}</span>
+                  <span className="text-2xl font-heading">0</span>
                 </div>
                 <p className="text-xs text-muted-foreground">FUUM Balance</p>
               </CardContent>
@@ -173,7 +173,7 @@ export default function Profile() {
               <CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center mb-2">
                   <Users size={16} className="mr-1" />
-                  <span className="text-2xl font-heading">{mockProfile.stats.spacesHosted}</span>
+                  <span className="text-2xl font-heading">{hostedSpaces.length}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">Spaces Hosted</p>
               </CardContent>
@@ -183,7 +183,7 @@ export default function Profile() {
               <CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center mb-2">
                   <Star size={16} className="mr-1" />
-                  <span className="text-2xl font-heading">{mockProfile.stats.avgRetention}%</span>
+                  <span className="text-2xl font-heading">0%</span>
                 </div>
                 <p className="text-xs text-muted-foreground">Avg Retention</p>
               </CardContent>
@@ -193,7 +193,7 @@ export default function Profile() {
               <CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center mb-2">
                   <Scissors size={16} className="mr-1" />
-                  <span className="text-2xl font-heading">{mockProfile.stats.clipsCreated}</span>
+                  <span className="text-2xl font-heading">0</span>
                 </div>
                 <p className="text-xs text-muted-foreground">Clips Created</p>
               </CardContent>
