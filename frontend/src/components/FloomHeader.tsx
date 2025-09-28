@@ -72,16 +72,7 @@ export function FloomHeader({ className }: FloomHeaderProps) {
           </div>
         </div>
 
-        {/* Mobile search */}
-        <div className="lg:hidden mt-4">
-          <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input 
-              placeholder="Search spaces, topics..." 
-              className="pl-10 bg-input/50 border-border"
-            />
-          </div>
-        </div>
+        {/* Mobile search section removed */}
       </div>
       
       <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
