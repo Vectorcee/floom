@@ -15,7 +15,7 @@ import {
   RefreshCw
 } from "lucide-react";
 import tokenIcon from "@/assets/token-icon.jpg";
-import fpIcon from "@/assets/fp-icon.png";
+import fpIcon from "@/assets/fp-icon-new.png";
 
 export default function Wallet() {
   const { user } = useAuth();
