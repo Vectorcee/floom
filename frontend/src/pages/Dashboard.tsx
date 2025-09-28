@@ -29,8 +29,12 @@ const Dashboard = () => {
     console.log('Setting reminder for space:', spaceId);
   };
 
-  // No filtering - show all spaces
-  const filteredSpaces = spaces;
+  // Filter spaces based on search query
+  const filteredSpaces = spaces.filter(space =>
+    space.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    space.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    space.host?.display_name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Categorize spaces
   const trendingSpaces = filteredSpaces.filter(space => space.is_live); // Popular live spaces
