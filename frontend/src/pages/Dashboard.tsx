@@ -90,19 +90,23 @@ const Dashboard = () => {
 
         {/* Tabs for different sections */}
         <Tabs defaultValue="trending" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="trending" className="text-sm">
-              <TrendingUp className="w-4 h-4 mr-2" />
+              <TrendingUp className="w-4 h-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Trending</span>
-              <span className="sm:hidden">Live</span>
+              <span className="sm:hidden">Trend</span>
             </TabsTrigger>
-            <TabsTrigger value="new" className="text-sm">
-              <Calendar className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">New Spaced</span>
-              <span className="sm:hidden">New</span>
+            <TabsTrigger value="live" className="text-sm">
+              <Radio className="w-4 h-4 mr-1 sm:mr-2" />
+              Live
+            </TabsTrigger>
+            <TabsTrigger value="upcoming" className="text-sm">
+              <Clock className="w-4 h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Upcoming</span>
+              <span className="sm:hidden">Soon</span>
             </TabsTrigger>
             <TabsTrigger value="clips" className="text-sm">
-              <Play className="w-4 h-4 mr-2" />
+              <Play className="w-4 h-4 mr-1 sm:mr-2" />
               Clips
             </TabsTrigger>
           </TabsList>
