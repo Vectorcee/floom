@@ -168,7 +168,7 @@ export default function Profile() {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center mb-2">
-                  <img src={tokenIcon} alt="FUUM" className="h-6 w-6 mr-1" />
+                  <img src={fpIcon} alt="FUUM" className="h-6 w-6 mr-1" />
                   <span className="text-2xl font-heading">0</span>
                 </div>
                 <p className="text-xs text-muted-foreground">FUUM Balance</p>
