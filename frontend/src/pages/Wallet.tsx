@@ -47,7 +47,7 @@ export default function Wallet() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-heading mb-2">2,847 FP</div>
+                <div className="text-3xl font-heading mb-2">0 FP</div>
                 <p className="text-muted-foreground font-body text-sm mb-4">
                   Earned through hosting and participating in spaces
                 </p>
