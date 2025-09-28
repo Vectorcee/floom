@@ -80,6 +80,19 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Search for Spaces */}
+        <div className="max-w-md mx-auto mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Input
+              placeholder="Search spaces, topics..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-muted/50"
+            />
+          </div>
+        </div>
+
         {/* Tabs for different sections */}
         <Tabs defaultValue="trending" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
