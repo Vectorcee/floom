@@ -52,14 +52,18 @@ export default function Wallet() {
                 <p className="text-muted-foreground font-body text-sm mb-4">
                   Earned through hosting and participating in spaces
                 </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button size="sm" className="w-full">
-                    <Plus className="h-4 w-4 mr-1" />
+                <div className="grid grid-cols-3 gap-2">
+                  <Button size="sm" className="w-full text-xs">
+                    <Plus className="h-3 w-3 mr-1" />
                     Earn More
                   </Button>
-                  <Button variant="outline" size="sm" className="w-full">
-                    <Send className="h-4 w-4 mr-1" />
+                  <Button variant="outline" size="sm" className="w-full text-xs">
+                    <Send className="h-3 w-3 mr-1" />
                     Transfer
+                  </Button>
+                  <Button variant="outline" size="sm" className="w-full text-xs">
+                    <RefreshCw className="h-3 w-3 mr-1" />
+                    Swap
                   </Button>
                 </div>
               </CardContent>
