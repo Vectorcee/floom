@@ -229,29 +229,9 @@ export default function Profile() {
             </TabsContent>
             
             <TabsContent value="clips" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {mockClips.map((clip) => (
-                  <Card key={clip.id}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-heading text-sm">{clip.title}</h3>
-                        <Badge variant="outline" className="text-xs">{clip.duration}</Badge>
-                      </div>
-                      <p className="text-xs text-muted-foreground mb-3">
-                        From {clip.fromSpace}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground">
-                          {clip.plays} plays
-                        </span>
-                        <Button variant="outline" size="sm">
-                          Play
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              <p className="text-center text-muted-foreground py-12">
+                Your clips will appear here once you create them.
+              </p>
             </TabsContent>
             
             <TabsContent value="bookmarks" className="space-y-4">
