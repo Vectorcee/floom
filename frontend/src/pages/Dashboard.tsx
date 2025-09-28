@@ -67,17 +67,8 @@ const Dashboard = () => {
             Welcome to Floom
           </h1>
           
-          {/* Search and Create */}
-          <div className="max-w-md mx-auto space-y-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                placeholder="Search spaces, topics..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-muted/50"
-              />
-            </div>
+          {/* Create Action */}
+          <div className="max-w-md mx-auto">
             <Button 
               size="lg" 
               className="w-full"
