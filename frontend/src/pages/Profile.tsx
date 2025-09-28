@@ -15,8 +15,12 @@ import {
   Scissors, 
   Star,
   ArrowLeft,
-  Settings
+  Settings,
+  Edit,
+  Save,
+  X
 } from "lucide-react";
+import { useState } from "react";
 import tokenIcon from "@/assets/token-icon.jpg";
 
 const mockProfile = {
