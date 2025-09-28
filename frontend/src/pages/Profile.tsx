@@ -100,29 +100,59 @@ export default function Profile() {
             <CardContent className="p-6">
               <div className="flex flex-col md:flex-row gap-6">
                 <Avatar className="h-24 w-24 mx-auto md:mx-0">
-                  <AvatarImage src={mockProfile.avatar} alt={mockProfile.name} />
+                  <AvatarImage src={editedProfile.avatar} alt={editedProfile.name} />
                   <AvatarFallback className="bg-secondary text-2xl">
-                    {mockProfile.name.slice(0, 2).toUpperCase()}
+                    {editedProfile.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 
                 <div className="flex-1 text-center md:text-left">
-                  <h2 className="text-2xl font-heading">{mockProfile.name}</h2>
-                  <p className="text-muted-foreground mb-2">@{mockProfile.handle}</p>
-                  <p className="font-body text-sm mb-4">{mockProfile.bio}</p>
-                  
-                  <div className="flex justify-center md:justify-start">
-                    <Badge variant="outline" className="flex items-center gap-1">
-                      <Users size={12} />
-                      {mockProfile.stats.followers.toLocaleString()} Followers
-                    </Badge>
-                  </div>
+                  {isEditing ? (
+                    <div className="space-y-3">
+                      <Input
+                        value={editedProfile.name}
+                        onChange={(e) => setEditedProfile({...editedProfile, name: e.target.value})}
+                        placeholder="Display Name"
+                        className="text-2xl font-heading"
+                      />
+                      <Input
+                        value={editedProfile.username}
+                        onChange={(e) => setEditedProfile({...editedProfile, username: e.target.value})}
+                        placeholder="Username"
+                        className="text-muted-foreground"
+                      />
+                      <Textarea
+                        value={editedProfile.bio}
+                        onChange={(e) => setEditedProfile({...editedProfile, bio: e.target.value})}
+                        placeholder="Bio (optional)"
+                        className="font-body text-sm resize-none"
+                        rows={3}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <h2 className="text-2xl font-heading">{editedProfile.name}</h2>
+                      <p className="text-muted-foreground mb-2">@{editedProfile.username}</p>
+                      {editedProfile.bio && (
+                        <p className="font-body text-sm mb-4">{editedProfile.bio}</p>
+                      )}
+                      
+                      <div className="flex justify-center md:justify-start">
+                        <Badge variant="outline" className="flex items-center gap-1">
+                          <Users size={12} />
+                          0 Followers
+                        </Badge>
+                      </div>
+                    </>
+                  )}
                 </div>
                 
-                <div className="flex md:flex-col gap-4">
-                  <Button variant="outline">Follow</Button>
-                  <Button>Message</Button>
-                </div>
+                {!user && (
+                  <div className="flex md:flex-col gap-4">
+                    <Button variant="outline">Follow</Button>
+                    <Button>Message</Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
