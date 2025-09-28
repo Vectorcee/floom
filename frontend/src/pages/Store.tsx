@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 export default function Store() {
+  const [searchQuery, setSearchQuery] = useState('');
+  
   return (
     <div className="min-h-screen bg-background pb-20">
       <FloomHeader />
