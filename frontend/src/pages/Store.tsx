@@ -6,8 +6,11 @@ import {
   ShoppingBag, 
   Shirt, 
   Ticket, 
-  Sparkles
+  Sparkles,
+  Search
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 export default function Store() {
   return (
