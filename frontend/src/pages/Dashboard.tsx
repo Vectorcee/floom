@@ -16,7 +16,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { spaces, loading, joinSpace, leaveSpace } = useSpaces();
-  // Search functionality removed
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleJoinSpace = async (spaceId: string) => {
     const success = await joinSpace(spaceId);
