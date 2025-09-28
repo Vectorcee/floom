@@ -23,37 +23,7 @@ import {
 import { useState } from "react";
 import tokenIcon from "@/assets/token-icon.jpg";
 
-const mockProfile = {
-  name: "DevAlpha",
-  handle: "devalpha",
-  avatar: "",
-  bio: "Building the future of decentralized conversations. Base ecosystem contributor.",
-  stats: {
-    fuumBalance: 2847,
-    spacesHosted: 23,
-    avgRetention: 85,
-    clipsCreated: 45,
-    totalEarned: 12500,
-    followers: 1204
-  }
-};
-
-const mockClips = [
-  {
-    id: "1",
-    title: "Modular Rollup Insights",
-    duration: "45s",
-    plays: 234,
-    fromSpace: "Base Builders Night"
-  },
-  {
-    id: "2", 
-    title: "Gas Optimization Tips",
-    duration: "32s",
-    plays: 156,
-    fromSpace: "DeFi Innovation Panel"
-  },
-];
+// Remove all mock data - use real user data only
 
 export default function Profile() {
   const { user } = useAuth();
