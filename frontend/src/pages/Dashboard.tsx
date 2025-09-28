@@ -37,8 +37,9 @@ const Dashboard = () => {
   );
 
   // Categorize spaces
-  const trendingSpaces = filteredSpaces.filter(space => space.is_live);
-  const newSpaces = filteredSpaces.filter(space => !space.is_live);
+  const trendingSpaces = filteredSpaces.filter(space => space.is_live); // Popular live spaces
+  const liveSpaces = filteredSpaces.filter(space => space.is_live); // All live spaces  
+  const upcomingSpaces = filteredSpaces.filter(space => !space.is_live); // Scheduled spaces
   const mySpaces = filteredSpaces.filter(space => space.host_id === user?.id);
 
   if (loading) {
