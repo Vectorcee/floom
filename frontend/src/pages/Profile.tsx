@@ -72,10 +72,27 @@ export default function Profile() {
             <div className="flex-1">
               <h1 className="text-3xl font-heading">Profile</h1>
             </div>
-            <Button variant="outline" size="sm">
-              <Settings size={16} className="mr-2" />
-              Settings
-            </Button>
+            {user && (
+              <div className="flex gap-2">
+                {isEditing ? (
+                  <>
+                    <Button variant="outline" size="sm" onClick={handleCancelEdit}>
+                      <X size={16} className="mr-2" />
+                      Cancel
+                    </Button>
+                    <Button size="sm" onClick={handleSaveProfile}>
+                      <Save size={16} className="mr-2" />
+                      Save
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                    <Edit size={16} className="mr-2" />
+                    Edit Profile
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Profile Header */}
