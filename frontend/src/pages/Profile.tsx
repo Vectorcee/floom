@@ -184,7 +184,7 @@ export default function Profile() {
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-none"
+                    className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-none px-2 sm:px-3"
                     onClick={() => bannerInputRef.current?.click()}
                     disabled={bannerUploading}
                   >
@@ -193,7 +193,7 @@ export default function Profile() {
                     ) : (
                       <ImageIcon size={16} />
                     )}
-                    <span className="ml-2 hidden sm:inline">
+                    <span className="ml-2 hidden md:inline text-sm">
                       {editedProfile.banner ? 'Change Banner' : 'Add Banner'}
                     </span>
                   </Button>
