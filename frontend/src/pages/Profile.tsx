@@ -36,14 +36,9 @@ import fpIcon from "@/assets/fp-icon-new.png";
 export default function Profile() {
   const { user } = useAuth();
   const { spaces } = useSpaces();
+  const { profile, updateProfile, saveProfile, isLoading } = useProfile();
   const [isEditing, setIsEditing] = useState(false);
-  const [editedProfile, setEditedProfile] = useState({
-    name: user?.name || 'Anonymous User',
-    username: user?.username || 'user',
-    bio: user?.bio || '',
-    avatar: user?.avatar || getRandomAvatar(user?.id),
-    banner: user?.banner || ''
-  });
+  const [editedProfile, setEditedProfile] = useState(profile);
   
   // File upload refs
   const avatarInputRef = useRef<HTMLInputElement>(null);
