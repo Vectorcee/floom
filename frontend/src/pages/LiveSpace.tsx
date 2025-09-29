@@ -374,7 +374,7 @@ export default function LiveSpace() {
                   Live Quality Feed
                 </h3>
                 <div className="space-y-3 h-full overflow-y-auto">
-                  {mockQualityFeed.map((post) => (
+                  {getSampleQualityFeed(currentSpace.tags).map((post) => (
                     <PinnedPostCard 
                       key={post.id}
                       post={post}
