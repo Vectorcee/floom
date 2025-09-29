@@ -23,6 +23,7 @@ import {
 import holographicGrid from "@/assets/holographic-grid.jpg";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const features = [
   {
