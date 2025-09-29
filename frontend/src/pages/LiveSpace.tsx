@@ -326,7 +326,7 @@ export default function LiveSpace() {
                   <h3 className="font-heading text-base lg:text-lg mb-4">On Stage</h3>
                   
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 flex-1 place-items-center">
-                    {mockSpeakers.map((speaker, index) => (
+                    {speakers.map((speaker, index) => (
                       <SpeakerAvatar
                         key={index}
                         name={speaker.name}
