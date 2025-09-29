@@ -35,6 +35,34 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# Space Models
+class SpaceCreate(BaseModel):
+    title: str
+    description: str = ""
+    tags: List[str] = []
+    privacy: str = "public"
+    quality_threshold: int = 50
+    scheduled_time: str = None
+    is_live: bool = False
+    cover_image_url: str = None
+
+class Space(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: str = ""
+    host_id: str
+    tags: List[str] = []
+    privacy: str = "public"
+    quality_threshold: int = 50
+    scheduled_time: str = None
+    is_live: bool = False
+    cover_image_url: str = None
+    participant_count: int = 0
+    listener_count: int = 0
+    duration: int = 0
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
