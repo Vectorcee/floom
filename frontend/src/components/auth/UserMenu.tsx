@@ -23,9 +23,9 @@ export function UserMenu() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={profile?.avatar_url} alt={displayName} />
+            <AvatarImage src={profile.avatar} alt={profile.name} />
             <AvatarFallback className="bg-floom-accent text-black font-semibold">
-              {displayName.charAt(0).toUpperCase()}
+              {profile.name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </Button>
