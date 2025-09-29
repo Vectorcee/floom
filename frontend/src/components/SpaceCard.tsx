@@ -123,8 +123,8 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
           </div>
         </div>
         
-        {/* Action button */}
-        <div className="px-4 pb-4">
+        {/* Action buttons */}
+        <div className="px-4 pb-4 space-y-2">
           <Button 
             className="w-full font-medium transition-all duration-200" 
             onClick={() => space.is_live ? onJoin?.(space.id) : onRemind?.(space.id)}
@@ -132,6 +132,19 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
           >
             {space.is_participant ? 'Join Space' : space.is_live ? 'Join Space' : 'Remind Me'}
           </Button>
+          
+          {/* Share button for scheduled spaces */}
+          {!space.is_live && (
+            <Button 
+              variant="ghost" 
+              size="sm"
+              className="w-full text-xs"
+              onClick={() => onShare?.(space.id)}
+            >
+              <Share className="w-3 h-3 mr-1" />
+              Share Link
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>
