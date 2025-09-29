@@ -32,43 +32,77 @@ import {
 } from "lucide-react";
 import fpIcon from "@/assets/fp-icon-new.png";
 
-// Sample speakers - will be dynamic when real-time features are added
-const getSampleSpeakers = (hostName: string) => [
-  { name: hostName, status: "speaking", isHost: true },
-  { name: "Listener_1", status: "idle", isHost: false },
-  { name: "Listener_2", status: "muted", isHost: false },
-  { name: "Listener_3", status: "requesting", isHost: false },
-];
+// Enhanced speaker system for X Spaces-like experience
+interface Speaker {
+  id: string;
+  name: string;
+  avatar: string;
+  isHost: boolean;
+  isMuted: boolean;
+  isHandRaised: boolean;
+  isSpeaking: boolean;
+  fpEarned: number;
+}
 
-const samplePinnedPost = {
-  id: "1",
-  creator: {
-    name: "Community",
-    avatar: "",
-    handle: "floom"
-  },
-  qScore: 92,
-  snippet: "Welcome to this live space! Quality content and engaging conversations await. Share your thoughts and connect with other builders in the Floom community.",
-  topicTags: ["#Live", "#Community", "#Base"],
-  url: "https://floom.app"
+// FP earning activities
+interface FpActivity {
+  id: string;
+  user: string;
+  action: string;
+  points: number;
+  timestamp: Date;
+}
+
+// Quality metrics for FP earning
+const QUALITY_ACTIONS = {
+  SPEAK_QUALITY: 5,    // FP per quality speaking contribution
+  HEART_REACTION: 1,   // FP for giving hearts
+  FUNNY_REACTION: 1,   // FP for laugh reactions
+  SHARE_SPACE: 3,      // FP for sharing
+  ASK_QUESTION: 2,     // FP for asking good questions
+  HOST_BONUS: 10       // FP bonus for hosting
 };
 
-const getSampleQualityFeed = (spaceTags: string[]) => [
-  {
-    id: "2",
-    creator: { name: "Community", avatar: "", handle: "floom" },
-    qScore: 85,
-    snippet: "Great discussion happening in this space! The insights about community building are spot on.",
-    topicTags: spaceTags.length > 0 ? spaceTags.slice(0, 2) : ["#Community", "#Discussion"],
-    url: "https://floom.app"
+const getSampleSpeakers = (hostName: string, userId?: string): Speaker[] => [
+  { 
+    id: '1', 
+    name: hostName, 
+    avatar: getRandomAvatar('1'), 
+    isHost: true, 
+    isMuted: false, 
+    isHandRaised: false, 
+    isSpeaking: true,
+    fpEarned: 25 
   },
-  {
-    id: "3", 
-    creator: { name: "Builder", avatar: "", handle: "builder" },
-    qScore: 78,
-    snippet: "Love the energy here! This is exactly the kind of quality content we need more of.",
-    topicTags: spaceTags.length > 1 ? spaceTags.slice(1, 3) : ["#Quality", "#Content"],
-    url: "https://floom.app"
+  { 
+    id: '2', 
+    name: 'Alex Builder', 
+    avatar: getRandomAvatar('2'), 
+    isHost: false, 
+    isMuted: false, 
+    isHandRaised: false, 
+    isSpeaking: false,
+    fpEarned: 12 
+  },
+  { 
+    id: '3', 
+    name: 'Sarah Web3', 
+    avatar: getRandomAvatar('3'), 
+    isHost: false, 
+    isMuted: true, 
+    isHandRaised: false, 
+    isSpeaking: false,
+    fpEarned: 8 
+  },
+  { 
+    id: '4', 
+    name: 'Dev Anon', 
+    avatar: getRandomAvatar('4'), 
+    isHost: false, 
+    isMuted: true, 
+    isHandRaised: true, 
+    isSpeaking: false,
+    fpEarned: 5 
   },
 ];
 
