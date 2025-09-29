@@ -110,12 +110,18 @@ export default function Lobby() {
     if (user) {
       navigate('/create');
     } else {
-      // Show sign in modal or redirect to sign in
-      const header = document.querySelector('[data-auth-modal]');
-      if (header) {
-        header.click();
+      // Trigger sign in modal directly
+      const signInButton = document.querySelector('button:has-text("Sign In")') || 
+                           document.querySelector('[data-sign-in]');
+      if (signInButton) {
+        (signInButton as HTMLElement).click();
       } else {
-        alert('Please sign in to create a space');
+        // Fallback: scroll to top and show auth
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          const authButton = document.querySelector('button[class*="sign"]');
+          if (authButton) (authButton as HTMLElement).click();
+        }, 100);
       }
     }
   };
@@ -124,12 +130,18 @@ export default function Lobby() {
     if (user) {
       navigate('/dashboard');
     } else {
-      // Show sign in modal or redirect to sign in
-      const header = document.querySelector('[data-auth-modal]');
-      if (header) {
-        header.click();
+      // Trigger sign in modal directly
+      const signInButton = document.querySelector('button:has-text("Sign In")') || 
+                           document.querySelector('[data-sign-in]');
+      if (signInButton) {
+        (signInButton as HTMLElement).click();
       } else {
-        alert('Please sign in to join spaces');
+        // Fallback: scroll to top and show auth
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          const authButton = document.querySelector('button[class*="sign"]');
+          if (authButton) (authButton as HTMLElement).click();
+        }, 100);
       }
     }
   };
