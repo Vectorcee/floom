@@ -129,29 +129,31 @@ export default function Profile() {
             <div className="flex-1">
               <h1 className="text-3xl font-heading">Profile</h1>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 shrink-0">
               {user ? (
                 isEditing ? (
                   <>
-                    <Button variant="outline" size="sm" onClick={handleCancelEdit}>
-                      <X size={16} className="mr-2" />
-                      Cancel
+                    <Button variant="outline" size="sm" onClick={handleCancelEdit} className="px-2 sm:px-3">
+                      <X size={16} className="sm:mr-2" />
+                      <span className="hidden sm:inline">Cancel</span>
                     </Button>
-                    <Button size="sm" onClick={handleSaveProfile}>
-                      <Save size={16} className="mr-2" />
-                      Save
+                    <Button size="sm" onClick={handleSaveProfile} className="px-2 sm:px-3">
+                      <Save size={16} className="sm:mr-2" />
+                      <span className="hidden sm:inline">Save</span>
                     </Button>
                   </>
                 ) : (
-                  <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
-                    <Edit size={16} className="mr-2" />
-                    Edit Profile
+                  <Button variant="outline" size="sm" onClick={() => setIsEditing(true)} className="px-2 sm:px-3">
+                    <Edit size={16} className="sm:mr-2" />
+                    <span className="hidden sm:inline">Edit Profile</span>
+                    <span className="sm:hidden">Edit</span>
                   </Button>
                 )
               ) : (
-                <Button variant="outline" size="sm" disabled>
-                  <Edit size={16} className="mr-2" />
-                  Sign in to Edit
+                <Button variant="outline" size="sm" disabled className="px-2 sm:px-3">
+                  <Edit size={16} className="sm:mr-2" />
+                  <span className="hidden sm:inline">Sign in to Edit</span>
+                  <span className="sm:hidden">Sign in</span>
                 </Button>
               )}
             </div>
