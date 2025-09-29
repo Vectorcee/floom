@@ -157,65 +157,142 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* Profile Header */}
-          <Card className="mb-8">
-            <CardContent className="p-6">
-              <div className="flex flex-col md:flex-row gap-6">
-                <Avatar className="h-24 w-24 mx-auto md:mx-0">
-                  <AvatarImage src={editedProfile.avatar} alt={editedProfile.name} />
-                  <AvatarFallback className="bg-secondary text-2xl">
-                    {editedProfile.name.slice(0, 2).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                
-                <div className="flex-1 text-center md:text-left">
+          {/* Profile Header with Banner */}
+          <Card className="mb-8 overflow-hidden">
+            {/* Banner Section */}
+            <div className="relative h-48 bg-gradient-to-br from-primary/20 to-secondary/20">
+              {editedProfile.banner && (
+                <img 
+                  src={editedProfile.banner} 
+                  alt="Profile banner" 
+                  className="w-full h-full object-cover"
+                />
+              )}
+              
+              {/* Banner Upload Button (when editing) */}
+              {isEditing && (
+                <>
+                  <input
+                    ref={bannerInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleBannerUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-none"
+                    onClick={() => bannerInputRef.current?.click()}
+                    disabled={bannerUploading}
+                  >
+                    {bannerUploading ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <ImageIcon size={16} />
+                    )}
+                    <span className="ml-2 hidden sm:inline">
+                      {editedProfile.banner ? 'Change Banner' : 'Add Banner'}
+                    </span>
+                  </Button>
+                </>
+              )}
+            </div>
+
+            <CardContent className="relative px-6 pb-6">
+              {/* Avatar with Upload */}
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 -mt-12 mb-4">
+                <div className="relative self-center sm:self-start">
+                  <Avatar className="h-24 w-24 border-4 border-background bg-background">
+                    <AvatarImage src={editedProfile.avatar} alt={editedProfile.name} />
+                    <AvatarFallback className="bg-secondary text-2xl">
+                      {editedProfile.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  
+                  {/* Avatar Upload Button (when editing) */}
+                  {isEditing && (
+                    <>
+                      <input
+                        ref={avatarInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarUpload}
+                        className="hidden"
+                      />
+                      <Button
+                        variant="secondary"
+                        size="sm" 
+                        className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full p-0 bg-primary hover:bg-primary/90"
+                        onClick={() => avatarInputRef.current?.click()}
+                        disabled={avatarUploading}
+                      >
+                        {avatarUploading ? (
+                          <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <Camera size={14} className="text-white" />
+                        )}
+                      </Button>
+                    </>
+                  )}
+                </div>
+
+                {/* Profile Info */}
+                <div className="flex-1 text-center sm:text-left min-w-0">
                   {isEditing ? (
-                    <div className="space-y-3">
+                    <div className="space-y-3 mt-4">
                       <Input
                         value={editedProfile.name}
                         onChange={(e) => setEditedProfile({...editedProfile, name: e.target.value})}
                         placeholder="Display Name"
-                        className="text-2xl font-heading"
+                        className="text-xl font-heading"
                       />
                       <Input
                         value={editedProfile.username}
                         onChange={(e) => setEditedProfile({...editedProfile, username: e.target.value})}
                         placeholder="Username"
-                        className="text-muted-foreground"
+                        className="text-base"
                       />
                       <Textarea
                         value={editedProfile.bio}
                         onChange={(e) => setEditedProfile({...editedProfile, bio: e.target.value})}
-                        placeholder="Bio (optional)"
+                        placeholder="Tell us about yourself..."
                         className="font-body text-sm resize-none"
                         rows={3}
                       />
                     </div>
                   ) : (
-                    <>
-                      <h2 className="text-2xl font-heading">{editedProfile.name}</h2>
-                      <p className="text-muted-foreground mb-2">@{editedProfile.username}</p>
+                    <div className="mt-4">
+                      <h2 className="text-2xl font-heading break-words">{editedProfile.name}</h2>
+                      <p className="text-muted-foreground mb-3 break-words">@{editedProfile.username}</p>
                       {editedProfile.bio && (
-                        <p className="font-body text-sm mb-4">{editedProfile.bio}</p>
+                        <p className="font-body text-sm mb-4 text-foreground leading-relaxed break-words">
+                          {editedProfile.bio}
+                        </p>
                       )}
                       
-                      <div className="flex justify-center md:justify-start">
+                      <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                         <Badge variant="outline" className="flex items-center gap-1">
                           <Users size={12} />
                           0 Followers
                         </Badge>
+                        <Badge variant="outline" className="flex items-center gap-1">
+                          <Users size={12} />
+                          0 Following
+                        </Badge>
                       </div>
-                    </>
+                    </div>
                   )}
                 </div>
-                
-                {!user && (
-                  <div className="flex md:flex-col gap-4">
-                    <Button variant="outline">Follow</Button>
-                    <Button>Message</Button>
-                  </div>
-                )}
               </div>
+
+              {/* Action Buttons */}
+              {!user ? (
+                <div className="flex gap-3 justify-center sm:justify-end">
+                  <Button variant="outline" size="sm">Follow</Button>
+                  <Button size="sm">Message</Button>
+                </div>
+              ) : null}
             </CardContent>
           </Card>
 
