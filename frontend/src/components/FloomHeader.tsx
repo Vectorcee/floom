@@ -47,6 +47,7 @@ export function FloomHeader({ className }: FloomHeaderProps) {
                     size="sm" 
                     onClick={() => setAuthModalOpen(true)}
                     className="text-sm hidden sm:flex"
+                    data-sign-in="true"
                   >
                     Sign In
                   </Button>
@@ -55,6 +56,7 @@ export function FloomHeader({ className }: FloomHeaderProps) {
                     size="sm" 
                     onClick={() => setAuthModalOpen(true)}
                     className="text-sm"
+                    data-sign-up="true"
                   >
                     Sign Up
                   </Button>
