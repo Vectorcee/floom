@@ -318,69 +318,66 @@ export default function LiveSpace() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Background Audio Visualization */}
-      <div 
-        className="fixed inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `url(${audioWave})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'blur(1px)',
-        }}
-      />
-
-      {/* Top Bar */}
-      <header className="relative border-b border-border bg-card/80 backdrop-blur-md">
-        <div className="container mx-auto px-4 py-3 lg:py-4">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 lg:gap-4 min-w-0 flex-1">
-              <Button variant="ghost" size="sm" onClick={() => window.location.href = '/'} className="shrink-0">
-                <ArrowLeft size={16} className="lg:mr-1" />
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-border">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between gap-4">
+            {/* Back button and Space info */}
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/dashboard')}
+                className="shrink-0 hover:bg-primary/10"
+              >
+                <ArrowLeft size={16} className="lg:mr-2" />
                 <span className="hidden lg:inline">Back</span>
               </Button>
-              <div className="flex items-center gap-2 min-w-0">
-                <SpeakerAvatar 
-                  name={currentSpace.host?.display_name || 'Host'}
-                  size="sm"
-                  isHost={true}
-                />
+              
+              <div className="flex items-center gap-3 min-w-0">
+                <Avatar className="h-10 w-10 border-2 border-primary/20">
+                  <AvatarImage src={currentSpace.host?.avatar_url} />
+                  <AvatarFallback className="bg-primary/20 text-primary">
+                    {(currentSpace.host?.display_name || 'H').charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="min-w-0">
-                  <h1 className="font-heading text-sm lg:text-lg truncate">{currentSpace.title}</h1>
-                  <p className="text-xs text-muted-foreground truncate">
+                  <h1 className="font-heading text-lg lg:text-xl truncate flex items-center gap-2">
+                    {currentSpace.title}
+                    <Badge className="bg-red-500 text-white animate-pulse px-2 py-1">
+                      <Radio size={12} className="mr-1" />
+                      LIVE
+                    </Badge>
+                  </h1>
+                  <p className="text-sm text-muted-foreground truncate">
                     by @{currentSpace.host?.handle || 'host'}
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center gap-2 lg:gap-4 text-xs lg:text-sm shrink-0">
-              <div className="flex items-center gap-1">
-                <Users size={14} className="lg:size-4" />
-                <span className="hidden sm:inline">{(currentSpace.participant_count || 0).toLocaleString()}</span>
-                <span className="sm:hidden">{Math.max(1, Math.floor((currentSpace.participant_count || 0) / 1000 * 10) / 10)}k</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock size={14} className="lg:size-4" />
-                <span>Live</span>
+            {/* Header Actions */}
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1 px-3 py-1 bg-primary/10 rounded-full">
+                <Users size={14} />
+                <span className="text-sm font-medium">{speakers.length + listeners.length}</span>
               </div>
               <Button 
                 variant="outline" 
                 size="sm"
                 onClick={handleInviteOthers}
-                className="text-xs lg:text-sm"
+                className="hover:bg-primary/10"
               >
-                <Share size={14} className="mr-1" />
-                <span className="hidden lg:inline">Invite Others</span>
-                <span className="lg:hidden">Invite</span>
+                <Share size={14} className="mr-2" />
+                <span className="hidden sm:inline">Share</span>
               </Button>
               <Button 
                 variant="destructive" 
                 size="sm"
                 onClick={() => navigate('/dashboard')}
-                className="text-xs lg:text-sm"
               >
-                <span className="hidden lg:inline">End </span>Leave
+                Leave
               </Button>
             </div>
           </div>
