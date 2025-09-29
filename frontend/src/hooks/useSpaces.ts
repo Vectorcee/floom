@@ -59,9 +59,15 @@ export function useSpaces() {
         updated_at: space.updated_at,
         cover_image_url: space.cover_image_url,
         host: {
-          display_name: space.host_id, // TODO: Get actual host info
-          handle: space.host_id,
-          avatar_url: undefined,
+          display_name: user && space.host_id === user.id 
+            ? (user.user_metadata?.full_name || user.email?.split('@')[0] || 'You')
+            : 'Host',
+          handle: user && space.host_id === user.id
+            ? (user.user_metadata?.user_name || user.email?.split('@')[0] || 'you')
+            : 'host',
+          avatar_url: user && space.host_id === user.id
+            ? (user.user_metadata?.avatar_url || getRandomAvatar(user.id))
+            : getRandomAvatar(space.host_id),
         },
         participant_count: space.participant_count || 0,
         is_participant: false, // TODO: Track participation
