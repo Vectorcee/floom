@@ -67,10 +67,141 @@ const mockQualityFeed = [
 ];
 
 export default function LiveSpace() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { spaces, joinSpace } = useSpaces();
+  
+  const [currentSpace, setCurrentSpace] = useState<Space | null>(null);
+  const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [hasRaisedHand, setHasRaisedHand] = useState(false);
-  const [earnedAmount, setEarnedAmount] = useState(156);
+  const [earnedAmount, setEarnedAmount] = useState(0);
   const [showStakeModal, setShowStakeModal] = useState(false);
+  const [speakers, setSpeakers] = useState<any[]>([]);
+
+  // Fetch space data
+  useEffect(() => {
+    const fetchSpace = async () => {
+      if (!id) {
+        navigate('/dashboard');
+        return;
+      }
+
+      setLoading(true);
+      try {
+        // Try to find space in current spaces list first
+        const existingSpace = spaces.find(space => space.id === id);
+        if (existingSpace) {
+          setCurrentSpace(existingSpace);
+          setSpeakers(getSampleSpeakers(existingSpace.host?.display_name || 'Host'));
+        } else {
+          // Fetch from database if not in current list
+          const { data: spaceData, error } = await supabase
+            .from('spaces')
+            .select(`
+              *,
+              profiles (
+                display_name,
+                handle,
+                avatar_url
+              )
+            `)
+            .eq('id', id)
+            .single();
+
+          if (error) {
+            console.error('Error fetching space:', error);
+            navigate('/dashboard');
+            return;
+          }
+
+          const space: Space = {
+            id: spaceData.id,
+            title: spaceData.title,
+            description: spaceData.description,
+            host_id: spaceData.host_id,
+            is_live: spaceData.is_live,
+            scheduled_time: spaceData.scheduled_time,
+            listener_count: spaceData.listener_count || 0,
+            duration: spaceData.duration,
+            tags: spaceData.tags || [],
+            privacy: spaceData.privacy,
+            quality_threshold: spaceData.quality_threshold,
+            created_at: spaceData.created_at,
+            updated_at: spaceData.updated_at,
+            cover_image_url: spaceData.cover_image_url,
+            host: spaceData.profiles,
+            participant_count: 0,
+            is_participant: false,
+          };
+
+          setCurrentSpace(space);
+          setSpeakers(getSampleSpeakers(space.host?.display_name || 'Host'));
+        }
+      } catch (error) {
+        console.error('Error loading space:', error);
+        navigate('/dashboard');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSpace();
+  }, [id, spaces, navigate]);
+
+  // Auto-join space if user is authenticated and not already a participant
+  useEffect(() => {
+    if (currentSpace && user && !currentSpace.is_participant) {
+      joinSpace(currentSpace.id);
+    }
+  }, [currentSpace, user, joinSpace]);
+
+  const handleInviteOthers = async () => {
+    if (!currentSpace) return;
+    
+    const spaceUrl = `${window.location.origin}/space/${currentSpace.id}`;
+    
+    try {
+      await navigator.clipboard.writeText(spaceUrl);
+      // You could add a toast notification here
+      alert(`Space link copied to clipboard!\n\n${spaceUrl}`);
+    } catch (error) {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = spaceUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert(`Space link copied to clipboard!\n\n${spaceUrl}`);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading space...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentSpace) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground mb-4">Space not found</p>
+          <Button onClick={() => navigate('/dashboard')}>
+            <ArrowLeft size={16} className="mr-2" />
+            Back to Dashboard
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const reactions = [
     { icon: Heart, label: "❤️" },
