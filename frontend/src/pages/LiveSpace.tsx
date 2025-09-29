@@ -531,40 +531,72 @@ export default function LiveSpace() {
             </Card>
           </div>
 
-            {/* Desktop: Quality Conveyor (35% on desktop) */}
-            <div className="hidden lg:block space-y-4 h-full overflow-hidden">
-              {/* Pinned Post */}
-              <div>
-                <h3 className="font-headline text-sm text-muted-foreground mb-2 flex items-center gap-2">
-                  📌 Pinned Quality Post
-                </h3>
-                <PinnedPostCard 
-                  post={samplePinnedPost}
-                  onEngage={() => console.log('Engage')}
-                  onStake={() => setShowStakeModal(true)}
-                  onShare={() => console.log('Share')}
-                />
-              </div>
-
-              {/* Quality Feed - Desktop */}
-              <div className="flex-1 overflow-hidden">
-                <h3 className="font-headline text-sm text-muted-foreground mb-2">
-                  Live Quality Feed
-                </h3>
-                <div className="space-y-3 h-full overflow-y-auto">
-                  {getSampleQualityFeed(currentSpace.tags).map((post) => (
-                    <PinnedPostCard 
-                      key={post.id}
-                      post={post}
-                      className="scale-95"
-                      onEngage={() => console.log('Engage')}
-                      onStake={() => setShowStakeModal(true)}
-                      onShare={() => console.log('Share')}
-                    />
+          {/* Right Column - Listeners & Activity */}
+          <div className="space-y-6">
+            
+            {/* Listeners */}
+            <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="text-muted-foreground" size={20} />
+                  Listeners ({listeners.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-3 gap-3">
+                  {listeners.slice(0, 9).map((listener, index) => (
+                    <div key={listener.id} className="text-center space-y-1">
+                      <Avatar className="h-12 w-12 mx-auto border border-border">
+                        <AvatarImage src={listener.avatar} />
+                        <AvatarFallback className="bg-muted text-xs">
+                          {listener.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <p className="text-xs font-medium truncate">{listener.name}</p>
+                    </div>
                   ))}
                 </div>
-              </div>
-            </div>
+                {listeners.length > 9 && (
+                  <p className="text-center text-sm text-muted-foreground mt-4">
+                    +{listeners.length - 9} more listeners
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* FP Activity Feed */}
+            <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="text-primary" size={20} />
+                  Recent Activity
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 max-h-64 overflow-y-auto">
+                  {fpActivities.length > 0 ? (
+                    fpActivities.map((activity) => (
+                      <div key={activity.id} className="flex items-center justify-between p-2 bg-muted/50 rounded-lg">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{activity.user}</p>
+                          <p className="text-xs text-muted-foreground">{activity.action}</p>
+                        </div>
+                        <div className="flex items-center gap-1 text-primary">
+                          <img src={fpIcon} alt="FP" className="h-3 w-3" />
+                          <span className="text-sm font-bold">+{activity.points}</span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-center text-sm text-muted-foreground py-4">
+                      No activity yet. Start engaging to earn FP!
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
           </div>
         </div>
       </main>
