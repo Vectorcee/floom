@@ -597,55 +597,7 @@ export default function LiveSpace() {
             </Card>
           </div>
         </div>
-          </div>
-        </div>
       </main>
-
-      {/* Footer Controls */}
-      <footer className="fixed bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-md z-50">
-        <div className="container mx-auto px-4 py-3 lg:py-4">
-          <div className="flex items-center justify-between gap-2">
-            {/* Mic Toggle */}
-            <Button
-              variant={isMuted ? "outline" : "default"}
-              size="sm"
-              onClick={() => setIsMuted(!isMuted)}
-              className="flex items-center gap-1 lg:gap-2 text-xs lg:text-sm"
-            >
-              {isMuted ? <MicOff size={14} /> : <Mic size={14} />}
-              <span className="hidden sm:inline">{isMuted ? "Unmute to Speak" : "Mute"}</span>
-            </Button>
-
-            {/* Reactions */}
-            <div className="flex items-center gap-1 lg:gap-2">
-              {reactions.map((Reaction, index) => (
-                <Button
-                  key={index}
-                  variant="ghost"
-                  size="sm"
-                  className="text-sm lg:text-lg p-2 lg:p-3"
-                  onClick={() => console.log('React', Reaction.label)}
-                >
-                  {Reaction.label}
-                </Button>
-              ))}
-            </div>
-
-            {/* Earn Meter */}
-            <div className="flex items-center gap-2 lg:gap-4">
-              <EarnMeter currentAmount={earnedAmount} className="w-20 lg:w-32" />
-              <Button variant="default" size="sm" className="text-xs lg:text-sm">
-                <span className="hidden sm:inline">Quick </span>Stake
-              </Button>
-            </div>
-          </div>
-        </div>
-      </footer>
-      
-      <StakeComingSoonModal 
-        isOpen={showStakeModal} 
-        onClose={() => setShowStakeModal(false)} 
-      />
     </div>
   );
 }
