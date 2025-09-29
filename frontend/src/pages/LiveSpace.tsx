@@ -140,25 +140,8 @@ export default function LiveSpace() {
           setCurrentSpace(existingSpace);
           setSpeakers(getSampleSpeakers(existingSpace.host?.display_name || 'Host'));
         } else {
-          // Fetch from database if not in current list
-          const { data: spaceData, error } = await supabase
-            .from('spaces')
-            .select(`
-              *,
-              profiles (
-                display_name,
-                handle,
-                avatar_url
-              )
-            `)
-            .eq('id', id)
-            .single();
-
-          if (error) {
-            console.error('Error fetching space:', error);
-            navigate('/dashboard');
-            return;
-          }
+          // Fetch from backend API if not in current list
+          const spaceData = await spacesApi.getSpace(id);
 
           const space: Space = {
             id: spaceData.id,
@@ -175,8 +158,13 @@ export default function LiveSpace() {
             created_at: spaceData.created_at,
             updated_at: spaceData.updated_at,
             cover_image_url: spaceData.cover_image_url,
-            host: spaceData.profiles,
-            participant_count: 0,
+            // For now, we'll use a default host structure since backend doesn't provide full profile
+            host: {
+              display_name: 'Host',
+              handle: 'host',
+              avatar_url: getRandomAvatar('host')
+            },
+            participant_count: spaceData.participant_count || 0,
             is_participant: false,
           };
 
