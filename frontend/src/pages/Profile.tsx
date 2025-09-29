@@ -240,47 +240,47 @@ export default function Profile() {
                 </div>
 
                 {/* Profile Info */}
-                <div className="flex-1 text-center sm:text-left min-w-0">
+                <div className="flex-1 text-center sm:text-left min-w-0 w-full">
                   {isEditing ? (
-                    <div className="space-y-3 mt-4">
+                    <div className="space-y-3 mt-4 w-full">
                       <Input
                         value={editedProfile.name}
                         onChange={(e) => setEditedProfile({...editedProfile, name: e.target.value})}
                         placeholder="Display Name"
-                        className="text-xl font-heading"
+                        className="text-lg sm:text-xl font-heading w-full"
                       />
                       <Input
                         value={editedProfile.username}
                         onChange={(e) => setEditedProfile({...editedProfile, username: e.target.value})}
                         placeholder="Username"
-                        className="text-base"
+                        className="text-sm sm:text-base w-full"
                       />
                       <Textarea
                         value={editedProfile.bio}
                         onChange={(e) => setEditedProfile({...editedProfile, bio: e.target.value})}
                         placeholder="Tell us about yourself..."
-                        className="font-body text-sm resize-none"
+                        className="font-body text-sm resize-none w-full"
                         rows={3}
                       />
                     </div>
                   ) : (
-                    <div className="mt-4">
-                      <h2 className="text-2xl font-heading break-words">{editedProfile.name}</h2>
-                      <p className="text-muted-foreground mb-3 break-words">@{editedProfile.username}</p>
+                    <div className="mt-4 w-full">
+                      <h2 className="text-xl sm:text-2xl font-heading break-words overflow-hidden">{editedProfile.name}</h2>
+                      <p className="text-muted-foreground mb-3 break-words overflow-hidden">@{editedProfile.username}</p>
                       {editedProfile.bio && (
-                        <p className="font-body text-sm mb-4 text-foreground leading-relaxed break-words">
+                        <p className="font-body text-sm mb-4 text-foreground leading-relaxed break-words overflow-hidden">
                           {editedProfile.bio}
                         </p>
                       )}
                       
                       <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                        <Badge variant="outline" className="flex items-center gap-1">
-                          <Users size={12} />
-                          0 Followers
+                        <Badge variant="outline" className="flex items-center gap-1 text-xs">
+                          <Users size={10} />
+                          <span>0 Followers</span>
                         </Badge>
-                        <Badge variant="outline" className="flex items-center gap-1">
-                          <Users size={12} />
-                          0 Following
+                        <Badge variant="outline" className="flex items-center gap-1 text-xs">
+                          <Users size={10} />
+                          <span>0 Following</span>
                         </Badge>
                       </div>
                     </div>
