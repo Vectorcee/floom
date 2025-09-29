@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { getRandomAvatar, fileToBase64, validateImageFile } from "@/utils/avatarUtils";
+import { useProfile } from "@/contexts/ProfileContext";
 import { FloomHeader } from "@/components/FloomHeader";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SpaceCard } from "@/components/SpaceCard";
