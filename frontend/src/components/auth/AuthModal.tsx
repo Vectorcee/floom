@@ -197,21 +197,7 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
             X (Twitter)
           </Button>
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-border" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground font-body">Or</span>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="text-sm text-muted-foreground text-center font-body">Connect your wallet</div>
-            <div className="flex justify-center">
-              <ConnectWallet />
-            </div>
-          </div>
+          {/* Wallet connection removed for Emergent deployment */}
 
           <div className="text-xs text-muted-foreground text-center font-body">
             By signing in, you agree to our Terms of Service and Privacy Policy
