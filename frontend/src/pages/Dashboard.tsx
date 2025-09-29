@@ -27,6 +27,26 @@ const Dashboard = () => {
 
   const handleRemindMe = (spaceId: string) => {
     console.log('Setting reminder for space:', spaceId);
+    // TODO: Implement actual reminder functionality
+    alert('Reminder set! We\'ll notify you when this space goes live.');
+  };
+
+  const handleShareSpace = async (spaceId: string) => {
+    const spaceUrl = `${window.location.origin}/space/${spaceId}`;
+    
+    try {
+      await navigator.clipboard.writeText(spaceUrl);
+      alert(`Space link copied to clipboard!\n\n${spaceUrl}\n\nShare this with others to invite them to join.`);
+    } catch (error) {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = spaceUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert(`Space link copied to clipboard!\n\n${spaceUrl}\n\nShare this with others to invite them to join.`);
+    }
   };
 
   // Filter spaces based on search query
