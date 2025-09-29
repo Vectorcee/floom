@@ -385,78 +385,151 @@ export default function LiveSpace() {
       </header>
 
       {/* Main Content */}
-      <main className="relative pb-20 lg:pb-28">
-        <div className="container mx-auto px-4 py-4 lg:py-6">
-          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-6 min-h-[calc(100vh-200px)] lg:min-h-[calc(100vh-240px)]">
+      <main className="container mx-auto px-4 py-6 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* Left Column - Space Content */}
+          <div className="lg:col-span-2 space-y-6">
             
-            {/* Mobile: Quality Conveyor First */}
-            <div className="lg:hidden space-y-3 max-h-[35vh] overflow-hidden">
-              {/* Pinned Post */}
-              <div>
-                <h3 className="font-headline text-sm text-muted-foreground mb-2 flex items-center gap-2">
-                  📌 Pinned Quality Post
-                </h3>
-                <PinnedPostCard 
-                  post={samplePinnedPost}
-                  onEngage={() => console.log('Engage')}
-                  onStake={() => setShowStakeModal(true)}
-                  onShare={() => console.log('Share')}
-                />
-              </div>
+            {/* Space Description */}
+            <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary">
+                      {currentSpace.privacy === 'private' ? 'Private' : 'Public'}
+                    </Badge>
+                    <div className="flex gap-2">
+                      {currentSpace.tags.slice(0, 3).map((tag, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  {currentSpace.description && (
+                    <p className="text-muted-foreground leading-relaxed">
+                      {currentSpace.description}
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
 
-              {/* Quality Feed - Mobile */}
-              <div className="flex-1 overflow-hidden">
-                <h3 className="font-heading text-sm text-muted-foreground mb-2">
-                  Live Quality Feed
-                </h3>
-                <div className="space-y-2 h-28 overflow-y-auto">
-                  {getSampleQualityFeed(currentSpace.tags).slice(0, 2).map((post) => (
-                    <PinnedPostCard 
-                      key={post.id}
-                      post={post}
-                      className="scale-95"
-                      onEngage={() => console.log('Engage')}
-                      onStake={() => setShowStakeModal(true)}
-                      onShare={() => console.log('Share')}
-                    />
+            {/* Speakers Stage */}
+            <Card className="bg-gradient-to-b from-card/80 to-card/50 border-primary/20 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2">
+                  <Mic className="text-primary" size={20} />
+                  On Stage ({speakers.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {speakers.map((speaker, index) => (
+                    <div key={speaker.id} className="text-center space-y-2">
+                      <div className="relative">
+                        <Avatar className={`h-16 w-16 mx-auto border-2 ${
+                          speaker.isSpeaking ? 'border-green-400 animate-pulse' : 
+                          speaker.isHost ? 'border-primary' : 'border-border'
+                        }`}>
+                          <AvatarImage src={speaker.avatar} />
+                          <AvatarFallback className={`${
+                            speaker.isHost ? 'bg-primary/20 text-primary' : 'bg-muted'
+                          }`}>
+                            {speaker.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        {speaker.isHost && (
+                          <Crown className="absolute -top-1 -right-1 text-yellow-500" size={16} />
+                        )}
+                        {speaker.isMuted && (
+                          <div className="absolute bottom-0 right-0 bg-red-500 rounded-full p-1">
+                            <MicOff className="text-white" size={10} />
+                          </div>
+                        )}
+                        {speaker.isHandRaised && (
+                          <div className="absolute bottom-0 left-0 bg-primary rounded-full p-1 animate-bounce">
+                            <Hand className="text-white" size={10} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium truncate">{speaker.name}</p>
+                        <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
+                          <img src={fpIcon} alt="FP" className="h-3 w-3" />
+                          <span>{speaker.fpEarned}</span>
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
-              </div>
-            </div>
-            
-            {/* Stage (Mobile second, Desktop first 65%) */}
-            <div className="lg:col-span-2 flex-1">
-              <Card className="h-full">
-                <CardContent className="p-4 lg:p-6 h-full flex flex-col">
-                  <h3 className="font-heading text-base lg:text-lg mb-4">On Stage</h3>
+              </CardContent>
+            </Card>
+
+            {/* User Controls */}
+            <Card className="bg-card/80 backdrop-blur-sm border-primary/20">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
                   
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 flex-1 place-items-center">
-                    {speakers.map((speaker, index) => (
-                      <SpeakerAvatar
-                        key={index}
-                        name={speaker.name}
+                  {/* Audio Controls */}
+                  <div className="flex items-center gap-3">
+                    <Button
+                      variant={isMuted ? "outline" : "destructive"}
+                      size="lg"
+                      onClick={() => setIsMuted(!isMuted)}
+                      className="relative hover:scale-105 transition-transform"
+                    >
+                      {isMuted ? <MicOff size={20} /> : <Mic size={20} />}
+                    </Button>
+                    
+                    {!isUserSpeaker && (
+                      <Button
+                        variant={hasRaisedHand ? "default" : "outline"}
                         size="lg"
-                        status={speaker.status as any}
-                        isHost={speaker.isHost}
-                      />
-                    ))}
+                        onClick={handleRaiseHand}
+                        className="relative hover:scale-105 transition-transform"
+                      >
+                        <Hand size={20} />
+                        {hasRaisedHand && (
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full animate-bounce" />
+                        )}
+                      </Button>
+                    )}
                   </div>
 
-                  {/* Stage Controls */}
-                  <div className="flex justify-center mt-4 lg:mt-6">
+                  {/* Reactions */}
+                  <div className="flex items-center gap-2">
                     <Button 
-                      variant="outline"
-                      size="sm"
-                      className={hasRaisedHand ? "bg-floom-accent text-black" : ""}
-                      onClick={() => setHasRaisedHand(!hasRaisedHand)}
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleReaction('heart')}
+                      className="text-red-500 hover:bg-red-50 hover:scale-110 transition-all"
                     >
-                      <Hand size={16} className="mr-2" />
-                      {hasRaisedHand ? "Lower Hand" : "Raise Hand"}
+                      <Heart size={16} />
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleReaction('laugh')}
+                      className="text-yellow-500 hover:bg-yellow-50 hover:scale-110 transition-all"
+                    >
+                      <Laugh size={16} />
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+
+                  {/* User FP Display */}
+                  <div className="flex items-center gap-2 px-3 py-2 bg-primary/10 rounded-lg">
+                    <img src={fpIcon} alt="FP" className="h-5 w-5" />
+                    <div className="text-sm">
+                      <span className="font-bold text-primary">{earnedFP}</span>
+                      <span className="text-muted-foreground ml-1">FP</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
             {/* Desktop: Quality Conveyor (35% on desktop) */}
             <div className="hidden lg:block space-y-4 h-full overflow-hidden">
