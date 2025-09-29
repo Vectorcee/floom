@@ -12,35 +12,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { useProfile } from '@/contexts/ProfileContext';
 import { User, Settings, LogOut } from 'lucide-react';
 
-interface Profile {
-  display_name: string;
-  avatar_url: string;
-  handle: string;
-  fuum_points: number;
-}
-
 export function UserMenu() {
   const { user, signOut } = useAuth();
-  const [profile, setProfile] = useState<Profile | null>(null);
-
-  useEffect(() => {
-    if (user) {
-      // Fetch user profile
-      supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single()
-        .then(({ data }) => {
-          if (data) setProfile(data);
-        });
-    }
-  }, [user]);
+  const { profile } = useProfile();
 
   if (!user) return null;
-
-  const displayName = profile?.display_name || user.email?.split('@')[0] || 'User';
-  const handle = profile?.handle || user.email?.split('@')[0] || 'user';
 
   return (
     <DropdownMenu>
