@@ -177,12 +177,12 @@ export default function LiveSpace() {
   }, [currentSpace, user]); // Removed joinSpace from dependencies to prevent loops
 
   const initializeUserInSpace = () => {
-    if (!user || !currentSpace) return;
+    if (!user || !currentSpace || !profile) return;
     
     const userSpeaker: Speaker = {
       id: user.id,
-      name: profile.name,
-      avatar: profile.avatar,
+      name: profile.name || profile.display_name || 'You',
+      avatar: profile.avatar || profile.avatar_url || getRandomAvatar(user.id),
       isHost: currentSpace.host_id === user.id,
       isMuted: true,
       isHandRaised: false,
@@ -191,7 +191,7 @@ export default function LiveSpace() {
     };
 
     if (currentSpace.host_id === user.id) {
-      // User is host - add to speakers
+      // User is host - add to speakers if not already there
       setSpeakers(prev => {
         const existing = prev.find(s => s.id === user.id);
         if (existing) return prev;
@@ -199,7 +199,7 @@ export default function LiveSpace() {
       });
       setIsUserSpeaker(true);
     } else {
-      // User is listener
+      // User is listener - add to listeners if not already there
       setListeners(prev => {
         const existing = prev.find(s => s.id === user.id);
         if (existing) return prev;
