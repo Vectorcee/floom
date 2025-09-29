@@ -20,20 +20,20 @@ export function FloomHeader({ className }: FloomHeaderProps) {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <img src={floomLogo} alt="Floom" className="w-12 h-12 block" />
-            <h1 className="text-2xl font-heading text-floom-fg hidden sm:block">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img src={floomLogo} alt="Floom" className="w-10 h-10 sm:w-12 sm:h-12 block" />
+            <h1 className="text-xl sm:text-2xl font-heading text-floom-fg">
               Floom
             </h1>
             <Badge 
               variant="secondary" 
-              className="bg-primary/20 text-primary-foreground border-primary/30 px-2 py-1 text-xs font-medium hidden sm:inline-flex"
+              className="bg-primary/20 text-white border-primary/30 px-2 py-1 text-xs font-medium hidden sm:inline-flex"
             >
               BETA
             </Badge>
             <Badge 
               variant="secondary" 
-              className="bg-primary/20 text-primary-foreground border-primary/30 px-1.5 py-0.5 text-xs font-medium sm:hidden"
+              className="bg-primary/20 text-white border-primary/30 px-1.5 py-0.5 text-xs font-medium sm:hidden"
             >
               β
             </Badge>
