@@ -121,13 +121,13 @@ export default function Profile() {
       <main className="container mx-auto px-4 py-8 max-w-full">
         <div className="max-w-4xl mx-auto w-full">
           {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <Button variant="ghost" onClick={() => window.location.href = '/'}>
-              <ArrowLeft size={16} className="mr-2" />
-              Back to Lobby
+          <div className="flex items-center gap-2 sm:gap-4 mb-8 w-full">
+            <Button variant="ghost" onClick={() => window.location.href = '/'} className="px-2 sm:px-3 shrink-0">
+              <ArrowLeft size={16} className="sm:mr-2" />
+              <span className="hidden sm:inline">Back to Lobby</span>
             </Button>
-            <div className="flex-1">
-              <h1 className="text-3xl font-heading">Profile</h1>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-heading truncate">Profile</h1>
             </div>
             <div className="flex gap-2 shrink-0">
               {user ? (
