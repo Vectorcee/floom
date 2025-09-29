@@ -19,9 +19,22 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleJoinSpace = async (spaceId: string) => {
-    const success = await joinSpace(spaceId);
-    if (success) {
+    if (!user) {
+      // Redirect to sign in if not authenticated
+      const signInButton = document.querySelector('[data-sign-in]');
+      if (signInButton) {
+        (signInButton as HTMLElement).click();
+      }
+      return;
+    }
+    
+    try {
+      await joinSpace(spaceId);
+      // Navigate to the live space
       navigate(`/space/${spaceId}`);
+    } catch (error) {
+      console.error('Error joining space:', error);
+      alert('Failed to join space. Please try again.');
     }
   };
 
