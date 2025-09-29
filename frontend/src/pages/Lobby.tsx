@@ -209,21 +209,22 @@ export default function Lobby() {
         </section>
 
         {/* Rewards Split */}
-        <section className="py-16 sm:py-24 px-4 bg-card/30">
-          <div className="container mx-auto">
+        <section className="py-16 sm:py-24 px-4 bg-card/30 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5 animate-pulse" style={{animationDuration: '10s'}} />
+          <div className="container mx-auto relative">
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-6">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
                 Rewards Split
               </h2>
-              <p className="text-lg sm:text-xl text-muted-foreground font-body max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-muted-foreground font-body max-w-3xl mx-auto animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-200">
                 Whenever Quality content is engaged in a Space:
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
-              <Card className="bg-card/50 border-floom-accent/20">
+              <Card className="bg-card/50 border-floom-accent/20 group hover:scale-105 hover:shadow-xl hover:shadow-floom-accent/20 transition-all duration-500 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-300">
                 <CardHeader className="text-center pb-4">
-                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2">70%</div>
+                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2 group-hover:animate-pulse">70%</div>
                   <CardTitle className="text-lg sm:text-xl font-heading">Creator's Fee</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
@@ -233,9 +234,9 @@ export default function Lobby() {
                 </CardContent>
               </Card>
               
-              <Card className="bg-card/50 border-floom-accent/20">
+              <Card className="bg-card/50 border-floom-accent/20 group hover:scale-105 hover:shadow-xl hover:shadow-floom-accent/20 transition-all duration-500 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-500">
                 <CardHeader className="text-center pb-4">
-                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2">20%</div>
+                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2 group-hover:animate-pulse">20%</div>
                   <CardTitle className="text-lg sm:text-xl font-heading">Host(s)</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
@@ -245,9 +246,9 @@ export default function Lobby() {
                 </CardContent>
               </Card>
               
-              <Card className="bg-card/50 border-floom-accent/20">
+              <Card className="bg-card/50 border-floom-accent/20 group hover:scale-105 hover:shadow-xl hover:shadow-floom-accent/20 transition-all duration-500 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-700">
                 <CardHeader className="text-center pb-4">
-                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2">10%</div>
+                  <div className="text-4xl sm:text-5xl font-heading text-floom-accent mb-2 group-hover:animate-pulse">10%</div>
                   <CardTitle className="text-lg sm:text-xl font-heading">FUUM Treasury</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
