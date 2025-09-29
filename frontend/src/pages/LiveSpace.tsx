@@ -117,7 +117,8 @@ export default function LiveSpace() {
         const existingSpace = spaces.find(space => space.id === id);
         if (existingSpace) {
           setCurrentSpace(existingSpace);
-          setSpeakers(getSampleSpeakers(existingSpace.host?.display_name || 'Host'));
+          // Only show real speakers, no fake data
+          setSpeakers(createRealSpeakers(existingSpace, user, profile));
         } else {
           // Fetch from backend API if not in current list
           const spaceData = await spacesApi.getSpace(id);
