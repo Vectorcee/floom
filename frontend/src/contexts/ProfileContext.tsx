@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { getRandomAvatar } from '@/utils/avatarUtils';
+import { supabase } from '@/integrations/supabase/client';
 
 interface UserProfile {
   name: string;
