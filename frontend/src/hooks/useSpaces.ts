@@ -37,70 +37,37 @@ export function useSpaces() {
   const fetchSpaces = async () => {
     try {
       setLoading(true);
-      
-      // Fetch spaces with host profile information
-      const { data: spacesData, error: spacesError } = await supabase
-        .from('spaces')
-        .select(`
-          *,
-          profiles (
-            display_name,
-            handle,
-            avatar_url
-          )
-        `)
-        .order('created_at', { ascending: false });
-
-      if (spacesError) {
-        throw spacesError;
-      }
-
-      // Get participant counts and check if current user is a participant
-      const spacesWithParticipants = await Promise.all(
-        (spacesData || []).map(async (space) => {
-          // Get participant count
-          const { count } = await supabase
-            .from('space_participants')
-            .select('*', { count: 'exact' })
-            .eq('space_id', space.id);
-
-          // Check if current user is a participant
-          let isParticipant = false;
-          if (user) {
-            const { data: participantData } = await supabase
-              .from('space_participants')
-              .select('id')
-              .eq('space_id', space.id)
-              .eq('user_id', user.id)
-              .single();
-            
-            isParticipant = !!participantData;
-          }
-
-          return {
-            id: space.id,
-            title: space.title,
-            description: space.description || '',
-            host_id: space.host_id,
-            is_live: space.is_live,
-            scheduled_time: space.scheduled_time,
-            listener_count: space.listener_count,
-            duration: space.duration,
-            tags: space.tags || [],
-            privacy: space.privacy as 'public' | 'private',
-            quality_threshold: space.quality_threshold,
-            created_at: space.created_at,
-            updated_at: space.updated_at,
-            cover_image_url: space.cover_image_url,
-            host: space.profiles as { display_name?: string; handle?: string; avatar_url?: string } | undefined,
-            participant_count: count || 0,
-            is_participant: isParticipant,
-          };
-        })
-      );
-
-      setSpaces(spacesWithParticipants);
       setError(null);
+
+      // Get all spaces from backend API
+      const apiSpaces = await spacesApi.getSpaces();
+
+      // Convert API spaces to frontend Space format
+      const spacesWithFormatting: Space[] = apiSpaces.map((space) => ({
+        id: space.id,
+        title: space.title,
+        description: space.description || '',
+        host_id: space.host_id,
+        is_live: space.is_live,
+        scheduled_time: space.scheduled_time,
+        listener_count: space.listener_count || 0,
+        duration: space.duration || 0,
+        tags: space.tags || [],
+        privacy: (space.privacy as 'public' | 'private') || 'public',
+        quality_threshold: space.quality_threshold || 50,
+        created_at: space.created_at,
+        updated_at: space.updated_at,
+        cover_image_url: space.cover_image_url,
+        host: {
+          display_name: space.host_id, // TODO: Get actual host info
+          handle: space.host_id,
+          avatar_url: undefined,
+        },
+        participant_count: space.participant_count || 0,
+        is_participant: false, // TODO: Track participation
+      }));
+
+      setSpaces(spacesWithFormatting);
     } catch (err) {
       console.error('Error fetching spaces:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch spaces');
