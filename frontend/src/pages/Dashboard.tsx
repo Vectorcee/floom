@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FloomHeader } from '@/components/FloomHeader';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { SpaceCard } from '@/components/SpaceCard';
