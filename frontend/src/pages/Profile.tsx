@@ -20,9 +20,12 @@ import {
   Settings,
   Edit,
   Save,
-  X
+  X,
+  Camera,
+  Upload,
+  Image as ImageIcon
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import tokenIcon from "@/assets/token-icon.jpg";
 import fpIcon from "@/assets/fp-icon-new.png";
 
