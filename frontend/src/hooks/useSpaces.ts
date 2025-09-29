@@ -80,7 +80,7 @@ export function useSpaces() {
           return {
             id: space.id,
             title: space.title,
-            description: space.description,
+            description: space.description || '',
             host_id: space.host_id,
             is_live: space.is_live,
             scheduled_time: space.scheduled_time,
