@@ -1,24 +1,10 @@
 import * as React from 'react';
-import { WagmiProvider, createConfig } from 'wagmi';
-import { http } from 'viem';
-import { base, baseSepolia } from 'viem/chains';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
 
-
-const config = createConfig({
-  chains: [base, baseSepolia],
-  transports: {
-    [base.id]: http(),
-    [baseSepolia.id]: http(),
-  },
-});
-
+// Simple provider wrapper (blockchain functionality removed for Emergent deployment)
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiProvider config={config}>
-      <OnchainKitProvider chain={base}>
-        {children}
-      </OnchainKitProvider>
-    </WagmiProvider>
+    <>
+      {children}
+    </>
   );
 }
