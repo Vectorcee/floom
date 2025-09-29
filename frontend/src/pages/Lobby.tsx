@@ -105,17 +105,23 @@ export default function Lobby() {
   const { user } = useAuth();
   
   return (
-    <div className="min-h-screen bg-background">
-      {/* Background */}
-      <div 
-        className="fixed inset-0 opacity-[0.02] pointer-events-none"
-        style={{
-          backgroundImage: `url(${holographicGrid})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div 
+          className="absolute inset-0 opacity-[0.03] animate-pulse"
+          style={{
+            backgroundImage: `url(${holographicGrid})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            animationDuration: '8s'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 animate-pulse" 
+             style={{animationDuration: '12s', animationDelay: '2s'}} />
+      </div>
       
+      <FloatingOrbs />
       <FloomHeader />
       
       <main className="relative">
@@ -123,31 +129,35 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 lg:py-32 px-4">
           <div className="container mx-auto text-center">
             <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-heading leading-tight">
+              {/* Live Activity Indicators */}
+              <LiveActivityBadges />
+              
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-heading leading-tight animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
                 Talk live. Surface Quality. Earn together.
               </h1>
               
-              <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto font-body leading-relaxed">
+              <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto font-body leading-relaxed animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-300">
                 Floom is a live miniapp built on Base where conversations meet Quality. 
                 Host a Space, let FAKE-verified posts flow in, and engage without ever leaving the room. 
                 Every action earns — transparent, on-chain, and fun.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 sm:mt-12">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 sm:mt-12 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-500">
                 <Button 
                   size="lg" 
-                  className="text-base sm:text-lg px-8 py-6"
+                  className="text-base sm:text-lg px-8 py-6 group hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
                   onClick={() => user ? window.location.href = '/create' : alert('Please sign in to create a space')}
                   glow={true}
                 >
-                  <Plus className="mr-2" size={20} />
+                  <Plus className="mr-2 group-hover:animate-spin" size={20} />
                   Create Space
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="text-base sm:text-lg px-8 py-6"
+                  className="text-base sm:text-lg px-8 py-6 group hover:scale-105 transition-all duration-300 hover:shadow-lg hover:bg-primary/5"
                 >
+                  <Sparkles className="mr-2 group-hover:animate-pulse" size={20} />
                   Join Spaces
                 </Button>
               </div>
