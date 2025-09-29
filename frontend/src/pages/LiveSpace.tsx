@@ -197,8 +197,73 @@ export default function LiveSpace() {
   useEffect(() => {
     if (currentSpace && user && !currentSpace.is_participant) {
       joinSpace(currentSpace.id);
+      // Initialize user as listener
+      initializeUserInSpace();
     }
   }, [currentSpace, user, joinSpace]);
+
+  const initializeUserInSpace = () => {
+    if (!user || !currentSpace) return;
+    
+    const userSpeaker: Speaker = {
+      id: user.id,
+      name: profile.name,
+      avatar: profile.avatar,
+      isHost: currentSpace.host_id === user.id,
+      isMuted: true,
+      isHandRaised: false,
+      isSpeaking: false,
+      fpEarned: 0
+    };
+
+    if (currentSpace.host_id === user.id) {
+      // User is host - add to speakers
+      setSpeakers(prev => {
+        const existing = prev.find(s => s.id === user.id);
+        if (existing) return prev;
+        return [...prev, userSpeaker];
+      });
+      setIsUserSpeaker(true);
+    } else {
+      // User is listener
+      setListeners(prev => {
+        const existing = prev.find(s => s.id === user.id);
+        if (existing) return prev;
+        return [...prev, userSpeaker];
+      });
+    }
+  };
+
+  const handleRaiseHand = () => {
+    if (!user) return;
+    setHasRaisedHand(!hasRaisedHand);
+    // TODO: Send to real-time service
+    awardFP(QUALITY_ACTIONS.ASK_QUESTION, "Raised hand to speak");
+  };
+
+  const handleReaction = (type: 'heart' | 'laugh') => {
+    if (!user) return;
+    const points = type === 'heart' ? QUALITY_ACTIONS.HEART_REACTION : QUALITY_ACTIONS.FUNNY_REACTION;
+    awardFP(points, `${type} reaction`);
+  };
+
+  const awardFP = (points: number, action: string) => {
+    if (!user) return;
+    
+    setEarnedFP(prev => prev + points);
+    
+    const activity: FpActivity = {
+      id: `${Date.now()}-${Math.random()}`,
+      user: profile.name,
+      action,
+      points,
+      timestamp: new Date()
+    };
+    
+    setFpActivities(prev => [activity, ...prev].slice(0, 10));
+    
+    // TODO: Send to backend for persistence
+  };
 
   const handleInviteOthers = async () => {
     if (!currentSpace) return;
