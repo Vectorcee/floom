@@ -265,17 +265,21 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 px-4">
           <div className="container mx-auto">
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-4 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
                 Core Features
               </h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {features.map((feature, index) => (
-                <Card key={index} className="bg-card/30 border-border/50 hover:border-floom-accent/30 transition-all duration-300">
+                <Card 
+                  key={index} 
+                  className="bg-card/30 border-border/50 hover:border-floom-accent/30 hover:scale-105 hover:shadow-lg hover:shadow-floom-accent/10 transition-all duration-500 group animate-in fade-in-0 slide-in-from-bottom-4 duration-1000"
+                  style={{animationDelay: `${index * 200}ms`}}
+                >
                   <CardHeader>
-                    <feature.icon className="w-10 h-10 text-floom-accent mb-4" />
-                    <CardTitle className="text-lg font-heading">{feature.title}</CardTitle>
+                    <feature.icon className="w-10 h-10 text-floom-accent mb-4 group-hover:animate-bounce group-hover:text-floom-accent/80 transition-colors duration-300" />
+                    <CardTitle className="text-lg font-heading group-hover:text-floom-accent transition-colors duration-300">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground font-body text-sm leading-relaxed">
