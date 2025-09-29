@@ -293,32 +293,34 @@ export default function Lobby() {
         </section>
 
         {/* Closing CTA Strip */}
-        <section className="py-16 sm:py-24 px-4 bg-floom-accent/5">
-          <div className="container mx-auto text-center">
+        <section className="py-16 sm:py-24 px-4 bg-floom-accent/5 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-secondary/10 animate-pulse" style={{animationDuration: '6s'}} />
+          <div className="container mx-auto text-center relative">
             <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
                 Ready to set the vibe?
               </h2>
               
-              <p className="text-lg sm:text-xl text-muted-foreground font-body">
+              <p className="text-lg sm:text-xl text-muted-foreground font-body animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-200">
                 Create your Space now or jump into a live one already happening.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-400">
                 <Button 
                   size="lg" 
-                  className="text-base sm:text-lg px-8 py-6"
+                  className="text-base sm:text-lg px-8 py-6 group hover:scale-110 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
                   onClick={() => user ? window.location.href = '/create' : alert('Please sign in to create a space')}
                   glow={true}
                 >
-                  <Plus className="mr-2" size={20} />
+                  <Plus className="mr-2 group-hover:rotate-90 transition-transform duration-300" size={20} />
                   Create Space
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="text-base sm:text-lg px-8 py-6"
+                  className="text-base sm:text-lg px-8 py-6 group hover:scale-110 transition-all duration-300 hover:shadow-xl hover:bg-primary/10"
                 >
+                  <Zap className="mr-2 group-hover:animate-pulse" size={20} />
                   Join Spaces
                 </Button>
               </div>
