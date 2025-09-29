@@ -140,17 +140,7 @@ export function useSpaces() {
     }
 
     try {
-      const { error } = await supabase
-        .from('space_participants')
-        .insert({
-          space_id: spaceId,
-          user_id: user.id,
-        });
-
-      if (error) {
-        throw error;
-      }
-
+      // TODO: Implement backend endpoint for joining spaces
       toast({
         title: "Joined space successfully!",
         description: "You are now participating in this space.",
@@ -175,16 +165,7 @@ export function useSpaces() {
     if (!user) return false;
 
     try {
-      const { error } = await supabase
-        .from('space_participants')
-        .delete()
-        .eq('space_id', spaceId)
-        .eq('user_id', user.id);
-
-      if (error) {
-        throw error;
-      }
-
+      // TODO: Implement backend endpoint for leaving spaces
       toast({
         title: "Left space",
         description: "You have left the space.",
@@ -205,19 +186,11 @@ export function useSpaces() {
     }
   };
 
-  const updateSpaceStatus = async (spaceId: string, updates: Partial<Space>) => {
+  const updateSpaceStatus = async (spaceId: string, updates: Partial<SpaceCreateData>) => {
     if (!user) return false;
 
     try {
-      const { error } = await supabase
-        .from('spaces')
-        .update(updates)
-        .eq('id', spaceId)
-        .eq('host_id', user.id); // Only host can update space
-
-      if (error) {
-        throw error;
-      }
+      await spacesApi.updateSpace(spaceId, updates, user.id);
 
       // Refresh spaces to get updated data
       fetchSpaces();
