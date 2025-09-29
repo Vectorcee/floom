@@ -17,24 +17,26 @@ import Dashboard from "./pages/Dashboard";
 
 const App = () => (
   <Providers>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/space/:id" element={<LiveSpace />} />
-          <Route path="/create" element={<CreateSpace />} />
-          <Route path="/profile/:handle" element={<Profile />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/wallet" element={<Wallet />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ProfileProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/space/:id" element={<LiveSpace />} />
+            <Route path="/create" element={<CreateSpace />} />
+            <Route path="/profile/:handle" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/wallet" element={<Wallet />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ProfileProvider>
   </Providers>
 );
 
