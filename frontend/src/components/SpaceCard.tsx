@@ -14,7 +14,7 @@ interface SpaceCardProps {
   onShare?: (spaceId: string) => void;
 }
 
-const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemind }) => {
+const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemind, onShare }) => {
   const formatTime = (timeString?: string) => {
     if (!timeString) return '';
     const date = new Date(timeString);
