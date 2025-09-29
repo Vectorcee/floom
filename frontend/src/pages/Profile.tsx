@@ -67,9 +67,52 @@ export default function Profile() {
       name: user?.name || 'Anonymous User',  
       username: user?.username || 'user',
       bio: user?.bio || '',
-      avatar: user?.avatar || ''
+      avatar: user?.avatar || getRandomAvatar(user?.id),
+      banner: user?.banner || ''
     });
     setIsEditing(false);
+  };
+
+  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const validation = validateImageFile(file);
+    if (!validation.valid) {
+      alert(validation.error);
+      return;
+    }
+
+    setAvatarUploading(true);
+    try {
+      const base64 = await fileToBase64(file);
+      setEditedProfile(prev => ({ ...prev, avatar: base64 }));
+    } catch (error) {
+      alert('Failed to upload avatar. Please try again.');
+    } finally {
+      setAvatarUploading(false);
+    }
+  };
+
+  const handleBannerUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const validation = validateImageFile(file);
+    if (!validation.valid) {
+      alert(validation.error);
+      return;
+    }
+
+    setBannerUploading(true);
+    try {
+      const base64 = await fileToBase64(file);
+      setEditedProfile(prev => ({ ...prev, banner: base64 }));
+    } catch (error) {
+      alert('Failed to upload banner. Please try again.');
+    } finally {
+      setBannerUploading(false);
+    }
   };
   return (
     <div className="min-h-screen bg-background pb-20">
