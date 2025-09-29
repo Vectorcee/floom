@@ -27,7 +27,7 @@ import {
   Upload,
   Image as ImageIcon
 } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import tokenIcon from "@/assets/token-icon.jpg";
 import fpIcon from "@/assets/fp-icon-new.png";
 
