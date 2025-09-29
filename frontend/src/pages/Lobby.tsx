@@ -169,15 +169,15 @@ export default function Lobby() {
         <section className="py-16 sm:py-24 px-4">
           <div className="container mx-auto">
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading mb-4 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
                 How It Works
               </h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
-              <div className="text-center">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-floom-accent/10 border border-floom-accent/20 mx-auto mb-6">
-                  <Wallet className="w-8 h-8 text-floom-accent" />
+              <div className="text-center group hover:scale-105 transition-all duration-500 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-200">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-floom-accent/10 border border-floom-accent/20 mx-auto mb-6 group-hover:bg-floom-accent/20 group-hover:border-floom-accent/40 group-hover:shadow-lg group-hover:shadow-floom-accent/25 transition-all duration-300">
+                  <Wallet className="w-8 h-8 text-floom-accent group-hover:animate-bounce" />
                 </div>
                 <h3 className="text-xl sm:text-2xl font-heading mb-4">Step 1 — Create or Join</h3>
                 <p className="text-muted-foreground font-body leading-relaxed">
@@ -185,9 +185,9 @@ export default function Lobby() {
                 </p>
               </div>
               
-              <div className="text-center">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-floom-accent/10 border border-floom-accent/20 mx-auto mb-6">
-                  <Star className="w-8 h-8 text-floom-accent" />
+              <div className="text-center group hover:scale-105 transition-all duration-500 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-400">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-floom-accent/10 border border-floom-accent/20 mx-auto mb-6 group-hover:bg-floom-accent/20 group-hover:border-floom-accent/40 group-hover:shadow-lg group-hover:shadow-floom-accent/25 transition-all duration-300">
+                  <Star className="w-8 h-8 text-floom-accent group-hover:animate-spin" />
                 </div>
                 <h3 className="text-xl sm:text-2xl font-heading mb-4">Step 2 — Pin Quality</h3>
                 <p className="text-muted-foreground font-body leading-relaxed">
@@ -195,9 +195,9 @@ export default function Lobby() {
                 </p>
               </div>
               
-              <div className="text-center">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-floom-accent/10 border border-floom-accent/20 mx-auto mb-6">
-                  <TrendingUp className="w-8 h-8 text-floom-accent" />
+              <div className="text-center group hover:scale-105 transition-all duration-500 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000 delay-600">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-floom-accent/10 border border-floom-accent/20 mx-auto mb-6 group-hover:bg-floom-accent/20 group-hover:border-floom-accent/40 group-hover:shadow-lg group-hover:shadow-floom-accent/25 transition-all duration-300">
+                  <TrendingUp className="w-8 h-8 text-floom-accent group-hover:animate-pulse" />
                 </div>
                 <h3 className="text-xl sm:text-2xl font-heading mb-4">Step 3 — Earn Together</h3>
                 <p className="text-muted-foreground font-body leading-relaxed">
