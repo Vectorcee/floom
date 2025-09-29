@@ -51,21 +51,18 @@ export default function Profile() {
   // Filter spaces hosted by the current user
   const hostedSpaces = spaces.filter(space => space.host_id === user?.id);
   
-  const handleSaveProfile = () => {
-    // Here you would typically save to backend
-    console.log('Saving profile:', editedProfile);
-    setIsEditing(false);
-    // TODO: Implement actual save functionality
+  const handleSaveProfile = async () => {
+    try {
+      updateProfile(editedProfile);
+      await saveProfile();
+      setIsEditing(false);
+    } catch (error) {
+      alert('Failed to save profile. Please try again.');
+    }
   };
   
   const handleCancelEdit = () => {
-    setEditedProfile({
-      name: user?.name || 'Anonymous User',  
-      username: user?.username || 'user',
-      bio: user?.bio || '',
-      avatar: user?.avatar || getRandomAvatar(user?.id),
-      banner: user?.banner || ''
-    });
+    setEditedProfile(profile);
     setIsEditing(false);
   };
 
