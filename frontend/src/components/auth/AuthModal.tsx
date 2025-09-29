@@ -4,8 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/hooks/useAuth';
-import { Wallet, Twitter, Chrome, Globe, Mail, Lock, User } from 'lucide-react';
-import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { Twitter, Chrome, Globe, Mail, Lock, User } from 'lucide-react';
 
 interface AuthModalProps {
   open: boolean;
