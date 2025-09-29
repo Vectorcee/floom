@@ -47,6 +47,60 @@ const features = [
   }
 ];
 
+// Animated floating orbs component
+const FloatingOrbs = () => {
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      {[...Array(6)].map((_, i) => (
+        <div
+          key={i}
+          className={`absolute rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 blur-xl animate-pulse`}
+          style={{
+            width: `${Math.random() * 100 + 50}px`,
+            height: `${Math.random() * 100 + 50}px`,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 3}s`,
+            animationDuration: `${3 + Math.random() * 4}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Live activity indicators
+const LiveActivityBadges = () => {
+  const [activeSpaces, setActiveSpaces] = useState(12);
+  const [onlineUsers, setOnlineUsers] = useState(1247);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSpaces(prev => prev + Math.floor(Math.random() * 3 - 1));
+      setOnlineUsers(prev => prev + Math.floor(Math.random() * 10 - 5));
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-wrap justify-center gap-4 mb-8">
+      <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-primary/20">
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+        <Radio className="w-4 h-4 text-primary" />
+        <span className="text-sm font-medium">{activeSpaces} Live Spaces</span>
+      </div>
+      <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-secondary/20">
+        <Activity className="w-4 h-4 text-secondary" />
+        <span className="text-sm font-medium">{onlineUsers.toLocaleString()} Online</span>
+      </div>
+      <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-accent/20">
+        <Globe className="w-4 h-4 text-accent animate-spin" style={{animationDuration: '8s'}} />
+        <span className="text-sm font-medium">Base Network</span>
+      </div>
+    </div>
+  );
+};
+
 export default function Lobby() {
   const { user } = useAuth();
   
