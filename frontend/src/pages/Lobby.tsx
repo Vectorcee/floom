@@ -104,6 +104,35 @@ const LiveActivityBadges = () => {
 
 export default function Lobby() {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleCreateSpace = () => {
+    if (user) {
+      navigate('/create');
+    } else {
+      // Show sign in modal or redirect to sign in
+      const header = document.querySelector('[data-auth-modal]');
+      if (header) {
+        header.click();
+      } else {
+        alert('Please sign in to create a space');
+      }
+    }
+  };
+
+  const handleJoinSpaces = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      // Show sign in modal or redirect to sign in
+      const header = document.querySelector('[data-auth-modal]');
+      if (header) {
+        header.click();
+      } else {
+        alert('Please sign in to join spaces');
+      }
+    }
+  };
   
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
