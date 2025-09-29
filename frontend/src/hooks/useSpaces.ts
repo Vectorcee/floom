@@ -237,6 +237,30 @@ export function useSpaces() {
     }
   };
 
+  const updateSpaceStatus = async (spaceId: string, updates: Partial<Space>) => {
+    if (!user) return false;
+
+    try {
+      const { error } = await supabase
+        .from('spaces')
+        .update(updates)
+        .eq('id', spaceId)
+        .eq('host_id', user.id); // Only host can update space
+
+      if (error) {
+        throw error;
+      }
+
+      // Refresh spaces to get updated data
+      fetchSpaces();
+      
+      return true;
+    } catch (err) {
+      console.error('Error updating space:', err);
+      return false;
+    }
+  };
+
   // Set up real-time subscriptions
   useEffect(() => {
     fetchSpaces();
