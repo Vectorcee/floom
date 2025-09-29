@@ -50,6 +50,11 @@ export default function Profile() {
   
   // Filter spaces hosted by the current user
   const hostedSpaces = spaces.filter(space => space.host_id === user?.id);
+
+  // Sync editedProfile with profile context
+  useEffect(() => {
+    setEditedProfile(profile);
+  }, [profile]);
   
   const handleSaveProfile = async () => {
     try {
