@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 export interface Space {
   id: string;
   title: string;
-  description?: string;
+  description: string;
   host_id: string;
   is_live: boolean;
   scheduled_time?: string;
@@ -24,8 +24,8 @@ export interface Space {
     handle?: string;
     avatar_url?: string;
   };
-  participant_count?: number;
-  is_participant?: boolean;
+  participant_count: number;
+  is_participant: boolean;
 }
 
 export function useSpaces() {
