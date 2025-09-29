@@ -32,36 +32,96 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
   return (
     <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 border-border/50 ${className}`}>
       <CardContent className="p-0">
-        {/* Cover Image Section */}
+        {/* Cover Image Section with Overlay Info */}
         <div className="relative">
           {space.cover_image_url ? (
-            <div className="relative h-32 overflow-hidden">
+            <div className="relative h-40 overflow-hidden">
               <img 
                 src={space.cover_image_url} 
                 alt={space.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
             </div>
           ) : (
-            <div className="h-32 bg-gradient-to-br from-primary/20 to-secondary/20" />
-          )}
-          
-          {/* Live indicator */}
-          {space.is_live && (
-            <div className="absolute top-3 right-3">
-              <Badge variant="destructive" className="bg-red-500 text-white animate-pulse">
-                <Mic className="w-3 h-3 mr-1" />
-                LIVE
-              </Badge>
+            <div className="relative h-40 bg-gradient-to-br from-primary/20 to-secondary/20">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             </div>
           )}
+          
+          {/* Overlay Content */}
+          <div className="absolute inset-0 flex flex-col justify-between p-4">
+            {/* Top Row: Live indicator and Privacy */}
+            <div className="flex justify-between items-start">
+              {space.is_live ? (
+                <Badge variant="destructive" className="bg-red-500 text-white animate-pulse">
+                  <Mic className="w-3 h-3 mr-1" />
+                  LIVE
+                </Badge>
+              ) : (
+                <div></div>
+              )}
+              <Badge variant="secondary" className="bg-black/40 text-white border-white/20">
+                {space.privacy === 'private' ? 'Private' : 'Public'}
+              </Badge>
+            </div>
+
+            {/* Bottom Row: Title, Tags, and Stats */}
+            <div className="space-y-3">
+              {/* Title */}
+              <h3 className="font-semibold text-lg text-white line-clamp-2 leading-tight">
+                {space.title}
+              </h3>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-1.5">
+                {space.tags.slice(0, 3).map((tag, index) => (
+                  <Badge 
+                    key={index} 
+                    variant="secondary" 
+                    className="text-xs px-2 py-1 bg-white/20 text-white border-white/30 backdrop-blur-sm"
+                  >
+                    #{tag}
+                  </Badge>
+                ))}
+                {space.tags.length > 3 && (
+                  <Badge 
+                    variant="outline" 
+                    className="text-xs px-2 py-1 border-white/30 text-white/80 bg-white/10 backdrop-blur-sm"
+                  >
+                    +{space.tags.length - 3}
+                  </Badge>
+                )}
+              </div>
+
+              {/* Stats */}
+              <div className="flex items-center gap-4 text-sm text-white/90">
+                <div className="flex items-center gap-1.5">
+                  <Users className="w-4 h-4" />
+                  <span className="tabular-nums">{space.participant_count || 0} users</span>
+                </div>
+                {space.is_live && space.duration && (
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="w-4 h-4" />
+                    <span className="tabular-nums">{formatDuration(space.duration)}</span>
+                  </div>
+                )}
+                {!space.is_live && space.scheduled_time && (
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="w-4 h-4" />
+                    <span className="tabular-nums">{formatTime(space.scheduled_time)}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
         
+        {/* Content Below Image */}
         <div className="p-4 space-y-3">
           {/* Host info */}
           <div className="flex items-center gap-3">
-            <Avatar className="w-10 h-10 border-2 border-white/20">
+            <Avatar className="w-10 h-10 border-2 border-border">
               <AvatarImage src={space.host?.avatar_url} alt={space.host?.display_name || 'Host'} />
               <AvatarFallback className="bg-primary/30 text-primary-foreground font-semibold">
                 {(space.host?.display_name || 'H').split(' ').map(n => n[0]).join('').slice(0, 2)}
@@ -73,54 +133,12 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
             </div>
           </div>
 
-          {/* Space title */}
-          <h3 className="font-semibold text-lg text-foreground mb-3 line-clamp-2 leading-tight">
-            {space.title}
-          </h3>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {space.tags.slice(0, 3).map((tag, index) => (
-              <Badge 
-                key={index} 
-                variant="secondary" 
-                className="text-xs px-2 py-1 bg-secondary/60 text-secondary-foreground border-secondary-foreground/20"
-              >
-                #{tag}
-              </Badge>
-            ))}
-            {space.tags.length > 3 && (
-              <Badge 
-                variant="outline" 
-                className="text-xs px-2 py-1 border-secondary-foreground/30 text-muted-foreground"
-              >
-                +{space.tags.length - 3}
-              </Badge>
-            )}
-          </div>
-
-          {/* Stats and actions */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Users className="w-4 h-4" />
-                <span className="tabular-nums">{space.participant_count || 0}</span>
-              </div>
-              {space.is_live ? (
-                <div className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  <span className="tabular-nums">{formatDuration(space.duration)}</span>
-                </div>
-              ) : (
-                space.scheduled_time && (
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span className="tabular-nums">{formatTime(space.scheduled_time)}</span>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
+          {/* Description (lu.ma style) */}
+          {space.description && (
+            <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+              {space.description}
+            </p>
+          )}
         </div>
         
         {/* Action buttons */}
