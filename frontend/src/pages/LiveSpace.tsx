@@ -64,48 +64,27 @@ const QUALITY_ACTIONS = {
   HOST_BONUS: 10       // FP bonus for hosting
 };
 
-const getSampleSpeakers = (hostName: string, userId?: string): Speaker[] => [
-  { 
-    id: '1', 
-    name: hostName, 
-    avatar: getRandomAvatar('1'), 
-    isHost: true, 
-    isMuted: false, 
-    isHandRaised: false, 
-    isSpeaking: true,
-    fpEarned: 25 
-  },
-  { 
-    id: '2', 
-    name: 'Alex Builder', 
-    avatar: getRandomAvatar('2'), 
-    isHost: false, 
-    isMuted: false, 
-    isHandRaised: false, 
-    isSpeaking: false,
-    fpEarned: 12 
-  },
-  { 
-    id: '3', 
-    name: 'Sarah Web3', 
-    avatar: getRandomAvatar('3'), 
-    isHost: false, 
-    isMuted: true, 
-    isHandRaised: false, 
-    isSpeaking: false,
-    fpEarned: 8 
-  },
-  { 
-    id: '4', 
-    name: 'Dev Anon', 
-    avatar: getRandomAvatar('4'), 
-    isHost: false, 
-    isMuted: true, 
-    isHandRaised: true, 
-    isSpeaking: false,
-    fpEarned: 5 
-  },
-];
+// Create real speakers list based on actual participants
+const createRealSpeakers = (currentSpace: Space, user: any, profile: any): Speaker[] => {
+  const speakers: Speaker[] = [];
+  
+  // Only add the authenticated user if they exist
+  if (user && profile) {
+    const userSpeaker: Speaker = {
+      id: user.id,
+      name: profile.name || profile.display_name || 'You',
+      avatar: profile.avatar || profile.avatar_url || getRandomAvatar(user.id),
+      isHost: currentSpace.host_id === user.id,
+      isMuted: true,
+      isHandRaised: false,
+      isSpeaking: false,
+      fpEarned: 0
+    };
+    speakers.push(userSpeaker);
+  }
+  
+  return speakers;
+};
 
 export default function LiveSpace() {
   const { id } = useParams<{ id: string }>();
