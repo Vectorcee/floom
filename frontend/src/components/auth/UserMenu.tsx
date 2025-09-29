@@ -34,11 +34,9 @@ export function UserMenu() {
       <DropdownMenuContent className="w-56 bg-card border-border" align="end">
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
-            <p className="font-medium">{displayName}</p>
-            <p className="text-xs text-muted-foreground">@{handle}</p>
-            {profile?.fuum_points !== undefined && (
-              <p className="text-xs text-floom-accent">{profile.fuum_points} FUUM Points</p>
-            )}
+            <p className="font-medium">{profile.name}</p>
+            <p className="text-xs text-muted-foreground">@{profile.username}</p>
+            <p className="text-xs text-floom-accent">0 FUUM Points</p>
           </div>
         </div>
         
