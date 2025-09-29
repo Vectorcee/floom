@@ -135,9 +135,13 @@ export default function Profile() {
                       <X size={16} className="sm:mr-2" />
                       <span className="hidden sm:inline">Cancel</span>
                     </Button>
-                    <Button size="sm" onClick={handleSaveProfile} className="px-2 sm:px-3">
-                      <Save size={16} className="sm:mr-2" />
-                      <span className="hidden sm:inline">Save</span>
+                    <Button size="sm" onClick={handleSaveProfile} disabled={isLoading || avatarUploading || bannerUploading} className="px-2 sm:px-3">
+                      {isLoading ? (
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Save size={16} className="sm:mr-2" />
+                      )}
+                      <span className="hidden sm:inline">{isLoading ? 'Saving...' : 'Save'}</span>
                     </Button>
                   </>
                 ) : (
