@@ -26,32 +26,25 @@ import {
 } from "lucide-react";
 import audioWave from "@/assets/audio-wave.jpg";
 
-const mockSpace = {
-  id: "1",
-  title: "Base Builders Night",
-  host: { name: "DevAlpha", avatar: "", handle: "devalpha" },
-  listeners: 542,
-  duration: "45m",
-};
-
-const mockSpeakers = [
-  { name: "DevAlpha", status: "speaking", isHost: true },
-  { name: "Sarah Chen", status: "idle", isHost: false },
-  { name: "Marcus AI", status: "muted", isHost: false },
-  { name: "Builder23", status: "requesting", isHost: false },
+// Sample speakers - will be dynamic when real-time features are added
+const getSampleSpeakers = (hostName: string) => [
+  { name: hostName, status: "speaking", isHost: true },
+  { name: "Listener_1", status: "idle", isHost: false },
+  { name: "Listener_2", status: "muted", isHost: false },
+  { name: "Listener_3", status: "requesting", isHost: false },
 ];
 
-const mockPinnedPost = {
+const samplePinnedPost = {
   id: "1",
   creator: {
-    name: "DevAlpha",
+    name: "Community",
     avatar: "",
-    handle: "devalpha"
+    handle: "floom"
   },
-  qScore: 88,
-  snippet: "Modular rollups for creators' payout rails could revolutionize how we think about content monetization on Base. The key is building composable primitives that work across different social layers...",
-  topicTags: ["#DeFi", "#Creators", "#Base"],
-  url: "https://example.com/post/1"
+  qScore: 92,
+  snippet: "Welcome to this live space! Quality content and engaging conversations await. Share your thoughts and connect with other builders in the Floom community.",
+  topicTags: ["#Live", "#Community", "#Base"],
+  url: "https://floom.app"
 };
 
 const mockQualityFeed = [
