@@ -42,9 +42,9 @@ class SpaceCreate(BaseModel):
     tags: List[str] = []
     privacy: str = "public"
     quality_threshold: int = 50
-    scheduled_time: str = None
+    scheduled_time: Optional[str] = None
     is_live: bool = False
-    cover_image_url: str = None
+    cover_image_url: Optional[str] = None
 
 class Space(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
