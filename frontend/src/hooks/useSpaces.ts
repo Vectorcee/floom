@@ -79,12 +79,12 @@ export function useSpaces() {
   const createSpace = async (spaceData: {
     title: string;
     description?: string;
-    tags: string[];
-    privacy: 'public' | 'private';
-    quality_threshold: number;
+    tags?: string[];
+    privacy?: 'public' | 'private';
+    quality_threshold?: number;
     scheduled_time?: string;
     is_live?: boolean;
-    cover_image_url?: string | null;
+    cover_image_url?: string;
   }) => {
     if (!user) {
       toast({
@@ -96,18 +96,18 @@ export function useSpaces() {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('spaces')
-        .insert({
-          ...spaceData,
-          host_id: user.id,
-        })
-        .select()
-        .single();
+      const spaceCreateData: SpaceCreateData = {
+        title: spaceData.title,
+        description: spaceData.description || '',
+        tags: spaceData.tags || [],
+        privacy: spaceData.privacy || 'public',
+        quality_threshold: spaceData.quality_threshold || 50,
+        scheduled_time: spaceData.scheduled_time,
+        is_live: spaceData.is_live || false,
+        cover_image_url: spaceData.cover_image_url,
+      };
 
-      if (error) {
-        throw error;
-      }
+      const createdSpace = await spacesApi.createSpace(spaceCreateData, user.id);
 
       toast({
         title: "Space created successfully!",
@@ -117,7 +117,7 @@ export function useSpaces() {
       // Refresh spaces list
       fetchSpaces();
       
-      return data;
+      return createdSpace;
     } catch (err) {
       console.error('Error creating space:', err);
       toast({
