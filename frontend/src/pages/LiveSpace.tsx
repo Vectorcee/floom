@@ -166,11 +166,15 @@ export default function LiveSpace() {
   // Auto-join space if user is authenticated and not already a participant
   useEffect(() => {
     if (currentSpace && user && !currentSpace.is_participant) {
-      joinSpace(currentSpace.id);
-      // Initialize user as listener
+      // Join silently without showing toast repeatedly
+      const space = spaces.find(s => s.id === currentSpace.id);
+      if (space && !space.is_participant) {
+        joinSpace(currentSpace.id);
+      }
+      // Initialize user in space
       initializeUserInSpace();
     }
-  }, [currentSpace, user, joinSpace]);
+  }, [currentSpace, user]); // Removed joinSpace from dependencies to prevent loops
 
   const initializeUserInSpace = () => {
     if (!user || !currentSpace) return;
