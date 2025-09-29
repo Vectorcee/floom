@@ -47,22 +47,22 @@ const samplePinnedPost = {
   url: "https://floom.app"
 };
 
-const mockQualityFeed = [
+const getSampleQualityFeed = (spaceTags: string[]) => [
   {
     id: "2",
-    creator: { name: "YieldGuru", avatar: "", handle: "yieldguru" },
-    qScore: 75,
-    snippet: "New yield farming strategy on Base just dropped 🔥",
-    topicTags: ["#DeFi", "#Yield"],
-    url: "https://example.com/post/2"
+    creator: { name: "Community", avatar: "", handle: "floom" },
+    qScore: 85,
+    snippet: "Great discussion happening in this space! The insights about community building are spot on.",
+    topicTags: spaceTags.length > 0 ? spaceTags.slice(0, 2) : ["#Community", "#Discussion"],
+    url: "https://floom.app"
   },
   {
     id: "3", 
-    creator: { name: "BaseBuilder", avatar: "", handle: "basebuilder" },
-    qScore: 82,
-    snippet: "Smart contract gas optimization tricks that saved us 40%",
-    topicTags: ["#Builders", "#Gas"],
-    url: "https://example.com/post/3"
+    creator: { name: "Builder", avatar: "", handle: "builder" },
+    qScore: 78,
+    snippet: "Love the energy here! This is exactly the kind of quality content we need more of.",
+    topicTags: spaceTags.length > 1 ? spaceTags.slice(1, 3) : ["#Quality", "#Content"],
+    url: "https://floom.app"
   },
 ];
 
