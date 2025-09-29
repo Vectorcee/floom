@@ -33,7 +33,7 @@ import {
 } from "lucide-react";
 import fpIcon from "@/assets/fp-icon-new.png";
 
-// Enhanced speaker system for X Spaces-like experience
+// Real-time speaker system - no more fake data
 interface Speaker {
   id: string;
   name: string;
