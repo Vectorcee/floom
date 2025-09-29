@@ -310,6 +310,7 @@ export function useSpaces() {
     createSpace,
     joinSpace,
     leaveSpace,
+    updateSpaceStatus,
     refetch: fetchSpaces,
   };
 }
