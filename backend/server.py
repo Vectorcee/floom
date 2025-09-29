@@ -54,9 +54,9 @@ class Space(BaseModel):
     tags: List[str] = []
     privacy: str = "public"
     quality_threshold: int = 50
-    scheduled_time: str = None
+    scheduled_time: Optional[str] = None
     is_live: bool = False
-    cover_image_url: str = None
+    cover_image_url: Optional[str] = None
     participant_count: int = 0
     listener_count: int = 0
     duration: int = 0
