@@ -33,24 +33,71 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize profile when user changes
   useEffect(() => {
-    if (user) {
-      setProfile({
-        name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous User',
-        username: user.user_metadata?.user_name || user.email?.split('@')[0] || 'user',
-        bio: user.user_metadata?.bio || '',
-        avatar: user.user_metadata?.avatar_url || getRandomAvatar(user.id),
-        banner: user.user_metadata?.banner_url || ''
-      });
-    } else {
-      // Reset profile when user logs out
-      setProfile({
-        name: 'Anonymous User',
-        username: 'user',
-        bio: '',
-        avatar: getRandomAvatar(),
-        banner: ''
-      });
-    }
+    const loadProfile = async () => {
+      if (user) {
+        try {
+          // Try to load from Supabase profiles table
+          const { data: profileData, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+
+          if (profileData && !error) {
+            setProfile({
+              name: profileData.display_name || user.email?.split('@')[0] || 'Anonymous User',
+              username: profileData.handle || user.email?.split('@')[0] || 'user',
+              bio: profileData.bio || '',
+              avatar: profileData.avatar_url || getRandomAvatar(user.id),
+              banner: profileData.banner_url || ''
+            });
+          } else {
+            // Fallback to user metadata
+            const newProfile = {
+              name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous User',
+              username: user.user_metadata?.user_name || user.email?.split('@')[0] || 'user',
+              bio: user.user_metadata?.bio || '',
+              avatar: user.user_metadata?.avatar_url || getRandomAvatar(user.id),
+              banner: user.user_metadata?.banner_url || ''
+            };
+            setProfile(newProfile);
+            
+            // Create initial profile in database
+            await supabase
+              .from('profiles')
+              .upsert({
+                user_id: user.id,
+                display_name: newProfile.name,
+                handle: newProfile.username,
+                bio: newProfile.bio,
+                avatar_url: newProfile.avatar,
+                banner_url: newProfile.banner
+              });
+          }
+        } catch (error) {
+          console.error('Error loading profile:', error);
+          // Fallback to basic profile
+          setProfile({
+            name: user.email?.split('@')[0] || 'Anonymous User',
+            username: user.email?.split('@')[0] || 'user',
+            bio: '',
+            avatar: getRandomAvatar(user.id),
+            banner: ''
+          });
+        }
+      } else {
+        // Reset profile when user logs out
+        setProfile({
+          name: 'Anonymous User',
+          username: 'user',
+          bio: '',
+          avatar: getRandomAvatar(),
+          banner: ''
+        });
+      }
+    };
+
+    loadProfile();
   }, [user]);
 
   const updateProfile = (updates: Partial<UserProfile>) => {
