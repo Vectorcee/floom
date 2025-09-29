@@ -138,9 +138,9 @@ backend:
 frontend:
   - task: "LiveSpace component functionality"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/pages/LiveSpace.tsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -150,6 +150,9 @@ frontend:
         - working: true
         - agent: "main"
         - comment: "Fixed LiveSpace component - replaced Supabase calls with backend API calls. Component now loads space data correctly, displays speakers, reactions, FP system, and navigation works."
+        - working: false
+        - agent: "testing"
+        - comment: "CRITICAL ISSUE: LiveSpace component is NOT working. When navigating to /space/{id} URLs, the app redirects to homepage instead of displaying LiveSpace. Tested multiple approaches: 1) Direct URL navigation to /space/dc60f404-5412-4552-85bf-4511c4500c0e redirects to homepage, 2) Dashboard navigation also redirects to homepage, 3) Backend API is working correctly (space exists and returns valid data), 4) Frontend routing appears correct in App.tsx, but LiveSpace component has error handling that causes redirects. This prevents testing any of the claimed fixes (no fake speakers, no popup spam, avatar syncing) because the component never loads. Root cause appears to be in LiveSpace component's useEffect error handling logic that redirects to dashboard when space loading fails, creating a redirect chain to homepage."
 
   - task: "Space navigation from Dashboard"
     implemented: true
