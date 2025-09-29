@@ -176,7 +176,7 @@ export default function Lobby() {
                 <Button 
                   size="lg" 
                   className="text-base sm:text-lg px-8 py-6 group hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
-                  onClick={() => user ? window.location.href = '/create' : alert('Please sign in to create a space')}
+                  onClick={handleCreateSpace}
                   glow={true}
                 >
                   <Plus className="mr-2 group-hover:animate-spin" size={20} />
@@ -186,6 +186,7 @@ export default function Lobby() {
                   variant="outline" 
                   size="lg" 
                   className="text-base sm:text-lg px-8 py-6 group hover:scale-105 transition-all duration-300 hover:shadow-lg hover:bg-primary/5"
+                  onClick={handleJoinSpaces}
                 >
                   <Sparkles className="mr-2 group-hover:animate-pulse" size={20} />
                   Join Spaces
