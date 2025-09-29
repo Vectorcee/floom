@@ -233,14 +233,14 @@ export default function LiveSpace() {
               </Button>
               <div className="flex items-center gap-2 min-w-0">
                 <SpeakerAvatar 
-                  name={mockSpace.host.name}
+                  name={currentSpace.host?.display_name || 'Host'}
                   size="sm"
                   isHost={true}
                 />
                 <div className="min-w-0">
-                  <h1 className="font-heading text-sm lg:text-lg truncate">{mockSpace.title}</h1>
+                  <h1 className="font-heading text-sm lg:text-lg truncate">{currentSpace.title}</h1>
                   <p className="text-xs text-muted-foreground truncate">
-                    by @{mockSpace.host.handle}
+                    by @{currentSpace.host?.handle || 'host'}
                   </p>
                 </div>
               </div>
@@ -249,17 +249,27 @@ export default function LiveSpace() {
             <div className="flex items-center gap-2 lg:gap-4 text-xs lg:text-sm shrink-0">
               <div className="flex items-center gap-1">
                 <Users size={14} className="lg:size-4" />
-                <span className="hidden sm:inline">{mockSpace.listeners.toLocaleString()}</span>
-                <span className="sm:hidden">{(mockSpace.listeners / 1000).toFixed(1)}k</span>
+                <span className="hidden sm:inline">{(currentSpace.participant_count || 0).toLocaleString()}</span>
+                <span className="sm:hidden">{Math.max(1, Math.floor((currentSpace.participant_count || 0) / 1000 * 10) / 10)}k</span>
               </div>
               <div className="flex items-center gap-1">
                 <Clock size={14} className="lg:size-4" />
-                <span>{mockSpace.duration}</span>
+                <span>Live</span>
               </div>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleInviteOthers}
+                className="text-xs lg:text-sm"
+              >
+                <Share size={14} className="mr-1" />
+                <span className="hidden lg:inline">Invite Others</span>
+                <span className="lg:hidden">Invite</span>
+              </Button>
               <Button 
                 variant="destructive" 
                 size="sm"
-                onClick={() => window.location.href = '/'}
+                onClick={() => navigate('/dashboard')}
                 className="text-xs lg:text-sm"
               >
                 <span className="hidden lg:inline">End </span>Leave
