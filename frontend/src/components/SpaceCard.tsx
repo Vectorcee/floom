@@ -11,6 +11,7 @@ interface SpaceCardProps {
   className?: string;
   onJoin?: (spaceId: string) => void;
   onRemind?: (spaceId: string) => void;
+  onShare?: (spaceId: string) => void;
 }
 
 const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemind }) => {
