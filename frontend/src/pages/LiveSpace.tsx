@@ -161,7 +161,7 @@ export default function LiveSpace() {
     };
 
     fetchSpace();
-  }, [id, spaces, navigate]);
+  }, [id, spaces, navigate, user, profile]); // Added user and profile to dependencies
 
   // Auto-join space if user is authenticated and not already a participant
   useEffect(() => {
