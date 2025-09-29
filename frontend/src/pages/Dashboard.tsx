@@ -145,6 +145,7 @@ const Dashboard = () => {
                     space={space}
                     onJoin={handleJoinSpace}
                     onRemind={handleRemindMe}
+                    onShare={handleShareSpace}
                   />
                 ))}
               </div>
@@ -172,6 +173,7 @@ const Dashboard = () => {
                     space={space}
                     onJoin={handleJoinSpace}
                     onRemind={handleRemindMe}
+                    onShare={handleShareSpace}
                   />
                 ))}
               </div>
@@ -199,6 +201,7 @@ const Dashboard = () => {
                     space={space}
                     onJoin={handleJoinSpace}
                     onRemind={handleRemindMe}
+                    onShare={handleShareSpace}
                   />
                 ))}
               </div>
