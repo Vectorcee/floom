@@ -292,7 +292,7 @@ export default function LiveSpace() {
                   📌 Pinned Quality Post
                 </h3>
                 <PinnedPostCard 
-                  post={mockPinnedPost}
+                  post={samplePinnedPost}
                   onEngage={() => console.log('Engage')}
                   onStake={() => setShowStakeModal(true)}
                   onShare={() => console.log('Share')}
@@ -361,7 +361,7 @@ export default function LiveSpace() {
                   📌 Pinned Quality Post
                 </h3>
                 <PinnedPostCard 
-                  post={mockPinnedPost}
+                  post={samplePinnedPost}
                   onEngage={() => console.log('Engage')}
                   onStake={() => setShowStakeModal(true)}
                   onShare={() => console.log('Share')}
