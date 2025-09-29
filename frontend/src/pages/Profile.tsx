@@ -160,7 +160,7 @@ export default function Profile() {
           </div>
 
           {/* Profile Header with Banner */}
-          <Card className="mb-8 overflow-hidden">
+          <Card className="mb-8 overflow-hidden w-full max-w-full">
             {/* Banner Section */}
             <div className="relative h-48 bg-gradient-to-br from-primary/20 to-secondary/20">
               {editedProfile.banner && (
