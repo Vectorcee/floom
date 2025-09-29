@@ -187,8 +187,8 @@ metadata:
 test_plan:
   current_focus:
     - "LiveSpace component functionality"
-    - "Backend space API testing"
-  stuck_tasks: []
+  stuck_tasks:
+    - "LiveSpace component functionality"
   test_all: false
   test_priority: "high_first"
 
