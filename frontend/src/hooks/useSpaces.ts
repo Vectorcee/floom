@@ -146,14 +146,17 @@ export function useSpaces() {
     }
 
     try {
-      // TODO: Implement backend endpoint for joining spaces
-      toast({
-        title: "Joined space successfully!",
-        description: "You are now participating in this space.",
-      });
+      // Check if already joined to prevent spam
+      const space = spaces.find(s => s.id === spaceId);
+      if (space?.is_participant) {
+        return true; // Already joined, don't show toast again
+      }
 
-      // Refresh spaces to update participant status
-      fetchSpaces();
+      // TODO: Implement backend endpoint for joining spaces
+      // For now, just mark as joined without showing repeated toast
+      setSpaces(prev => 
+        prev.map(s => s.id === spaceId ? { ...s, is_participant: true } : s)
+      );
       
       return true;
     } catch (err) {
