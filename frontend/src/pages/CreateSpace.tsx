@@ -120,10 +120,33 @@ const CreateSpace = () => {
       });
 
       if (space) {
-        navigate(goLive ? `/space/${space.id}` : '/dashboard');
+        if (goLive) {
+          navigate(`/space/${space.id}`);
+        } else {
+          // Show success message and sharing options for scheduled space
+          const spaceUrl = `${window.location.origin}/space/${space.id}`;
+          const shareMessage = `Space created successfully!\n\nShare this link with others:\n${spaceUrl}`;
+          
+          if (confirm(shareMessage + '\n\nClick OK to copy the link to clipboard.')) {
+            try {
+              await navigator.clipboard.writeText(spaceUrl);
+            } catch (error) {
+              // Fallback for older browsers
+              const textArea = document.createElement('textarea');
+              textArea.value = spaceUrl;
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+            }
+          }
+          
+          navigate('/dashboard');
+        }
       }
     } catch (error) {
       console.error('Error creating space:', error);
+      alert('Failed to create space. Please try again.');
     } finally {
       setIsCreating(false);
     }
