@@ -149,7 +149,8 @@ export default function LiveSpace() {
           };
 
           setCurrentSpace(space);
-          setSpeakers(getSampleSpeakers(space.host?.display_name || 'Host'));
+          // Only show real speakers, no fake data
+          setSpeakers(createRealSpeakers(space, user, profile));
         }
       } catch (error) {
         console.error('Error loading space:', error);
