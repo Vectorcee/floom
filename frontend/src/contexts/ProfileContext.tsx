@@ -62,21 +62,44 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     
     setIsLoading(true);
     try {
-      // TODO: Implement actual save to backend/Supabase
-      // For now, we'll store in localStorage and user metadata
-      const profileData = {
-        full_name: profile.name,
-        user_name: profile.username,
-        bio: profile.bio,
-        avatar_url: profile.avatar,
-        banner_url: profile.banner
-      };
+      // Update Supabase profiles table
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({
+          user_id: user.id,
+          display_name: profile.name,
+          handle: profile.username,
+          bio: profile.bio,
+          avatar_url: profile.avatar,
+          banner_url: profile.banner,
+          updated_at: new Date().toISOString()
+        });
+
+      if (profileError) {
+        console.error('Profile update error:', profileError);
+        throw profileError;
+      }
+
+      // Also update user metadata for consistency
+      const { error: metadataError } = await supabase.auth.updateUser({
+        data: {
+          full_name: profile.name,
+          user_name: profile.username,
+          bio: profile.bio,
+          avatar_url: profile.avatar,
+          banner_url: profile.banner
+        }
+      });
+
+      if (metadataError) {
+        console.error('Metadata update error:', metadataError);
+        // Don't throw here - profile table update succeeded
+      }
 
       // Store in localStorage for persistence
       localStorage.setItem(`profile_${user.id}`, JSON.stringify(profile));
       
-      console.log('Profile saved:', profileData);
-      // TODO: Update Supabase user metadata or profiles table
+      console.log('Profile saved successfully!');
     } catch (error) {
       console.error('Error saving profile:', error);
       throw error;
