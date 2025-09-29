@@ -8,6 +8,7 @@ import { useSpaces, Space } from "@/hooks/useSpaces";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/contexts/ProfileContext";
 import { getRandomAvatar } from "@/utils/avatarUtils";
+import { supabase } from "@/lib/supabase";
 import { 
   Users, 
   Clock, 
