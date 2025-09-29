@@ -40,8 +40,17 @@ export default function Profile() {
     name: user?.name || 'Anonymous User',
     username: user?.username || 'user',
     bio: user?.bio || '',
-    avatar: user?.avatar || ''
+    avatar: user?.avatar || getRandomAvatar(user?.id),
+    banner: user?.banner || ''
   });
+  
+  // File upload refs
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const bannerInputRef = useRef<HTMLInputElement>(null);
+  
+  // Upload states
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const [bannerUploading, setBannerUploading] = useState(false);
   
   // Filter spaces hosted by the current user
   const hostedSpaces = spaces.filter(space => space.host_id === user?.id);
