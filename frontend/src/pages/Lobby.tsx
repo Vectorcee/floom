@@ -14,10 +14,15 @@ import {
   MicIcon,
   ScanLine,
   Target,
-  Headphones
+  Headphones,
+  Radio,
+  Activity,
+  Globe,
+  Sparkles
 } from "lucide-react";
 import holographicGrid from "@/assets/holographic-grid.jpg";
 import { useAuth } from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
 
 const features = [
   {
