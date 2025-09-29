@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
 import { toast } from '@/hooks/use-toast';
 import { spacesApi, Space as ApiSpace, SpaceCreateData } from '@/services/spacesApi';
+import { getRandomAvatar } from '@/utils/avatarUtils';
 
 export interface Space {
   id: string;
