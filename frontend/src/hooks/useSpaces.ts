@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from '@/hooks/use-toast';
+import { spacesApi, Space as ApiSpace, SpaceCreateData } from '@/services/spacesApi';
 
 export interface Space {
   id: string;
