@@ -450,18 +450,25 @@ const CreateSpace = () => {
                   onClick={() => handleCreate(true)}
                   disabled={!formData.title.trim() || isCreating}
                 >
-                  {isCreating ? 'Creating...' : 'Go Live Now'}
+                  {isCreating ? 'Going Live...' : 'Go Live Now'}
                 </Button>
                 
-                {formData.scheduledDate && formData.scheduledTime && (
-                  <Button 
-                    variant="outline" 
-                    className="w-full h-12 text-base" 
-                    onClick={() => handleCreate(false)}
-                    disabled={!formData.title.trim() || isCreating}
-                  >
-                    {isCreating ? 'Scheduling...' : 'Schedule Space'}
-                  </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full h-12 text-base" 
+                  onClick={() => handleCreate(false)}
+                  disabled={!formData.title.trim() || isCreating}
+                >
+                  {isCreating ? 'Creating...' : 
+                   (formData.scheduledDate && formData.scheduledTime 
+                     ? 'Schedule Space' 
+                     : 'Create Space (Schedule Later)')}
+                </Button>
+                
+                {(!formData.scheduledDate || !formData.scheduledTime) && (
+                  <p className="text-xs text-muted-foreground text-center">
+                    💡 Set a date and time above to schedule your space for later
+                  </p>
                 )}
               </div>
             </div>
