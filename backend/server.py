@@ -80,6 +80,43 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
+# Space endpoints
+@api_router.post("/spaces", response_model=Space)
+async def create_space(space_data: SpaceCreate, host_id: str):
+    space_dict = space_data.dict()
+    space_dict["host_id"] = host_id
+    space_obj = Space(**space_dict)
+    await db.spaces.insert_one(space_obj.dict())
+    return space_obj
+
+@api_router.get("/spaces", response_model=List[Space])
+async def get_spaces():
+    spaces = await db.spaces.find().to_list(length=100)
+    return spaces
+
+@api_router.get("/spaces/{space_id}", response_model=Space)
+async def get_space(space_id: str):
+    space = await db.spaces.find_one({"id": space_id})
+    if not space:
+        raise HTTPException(status_code=404, detail="Space not found")
+    return space
+
+@api_router.put("/spaces/{space_id}", response_model=Space)
+async def update_space(space_id: str, space_data: SpaceCreate, host_id: str):
+    space_dict = space_data.dict()
+    space_dict["updated_at"] = datetime.utcnow()
+    
+    result = await db.spaces.update_one(
+        {"id": space_id, "host_id": host_id},
+        {"$set": space_dict}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Space not found or unauthorized")
+    
+    updated_space = await db.spaces.find_one({"id": space_id})
+    return updated_space
+
 # Include the router in the main app
 app.include_router(api_router)
 
