@@ -201,46 +201,9 @@ export function useSpaces() {
     }
   };
 
-  // Set up real-time subscriptions
+  // Fetch spaces on mount and when user changes
   useEffect(() => {
     fetchSpaces();
-
-    // Subscribe to spaces changes
-    const spacesSubscription = supabase
-      .channel('spaces-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'spaces'
-        },
-        () => {
-          fetchSpaces();
-        }
-      )
-      .subscribe();
-
-    // Subscribe to participants changes
-    const participantsSubscription = supabase
-      .channel('participants-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'space_participants'
-        },
-        () => {
-          fetchSpaces();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(spacesSubscription);
-      supabase.removeChannel(participantsSubscription);
-    };
   }, [user]);
 
   return {
