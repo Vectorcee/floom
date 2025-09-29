@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,6 +7,9 @@ import { SpeakerAvatar } from "@/components/SpeakerAvatar";
 import { PinnedPostCard } from "@/components/PinnedPostCard";
 import { EarnMeter } from "@/components/EarnMeter";
 import { StakeComingSoonModal } from "@/components/StakeComingSoonModal";
+import { useSpaces, Space } from "@/hooks/useSpaces";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   Users, 
   Clock, 
@@ -15,7 +19,10 @@ import {
   Heart, 
   Laugh, 
   Zap,
-  ArrowLeft 
+  ArrowLeft,
+  Share,
+  Link,
+  Copy
 } from "lucide-react";
 import audioWave from "@/assets/audio-wave.jpg";
 
