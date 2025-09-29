@@ -110,15 +110,18 @@ export default function LiveSpace() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { profile } = useProfile();
   const { spaces, joinSpace } = useSpaces();
   
   const [currentSpace, setCurrentSpace] = useState<Space | null>(null);
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [hasRaisedHand, setHasRaisedHand] = useState(false);
-  const [earnedAmount, setEarnedAmount] = useState(0);
-  const [showStakeModal, setShowStakeModal] = useState(false);
-  const [speakers, setSpeakers] = useState<any[]>([]);
+  const [earnedFP, setEarnedFP] = useState(0);
+  const [speakers, setSpeakers] = useState<Speaker[]>([]);
+  const [listeners, setListeners] = useState<Speaker[]>([]);
+  const [fpActivities, setFpActivities] = useState<FpActivity[]>([]);
+  const [isUserSpeaker, setIsUserSpeaker] = useState(false);
 
   // Fetch space data
   useEffect(() => {
