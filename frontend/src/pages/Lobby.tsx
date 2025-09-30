@@ -125,13 +125,6 @@ export default function Lobby() {
       setAuthModalOpen(true);
     }
   };
-        setTimeout(() => {
-          const authButton = document.querySelector('button[class*="sign"]');
-          if (authButton) (authButton as HTMLElement).click();
-        }, 100);
-      }
-    }
-  };
   
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
