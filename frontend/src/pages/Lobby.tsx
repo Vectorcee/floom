@@ -361,6 +361,9 @@ export default function Lobby() {
           </div>
         </footer>
       </main>
+
+      {/* Auth Modal */}
+      <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
     </div>
   );
 }
