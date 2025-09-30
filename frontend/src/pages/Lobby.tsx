@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { FloomHeader } from "@/components/FloomHeader";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AuthModal } from "@/components/auth/AuthModal";
 import { 
   Users, 
   Zap, 
