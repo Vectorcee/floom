@@ -106,24 +106,14 @@ const LiveActivityBadges = () => {
 export default function Lobby() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const handleCreateSpace = () => {
     if (user) {
       navigate('/create');
     } else {
-      // Trigger sign in modal directly
-      const signInButton = document.querySelector('button:has-text("Sign In")') || 
-                           document.querySelector('[data-sign-in]');
-      if (signInButton) {
-        (signInButton as HTMLElement).click();
-      } else {
-        // Fallback: scroll to top and show auth
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-          const authButton = document.querySelector('button[class*="sign"]');
-          if (authButton) (authButton as HTMLElement).click();
-        }, 100);
-      }
+      // Show sign-in modal for unauthenticated users
+      setAuthModalOpen(true);
     }
   };
 
@@ -131,14 +121,10 @@ export default function Lobby() {
     if (user) {
       navigate('/dashboard');
     } else {
-      // Trigger sign in modal directly
-      const signInButton = document.querySelector('button:has-text("Sign In")') || 
-                           document.querySelector('[data-sign-in]');
-      if (signInButton) {
-        (signInButton as HTMLElement).click();
-      } else {
-        // Fallback: scroll to top and show auth
-        window.scrollTo(0, 0);
+      // Show sign-in modal for unauthenticated users
+      setAuthModalOpen(true);
+    }
+  };
         setTimeout(() => {
           const authButton = document.querySelector('button[class*="sign"]');
           if (authButton) (authButton as HTMLElement).click();
