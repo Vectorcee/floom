@@ -150,6 +150,164 @@ const Settings = () => {
                 <span className="hidden sm:inline">Security</span>
               </TabsTrigger>
             </TabsList>
+
+            {/* Identity Tab */}
+            <TabsContent value="identity">
+              <div className="grid gap-6 md:grid-cols-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Wallet className="w-5 h-5" />
+                      Web3 Identity
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Base Wallet</Label>
+                        <p className="text-sm text-muted-foreground">Connect your Coinbase/Base wallet</p>
+                      </div>
+                      <Button 
+                        variant={walletConnected ? "secondary" : "default"}
+                        size="sm"
+                        onClick={() => setWalletConnected(!walletConnected)}
+                      >
+                        {walletConnected ? "Connected" : "Connect"}
+                      </Button>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Farcaster</Label>
+                        <p className="text-sm text-muted-foreground">Verify your Farcaster identity</p>
+                      </div>
+                      <Button 
+                        variant={farcasterConnected ? "secondary" : "outline"}
+                        size="sm"
+                        onClick={() => setFarcasterConnected(!farcasterConnected)}
+                      >
+                        {farcasterConnected ? "Verified" : "Verify"}
+                      </Button>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>ENS Domain</Label>
+                        <p className="text-sm text-muted-foreground">Link your ENS name</p>
+                      </div>
+                      <Button 
+                        variant={ensConnected ? "secondary" : "outline"}
+                        size="sm"
+                        onClick={() => setEnsConnected(!ensConnected)}
+                      >
+                        {ensConnected ? "Linked" : "Link"}
+                      </Button>
+                    </div>
+
+                    {walletConnected && (
+                      <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                        <p className="text-sm text-green-600 dark:text-green-400">
+                          <span className="font-medium">0x742d...4c8e</span> • Base Mainnet
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <User className="w-5 h-5" />
+                      Profile Info
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label>FUUM ID</Label>
+                      <Input placeholder="@qualitycreator" />
+                    </div>
+                    
+                    <div>
+                      <Label>Bio</Label>
+                      <Textarea placeholder="Building the future of quality conversations..." rows={3} />
+                    </div>
+                    
+                    <div>
+                      <Label>Interest Tags</Label>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {['Web3', 'AI', 'Design', 'Music', 'DeFi'].map((tag) => (
+                          <Badge key={tag} variant="secondary" className="cursor-pointer hover:bg-purple-500/20">
+                            #{tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Appearance Tab */}
+            <TabsContent value="appearance">
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Palette className="w-5 h-5" />
+                      Theme & Colors
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                      {themes.map((theme) => (
+                        <div
+                          key={theme.id}
+                          className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            selectedTheme === theme.id 
+                              ? 'border-purple-500 bg-purple-500/10' 
+                              : 'border-border hover:border-purple-300'
+                          }`}
+                          onClick={() => setSelectedTheme(theme.id)}
+                        >
+                          <div 
+                            className="w-full h-12 rounded mb-2" 
+                            style={{ backgroundColor: theme.color }}
+                          />
+                          <p className="text-sm font-medium text-center">{theme.name}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <Separator className="my-6" />
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label>NFT Banner</Label>
+                          <p className="text-sm text-muted-foreground">Use your NFT as profile banner</p>
+                        </div>
+                        <Switch checked={nftBanner} onCheckedChange={setNftBanner} />
+                      </div>
+
+                      <div>
+                        <Label>Font Style</Label>
+                        <Select value={selectedFont} onValueChange={setSelectedFont}>
+                          <SelectTrigger className="mt-2">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="modern">Modern</SelectItem>
+                            <SelectItem value="classic">Classic</SelectItem>
+                            <SelectItem value="mono">Monospace</SelectItem>
+                            <SelectItem value="serif">Serif</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
             {/* Theme Settings */}
             <Card>
               <CardHeader>
