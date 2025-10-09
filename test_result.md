@@ -144,15 +144,18 @@ backend:
 frontend:
   - task: "Web3-native Quality Profile Settings page with 8 tabs"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/Settings.tsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
         - agent: "main"
         - comment: "Implemented comprehensive Web3-native Quality Profile Settings page with 8 tabs: Identity (Web3 wallet connections, Farcaster, ENS), Theme (4 theme options, NFT banners, fonts), Quality (Q-Score dashboard, metrics, live tracking), Revenue (monetization, staking, ticketing, earnings), Privacy (quality controls, comment filtering, wallet blocking), Spaces (space presets, NFT minting, visibility settings), Apps (integrations with Floom Store, Farcaster, Spotify), Security (2FA, Creator Guard, on-chain confirmations). Needs comprehensive testing of all interactive elements, navigation, responsive design, and state management."
+        - working: false
+        - agent: "testing"
+        - comment: "CRITICAL ROUTING ISSUE: Settings page is NOT accessible via direct URL navigation. When attempting to access /settings, the application redirects to the homepage (/). Root cause: Index component (src/pages/Index.tsx) acts as a router that redirects ALL traffic to either Dashboard (if authenticated) or Lobby (if not authenticated). This prevents direct access to /settings URL. The Settings.tsx component is properly implemented with all 8 tabs (Identity, Theme, Quality, Revenue, Privacy, Spaces, Apps, Security) and comprehensive interactive functionality, but cannot be tested because it's not reachable through normal navigation. SOLUTION NEEDED: Modify routing architecture to allow direct access to settings page or provide navigation path from Dashboard/Lobby to Settings."
 
   - task: "Space navigation from Dashboard"
     implemented: true
