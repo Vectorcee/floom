@@ -308,6 +308,152 @@ const Settings = () => {
                 </Card>
               </div>
             </TabsContent>
+
+            {/* Quality Dashboard Tab */}
+            <TabsContent value="quality">
+              <div className="grid gap-6">
+                <Card className="border-purple-500/20 bg-gradient-to-r from-purple-500/5 to-pink-500/5">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-purple-400" />
+                      Quality Metrics Dashboard
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                      <div className="text-center p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                        <div className="text-2xl font-bold text-purple-400">{qScore}</div>
+                        <div className="text-sm text-muted-foreground">Q-Score</div>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                        <div className="text-2xl font-bold text-green-400">{stakes}</div>
+                        <div className="text-sm text-muted-foreground">FUUM Staked</div>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                        <div className="text-2xl font-bold text-blue-400">{qualityPosts}</div>
+                        <div className="text-sm text-muted-foreground">Quality Posts</div>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                        <div className="text-2xl font-bold text-orange-400">{engagementDepth.toFixed(1)}</div>
+                        <div className="text-sm text-muted-foreground">Engagement Depth</div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between items-center mb-2">
+                          <Label>Live Q-Score Tracker</Label>
+                          <Switch defaultChecked />
+                        </div>
+                        <p className="text-sm text-muted-foreground">Show real-time Q-Score changes during spaces</p>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-2">
+                          <Label>Audience Diversity: {audienceDiversity}%</Label>
+                        </div>
+                        <div className="w-full bg-secondary rounded-full h-2">
+                          <div 
+                            className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" 
+                            style={{ width: `${audienceDiversity}%` }}
+                          />
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-1">Measure of audience quality diversity</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Monetization Tab */}
+            <TabsContent value="monetization">
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Coins className="w-5 h-5" />
+                      Revenue & Monetization
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Stake-to-Comment</Label>
+                        <p className="text-sm text-muted-foreground">Require FUUM stake to comment on your content</p>
+                      </div>
+                      <Switch checked={stakeToComment} onCheckedChange={setStakeToComment} />
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label>Space Ticketing</Label>
+                          <p className="text-sm text-muted-foreground">Charge for premium space access</p>
+                        </div>
+                        <Switch checked={spaceTicketing} onCheckedChange={setSpaceTicketing} />
+                      </div>
+
+                      {spaceTicketing && (
+                        <div className="ml-6 space-y-3 p-4 bg-secondary/30 rounded-lg">
+                          <div>
+                            <Label>Ticket Price: {ticketPrice[0]} FUUM</Label>
+                            <Slider
+                              value={ticketPrice}
+                              onValueChange={setTicketPrice}
+                              max={1000}
+                              min={10}
+                              step={10}
+                              className="mt-2"
+                            />
+                            <p className="text-xs text-muted-foreground mt-1">≈ ${(ticketPrice[0] * 0.12).toFixed(2)} USD</p>
+                          </div>
+                          
+                          <div className="flex gap-2">
+                            <Button size="sm" variant="outline">
+                              Accept FUUM
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              Accept ETH
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Auto-Split Revenue</Label>
+                        <p className="text-sm text-muted-foreground">Automatically split with collaborators</p>
+                      </div>
+                      <Switch checked={autoSplitRevenue} onCheckedChange={setAutoSplitRevenue} />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Quality Bounty System</Label>
+                        <p className="text-sm text-muted-foreground">Reward high-quality contributions</p>
+                      </div>
+                      <Switch checked={qualityBounty} onCheckedChange={setQualityBounty} />
+                    </div>
+
+                    <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-medium text-green-600 dark:text-green-400">Total Earnings (30d)</p>
+                          <p className="text-2xl font-bold text-green-600 dark:text-green-400">2,847 FUUM</p>
+                        </div>
+                        <Button size="sm">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Withdraw
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
             {/* Theme Settings */}
             <Card>
               <CardHeader>
