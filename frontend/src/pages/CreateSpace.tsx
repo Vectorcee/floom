@@ -158,6 +158,19 @@ const CreateSpace = () => {
       
       <main className="container mx-auto px-4 py-4">
         <div className="max-w-4xl mx-auto">
+          {/* Back Button */}
+          <div className="mb-4">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => navigate('/dashboard')}
+              className="hover:bg-primary/10"
+            >
+              <ArrowLeft size={16} className="mr-2" />
+              Back to Spaces
+            </Button>
+          </div>
+
           <div className="text-center mb-6">
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
               Create Your Space
