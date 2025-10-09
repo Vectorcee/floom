@@ -10,7 +10,7 @@ import CreateSpace from "./pages/CreateSpace";
 import Profile from "./pages/Profile";
 import Store from "./pages/Store";
 import Wallet from "./pages/Wallet";
-import NotFound from "./pages/NotFound";
+import Settings from "./pages/Settings";
 import Dashboard from "./pages/Dashboard";
 
 
