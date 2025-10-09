@@ -190,7 +190,8 @@ metadata:
 test_plan:
   current_focus:
     - "Web3-native Quality Profile Settings page with 8 tabs"
-  stuck_tasks: []
+  stuck_tasks:
+    - "Web3-native Quality Profile Settings page with 8 tabs"
   test_all: false
   test_priority: "high_first"
 
