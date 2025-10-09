@@ -107,7 +107,7 @@ export function useSpaces() {
         description: spaceData.description || '',
         tags: spaceData.tags || [],
         privacy: spaceData.privacy || 'public',
-        quality_threshold: spaceData.quality_threshold || 50,
+        quality_threshold: Math.floor(spaceData.quality_threshold || 50), // Ensure integer for backend validation
         scheduled_time: spaceData.scheduled_time,
         is_live: spaceData.is_live || false,
         cover_image_url: spaceData.cover_image_url,
