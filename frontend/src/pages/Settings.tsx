@@ -15,7 +15,7 @@ import {
   ArrowLeft, Palette, Wallet, Shield, Star, Zap, Users, 
   Crown, Bell, Globe, Lock, Eye, EyeOff, Coins, TrendingUp,
   Link, Hash, Music, Mic, MessageSquare, Award, Camera,
-  Settings2, Fingerprint, KeyRound, QrCode, ExternalLink
+  Settings2, Fingerprint, KeyRound, QrCode, ExternalLink, User
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
