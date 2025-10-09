@@ -454,197 +454,387 @@ const Settings = () => {
               </div>
             </TabsContent>
 
-            {/* Theme Settings */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Palette className="w-5 h-5" />
-                  Appearance
-                  {!isPremium && (
-                    <Badge variant="secondary" className="bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-700 border-amber-200">
-                      <Crown className="w-3 h-3 mr-1" />
-                      Premium
-                    </Badge>
-                  )}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Sun className="w-4 h-4" />
-                    <Label htmlFor="theme-light">Light Mode</Label>
-                  </div>
-                  <Switch
-                    id="theme-light"
-                    checked={theme === 'light'}
-                    onCheckedChange={() => setTheme('light')}
-                    disabled={!isPremium}
-                  />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Moon className="w-4 h-4" />
-                    <Label htmlFor="theme-dark">Dark Mode</Label>
-                  </div>
-                  <Switch
-                    id="theme-dark"
-                    checked={theme === 'dark'}
-                    onCheckedChange={() => setTheme('dark')}
-                    disabled={!isPremium}
-                  />
-                </div>
+            {/* Privacy Tab */}
+            <TabsContent value="privacy">
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Shield className="w-5 h-5" />
+                      Privacy & Quality Controls
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Public Comments</Label>
+                        <p className="text-sm text-muted-foreground">Allow all users to comment</p>
+                      </div>
+                      <Switch checked={publicComments} onCheckedChange={setPublicComments} />
+                    </div>
 
-                {!isPremium && (
-                  <div className="p-3 bg-gradient-to-r from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/20 rounded-lg border border-amber-200 dark:border-amber-700">
-                    <p className="text-sm text-amber-800 dark:text-amber-200">
-                      <Crown className="w-4 h-4 inline mr-1" />
-                      Upgrade to Premium to customize themes and unlock exclusive features
-                    </p>
-                    <Button size="sm" className="mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
-                      Upgrade Now
-                    </Button>
-                  </div>
+                    {!publicComments && (
+                      <div className="ml-6 p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                        <p className="text-sm text-purple-600 dark:text-purple-400">
+                          Only Quality-verified users can comment on your content
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Show Stake Metrics</Label>
+                        <p className="text-sm text-muted-foreground">Display your FUUM stakes publicly</p>
+                      </div>
+                      <Switch checked={showStakeMetrics} onCheckedChange={setShowStakeMetrics} />
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label>Auto-Mute Low Quality</Label>
+                          <p className="text-sm text-muted-foreground">Hide comments below quality threshold</p>
+                        </div>
+                        <Switch checked={blockLowQuality} onCheckedChange={setBlockLowQuality} />
+                      </div>
+
+                      {blockLowQuality && (
+                        <div className="space-y-2">
+                          <Label>Quality Threshold: {muteThreshold[0]}</Label>
+                          <Slider
+                            value={muteThreshold}
+                            onValueChange={setMuteThreshold}
+                            max={100}
+                            min={10}
+                            step={5}
+                          />
+                          <p className="text-xs text-muted-foreground">Comments below Q-Score {muteThreshold[0]} will be hidden</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <Separator />
+
+                    <div className="space-y-3">
+                      <h4 className="font-medium flex items-center gap-2">
+                        <Lock className="w-4 h-4" />
+                        Wallet Interactions
+                      </h4>
+                      <div className="space-y-3 ml-6">
+                        <Button variant="outline" size="sm" className="w-full justify-start">
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Blocked Wallets
+                        </Button>
+                        <Button variant="outline" size="sm" className="w-full justify-start">
+                          <EyeOff className="w-4 h-4 mr-2" />
+                          Limit New Wallet Interactions
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Spaces Tab */}
+            <TabsContent value="spaces">
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Mic className="w-5 h-5" />
+                      Space Management
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <Label>Default Space Type</Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                        {spaceTypes.map((type) => {
+                          const IconComponent = type.icon;
+                          return (
+                            <div
+                              key={type.id}
+                              className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                                defaultSpaceType === type.id 
+                                  ? 'border-purple-500 bg-purple-500/10' 
+                                  : 'border-border hover:border-purple-300'
+                              }`}
+                              onClick={() => setDefaultSpaceType(type.id)}
+                            >
+                              <div className="flex items-center gap-3">
+                                <IconComponent className="w-5 h-5 text-purple-400" />
+                                <div>
+                                  <p className="font-medium">{type.name}</p>
+                                  <p className="text-xs text-muted-foreground">{type.desc}</p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Mint Replays as NFTs</Label>
+                        <p className="text-sm text-muted-foreground">Auto-mint space highlights</p>
+                      </div>
+                      <Switch checked={mintReplays} onCheckedChange={setMintReplays} />
+                    </div>
+
+                    <div>
+                      <Label>Default Visibility</Label>
+                      <Select value={defaultVisibility} onValueChange={setDefaultVisibility}>
+                        <SelectTrigger className="mt-2">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="open">
+                            <div className="flex items-center gap-2">
+                              <Globe className="w-4 h-4" />
+                              Open (Everyone)
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="members">
+                            <div className="flex items-center gap-2">
+                              <Users className="w-4 h-4" />
+                              Members Only
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="nft">
+                            <div className="flex items-center gap-2">
+                              <Star className="w-4 h-4" />
+                              NFT Holders
+                            </div>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {mintReplays && (
+                      <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-sm text-blue-600 dark:text-blue-400 mb-2">NFT Minting Settings</p>
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-sm">Mint Fee</span>
+                            <span className="text-sm font-medium">0.005 ETH</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm">Creator Royalty</span>
+                            <span className="text-sm font-medium">7.5%</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Integrations Tab */}
+            <TabsContent value="integrations">
+              <div className="grid gap-6 md:grid-cols-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Link className="w-5 h-5" />
+                      Connected Apps
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                          <span className="text-white text-sm font-bold">F</span>
+                        </div>
+                        <div>
+                          <Label>Floom Store</Label>
+                          <p className="text-sm text-muted-foreground">Digital items & NFTs</p>
+                        </div>
+                      </div>
+                      <Button variant="secondary" size="sm">Connected</Button>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                          <span className="text-white text-sm font-bold">FC</span>
+                        </div>
+                        <div>
+                          <Label>Farcaster</Label>
+                          <p className="text-sm text-muted-foreground">Cross-post notifications</p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm">Connect</Button>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
+                          <Music className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <Label>Spotify</Label>
+                          <p className="text-sm text-muted-foreground">Music space integration</p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm">Connect</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Bell className="w-5 h-5" />
+                      Notifications
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Space Mentions</Label>
+                        <p className="text-sm text-muted-foreground">When mentioned in spaces</p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Quality Milestones</Label>
+                        <p className="text-sm text-muted-foreground">Q-Score achievements</p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Revenue Updates</Label>
+                        <p className="text-sm text-muted-foreground">Earnings and payouts</p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Farcaster Bridge</Label>
+                        <p className="text-sm text-muted-foreground">Cross-platform notifications</p>
+                      </div>
+                      <Switch />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Security Tab */}
+            <TabsContent value="security">
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <KeyRound className="w-5 h-5" />
+                      Security & Authentication
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>On-Chain Confirmations</Label>
+                        <p className="text-sm text-muted-foreground">Require blockchain verification for profile edits</p>
+                      </div>
+                      <Switch checked={onChainConfirms} onCheckedChange={setOnChainConfirms} />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Creator Guard</Label>
+                        <p className="text-sm text-muted-foreground">Protect against profile clones</p>
+                      </div>
+                      <Switch checked={creatorGuard} onCheckedChange={setCreatorGuard} />
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label>Two-Factor Authentication</Label>
+                          <p className="text-sm text-muted-foreground">FUUM signature + authenticator app</p>
+                        </div>
+                        <Switch checked={twoFactorAuth} onCheckedChange={setTwoFactorAuth} />
+                      </div>
+
+                      {twoFactorAuth && (
+                        <div className="ml-6 space-y-3 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                          <p className="text-sm text-green-600 dark:text-green-400 mb-3">2FA Setup Required</p>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant="outline">
+                              <QrCode className="w-4 h-4 mr-2" />
+                              Scan QR Code
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              <Fingerprint className="w-4 h-4 mr-2" />
+                              Add Backup Key
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <Separator />
+
+                    <div className="space-y-3">
+                      <h4 className="font-medium flex items-center gap-2">
+                        <Shield className="w-4 h-4" />
+                        Account Protection
+                      </h4>
+                      <div className="space-y-2 ml-6">
+                        <Button variant="outline" size="sm" className="w-full justify-start">
+                          Active Sessions (3)
+                        </Button>
+                        <Button variant="outline" size="sm" className="w-full justify-start">
+                          Connected Apps (7)
+                        </Button>
+                        <Button variant="outline" size="sm" className="w-full justify-start">
+                          Export Account Data
+                        </Button>
+                        <Button variant="destructive" size="sm" className="w-full justify-start">
+                          Delete Account
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {creatorGuard && (
+                  <Card className="border-green-500/20 bg-green-500/5">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2 text-green-600 dark:text-green-400">
+                        <Shield className="w-5 h-5" />
+                        Creator Guard Active
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="flex justify-between">
+                          <span className="text-sm">Profile Hash</span>
+                          <Badge variant="secondary">0xf7a8...9e2c</Badge>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm">Last Verification</span>
+                          <span className="text-sm text-muted-foreground">2 hours ago</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm">Clone Attempts Blocked</span>
+                          <span className="text-sm font-medium text-green-600 dark:text-green-400">12</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 )}
-              </CardContent>
-            </Card>
-
-            {/* Notifications */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Bell className="w-5 h-5" />
-                  Notifications
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="notifications">Space Notifications</Label>
-                    <p className="text-sm text-muted-foreground">Get notified when spaces you're interested in go live</p>
-                  </div>
-                  <Switch
-                    id="notifications"
-                    checked={notifications}
-                    onCheckedChange={setNotifications}
-                  />
-                </div>
-                
-                <Separator />
-                
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="mentions">Mentions & Replies</Label>
-                    <p className="text-sm text-muted-foreground">When someone mentions or replies to you</p>
-                  </div>
-                  <Switch id="mentions" defaultChecked />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Privacy & Security */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
-                  Privacy & Security
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="data-sharing">Data Analytics</Label>
-                    <p className="text-sm text-muted-foreground">Help improve Floom with anonymous usage data</p>
-                  </div>
-                  <Switch
-                    id="data-sharing"
-                    checked={dataSharing}
-                    onCheckedChange={setDataSharing}
-                  />
-                </div>
-                
-                <Separator />
-                
-                <div className="space-y-2">
-                  <Button variant="outline" className="w-full justify-start">
-                    Blocked Users
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    Privacy Settings
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    Data Export
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Account */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Account</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Button variant="outline" className="w-full justify-start">
-                    Change Password
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    Email Preferences
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    Connected Accounts
-                  </Button>
-                </div>
-                
-                <Separator />
-                
-                <Button variant="destructive" className="w-full">
-                  Delete Account
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Premium Features Preview */}
-            {!isPremium && (
-              <Card className="border-gradient-to-r from-amber-200 to-amber-300 dark:from-amber-700 dark:to-amber-600">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-amber-700 dark:text-amber-200">
-                    <Crown className="w-5 h-5" />
-                    Premium Features
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full" />
-                      Custom themes (Light/Dark modes)
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full" />
-                      Advanced space analytics
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full" />
-                      Priority support
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full" />
-                      Exclusive premium badges
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full" />
-                      Extended space recording
-                    </li>
-                  </ul>
-                  <Button className="w-full mt-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
-                    <Crown className="w-4 h-4 mr-2" />
-                    Upgrade to Premium
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
     </div>
