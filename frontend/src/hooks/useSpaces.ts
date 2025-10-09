@@ -258,6 +258,7 @@ export function useSpaces() {
     joinSpace,
     leaveSpace,
     updateSpaceStatus,
+    deleteSpace,
     refetch: fetchSpaces,
   };
 }
