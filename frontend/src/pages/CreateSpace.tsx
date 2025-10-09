@@ -23,6 +23,7 @@ const CreateSpace = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { createSpace } = useSpaces();
+  const { toast } = useToast();
   const [isCreating, setIsCreating] = useState(false);
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
