@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "The user reported that spaces aren't working and wants me to prioritize fixing the broken LiveSpace functionality first."
+user_problem_statement: "Comprehensively test the enhanced Web3-native Quality Profile Settings page with all 8 tabs and interactive functionality for the FUUM ecosystem on Base."
 
 backend:
   - task: "Space API endpoints"
