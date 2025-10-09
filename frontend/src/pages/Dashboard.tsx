@@ -62,6 +62,11 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteSpace = async (spaceId: string) => {
+    if (!user) return;
+    await deleteSpace(spaceId);
+  };
+
   // Filter spaces based on search query
   const filteredSpaces = spaces.filter(space =>
     space.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
