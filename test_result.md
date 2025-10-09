@@ -198,6 +198,32 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+  - task: "Logout redirect functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/hooks/useAuth.ts, /app/frontend/src/components/auth/UserMenu.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "main"
+        - comment: "Implemented logout redirect feature that should navigate users to home page ('/') after successful logout. The logout functionality is in UserMenu component using signOut function from useAuth hook."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 3
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Logout redirect functionality"
+  stuck_tasks:
+    - "LiveSpace component functionality"
+  test_all: false
+  test_priority: "high_first"
+
 agent_communication:
     - agent: "main"
     - message: "Successfully fixed the broken LiveSpace functionality. The issue was that LiveSpace component was using Supabase instead of the FastAPI backend. Replaced the space fetching logic to use spacesApi service. LiveSpace now works correctly with features like: space info display, speaker avatars with FP earned, reactions, mute controls, navigation, and sharing. Need to run comprehensive backend testing to ensure all endpoints are working properly."
@@ -207,3 +233,5 @@ agent_communication:
     - message: "CRITICAL LIVESPACE ROUTING ISSUE FOUND ❌ - Comprehensive testing revealed that LiveSpace component is NOT working as claimed. When navigating to /space/{id} URLs, the app redirects to the homepage instead of displaying the LiveSpace component. This affects ALL space navigation including: 1) Direct space URL access fails (redirects to homepage), 2) Dashboard space navigation fails (redirects to homepage), 3) All LiveSpace fixes mentioned in review request CANNOT be verified because the component never loads. Backend API is working correctly (space data exists and is accessible), but frontend routing/component loading is broken. The LiveSpace component appears to have error handling that redirects to dashboard, which then redirects to homepage, creating a redirect chain. This is a critical issue that prevents any space functionality from working."
     - agent: "testing"
     - message: "GO LIVE NOW BUG FIXED ✅ - Successfully identified and resolved the root cause of the 'Go Live Now' button failure. ISSUE: Frontend spacesApi.ts was using wrong environment variable (VITE_BACKEND_URL pointing to localhost:8001) instead of REACT_APP_BACKEND_URL (production URL). This caused all API calls to fail silently. FIX APPLIED: Updated spacesApi.ts to use correct backend URL. VERIFICATION: Conducted comprehensive testing of Go Live functionality - all 14 tests passed including space creation with is_live:true, authentication, data validation, and error handling. Frontend can now successfully create live spaces and communicate with backend API. The 'Go Live Now' button should now work correctly for users."
+    - agent: "testing"
+    - message: "LOGOUT REDIRECT TESTING REQUEST - User requested comprehensive testing of logout redirect functionality. Need to test: 1) Authentication flow (sign up/in, verify user menu appears), 2) User menu access (click avatar, verify dropdown with logout option), 3) Logout redirect (click logout, verify redirect to home page /), 4) Post-logout state (verify header shows sign in/up buttons, verify auth protection). Will conduct thorough testing of the logout flow and redirect behavior."
