@@ -186,9 +186,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "LiveSpace component functionality"
-  stuck_tasks:
-    - "LiveSpace component functionality"
+    - "Web3-native Quality Profile Settings page with 8 tabs"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
