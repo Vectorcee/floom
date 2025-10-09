@@ -110,7 +110,7 @@ export function useSpaces() {
         quality_threshold: spaceData.quality_threshold || 50,
         scheduled_time: spaceData.scheduled_time,
         is_live: spaceData.is_live || false,
-        cover_image_url: spaceData.cover_image_url,
+        cover_image_url: spaceData.cover_image_url || null,
       };
 
       const createdSpace = await spacesApi.createSpace(spaceCreateData, user.id);
