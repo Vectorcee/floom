@@ -145,13 +145,33 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemin
         
         {/* Action buttons */}
         <div className="px-4 pb-4 space-y-2">
-          <Button 
-            className="w-full font-medium transition-all duration-200" 
-            onClick={() => space.is_live ? onJoin?.(space.id) : onRemind?.(space.id)}
-            variant={space.is_live ? "default" : "outline"}
-          >
-            {space.is_participant ? 'Join Space' : space.is_live ? 'Join Space' : 'Remind Me'}
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              className="flex-1 font-medium transition-all duration-200" 
+              onClick={() => space.is_live ? onJoin?.(space.id) : onRemind?.(space.id)}
+              variant={space.is_live ? "default" : "outline"}
+            >
+              {space.is_participant ? 'Join Space' : space.is_live ? 'Join Space' : 'Remind Me'}
+            </Button>
+            
+            {/* Delete button for owned spaces */}
+            {showDelete && onDelete && (
+              <Button 
+                variant="destructive" 
+                size="sm"
+                className="shrink-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (confirm(`Are you sure you want to delete "${space.title}"?`)) {
+                    onDelete(space.id);
+                  }
+                }}
+                title="Delete space"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
           
           {/* Share button for scheduled spaces */}
           {!space.is_live && (
