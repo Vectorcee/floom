@@ -1,11 +1,11 @@
 interface SpaceCreateData {
   title: string;
-  description?: string;
-  tags?: string[];
-  privacy?: 'public' | 'private';
-  quality_threshold?: number;
+  description: string;
+  tags: string[];
+  privacy: string;
+  quality_threshold: number;
   scheduled_time?: string;
-  is_live?: boolean;
+  is_live: boolean;
   cover_image_url?: string;
 }
 
