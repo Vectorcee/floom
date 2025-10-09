@@ -224,6 +224,8 @@ const Dashboard = () => {
                     onJoin={handleJoinSpace}
                     onRemind={handleRemindMe}
                     onShare={handleShareSpace}
+                    onDelete={handleDeleteSpace}
+                    showDelete={space.host_id === user?.id}
                   />
                 ))}
               </div>
