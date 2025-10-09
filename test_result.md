@@ -137,6 +137,9 @@ backend:
         - working: true
         - agent: "testing"
         - comment: "Backend API integration verified - spacesApi service endpoints are working correctly. All space data fetching operations tested successfully including GET /api/spaces (list), GET /api/spaces/{id} (individual), POST /api/spaces (create), and PUT /api/spaces/{id} (update). Data structure matches frontend expectations with all required fields present."
+        - working: true
+        - agent: "testing"
+        - comment: "CRITICAL BUG FIXED - spacesApi was using incorrect environment variable VITE_BACKEND_URL (localhost:8001) instead of REACT_APP_BACKEND_URL (production URL). This was causing all frontend API calls to fail. Fixed the backend URL configuration in spacesApi.ts. Verified fix with comprehensive testing - API connectivity confirmed and space creation working correctly. Frontend can now successfully communicate with backend API."
 
 frontend:
   - task: "LiveSpace component functionality"
