@@ -31,9 +31,6 @@ const BACKEND_URL = import.meta.env.REACT_APP_BACKEND_URL || 'http://localhost:8
 
 export const spacesApi = {
   async createSpace(spaceData: SpaceCreateData, hostId: string): Promise<Space> {
-    console.log('Creating space with data:', spaceData);
-    console.log('Host ID:', hostId);
-    
     const response = await fetch(`${BACKEND_URL}/api/spaces?host_id=${hostId}`, {
       method: 'POST',
       headers: {
@@ -42,13 +39,10 @@ export const spacesApi = {
       body: JSON.stringify(spaceData),
     });
 
-    console.log('Response status:', response.status);
-    console.log('Response statusText:', response.statusText);
-    
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Error response:', errorText);
-      throw new Error(`Failed to create space: ${response.statusText}. Details: ${errorText}`);
+      console.error('Space creation failed:', response.status, response.statusText, errorText);
+      throw new Error(`Failed to create space (${response.status}): ${response.statusText}`);
     }
 
     return response.json();
