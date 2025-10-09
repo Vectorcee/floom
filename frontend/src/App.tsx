@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Store from "./pages/Store";
 import Wallet from "./pages/Wallet";
 import Settings from "./pages/Settings";
+import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 
 
