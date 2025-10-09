@@ -66,23 +66,10 @@ const CreateSpace = () => {
   const uploadImage = async (): Promise<string | null> => {
     if (!coverImage || !user) return null;
 
-    const fileExt = coverImage.name.split('.').pop();
-    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-
-    const { error } = await supabase.storage
-      .from('space-images')
-      .upload(fileName, coverImage);
-
-    if (error) {
-      console.error('Error uploading image:', error);
-      return null;
-    }
-
-    const { data } = supabase.storage
-      .from('space-images')
-      .getPublicUrl(fileName);
-
-    return data.publicUrl;
+    // TODO: Implement image upload with backend API
+    // For now, return null to skip image upload and focus on core functionality
+    console.log('Image upload not implemented yet, skipping...');
+    return null;
   };
 
   const handleCreate = async (goLive = false) => {
