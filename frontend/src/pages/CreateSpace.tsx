@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Clock, Users, Globe, Lock, X, Upload, ImageIcon } from 'lucide-react';
+import { CalendarIcon, Clock, Users, Globe, Lock, X, Upload, ImageIcon, ArrowLeft } from 'lucide-react';
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useNavigate } from 'react-router-dom';
