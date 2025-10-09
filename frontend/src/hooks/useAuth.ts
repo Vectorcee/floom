@@ -5,6 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { getRandomAvatar } from '@/utils/avatarUtils';
 
 export function useAuth() {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
