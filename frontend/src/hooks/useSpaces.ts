@@ -200,6 +200,10 @@ export function useSpaces() {
 
     try {
       await spacesApi.updateSpace(spaceId, updates, user.id);
+      toast({
+        title: "Space updated",
+        description: "Space has been updated successfully.",
+      });
 
       // Refresh spaces to get updated data
       fetchSpaces();
@@ -207,6 +211,36 @@ export function useSpaces() {
       return true;
     } catch (err) {
       console.error('Error updating space:', err);
+      toast({
+        title: "Failed to update space",
+        description: err instanceof Error ? err.message : 'Unknown error occurred',
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  const deleteSpace = async (spaceId: string) => {
+    if (!user) return false;
+
+    try {
+      await spacesApi.deleteSpace(spaceId, user.id);
+      toast({
+        title: "Space deleted",
+        description: "Space has been deleted successfully.",
+      });
+
+      // Refresh spaces to remove deleted space
+      fetchSpaces();
+      
+      return true;
+    } catch (err) {
+      console.error('Error deleting space:', err);
+      toast({
+        title: "Failed to delete space",
+        description: err instanceof Error ? err.message : 'Unknown error occurred',
+        variant: "destructive",
+      });
       return false;
     }
   };
