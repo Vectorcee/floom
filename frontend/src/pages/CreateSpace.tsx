@@ -146,16 +146,17 @@ const CreateSpace = () => {
       <main className="container mx-auto px-4 py-4">
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}
-          <div className="mb-4">
+          <div className="flex items-center justify-between mb-6">
             <Button 
-              variant="ghost" 
+              variant="outline" 
               size="sm"
               onClick={() => navigate('/dashboard')}
-              className="hover:bg-primary/10"
+              className="rounded-full px-4 py-2 border-border/50 hover:bg-primary/10 transition-colors"
             >
               <ArrowLeft size={16} className="mr-2" />
-              Back to Spaces
+              back
             </Button>
+            <div></div> {/* Spacer for alignment */}
           </div>
 
           <div className="text-center mb-6">
