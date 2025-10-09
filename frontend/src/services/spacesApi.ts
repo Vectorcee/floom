@@ -81,6 +81,16 @@ export const spacesApi = {
 
     return response.json();
   },
+
+  async deleteSpace(spaceId: string, hostId: string): Promise<void> {
+    const response = await fetch(`${BACKEND_URL}/api/spaces/${spaceId}?host_id=${hostId}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete space: ${response.statusText}`);
+    }
+  },
 };
 
 export type { Space, SpaceCreateData };
