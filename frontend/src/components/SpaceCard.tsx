@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Users, Mic, Share } from 'lucide-react';
+import { Clock, Users, Mic, Share, Trash2, MoreVertical } from 'lucide-react';
 import { Space } from '@/hooks/useSpaces';
 
 interface SpaceCardProps {
