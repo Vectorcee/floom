@@ -15,7 +15,7 @@ import { useAuth } from '@/hooks/useAuth';
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { spaces, loading, joinSpace, leaveSpace } = useSpaces();
+  const { spaces, loading, joinSpace, leaveSpace, deleteSpace } = useSpaces();
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleJoinSpace = async (spaceId: string) => {
