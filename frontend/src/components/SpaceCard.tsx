@@ -16,7 +16,7 @@ interface SpaceCardProps {
   showDelete?: boolean;
 }
 
-const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemind, onShare }) => {
+const SpaceCard: React.FC<SpaceCardProps> = ({ space, className, onJoin, onRemind, onShare, onDelete, showDelete }) => {
   const formatTime = (timeString?: string) => {
     if (!timeString) return '';
     const date = new Date(timeString);
