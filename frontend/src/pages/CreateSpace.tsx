@@ -74,6 +74,12 @@ const CreateSpace = () => {
 
   const handleCreate = async (goLive = false) => {
     if (!user) {
+      // Show error toast and prompt user to sign in
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to create a space",
+        variant: "destructive",
+      });
       return;
     }
 
