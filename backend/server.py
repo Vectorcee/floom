@@ -117,6 +117,15 @@ async def update_space(space_id: str, space_data: SpaceCreate, host_id: str):
     updated_space = await db.spaces.find_one({"id": space_id})
     return updated_space
 
+@api_router.delete("/spaces/{space_id}")
+async def delete_space(space_id: str, host_id: str):
+    result = await db.spaces.delete_one({"id": space_id, "host_id": host_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Space not found or unauthorized")
+    
+    return {"message": "Space deleted successfully"}
+
 # Include the router in the main app
 app.include_router(api_router)
 
