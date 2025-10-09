@@ -54,6 +54,12 @@ export function useAuth() {
   };
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
+    
+    // Redirect to home page after successful logout
+    if (!error) {
+      navigate('/');
+    }
+    
     return { error };
   };
 
