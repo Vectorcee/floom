@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { getRandomAvatar } from '@/utils/avatarUtils';
 
