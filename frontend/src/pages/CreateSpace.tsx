@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from 'react-router-dom';
 import { useSpaces } from '@/hooks/useSpaces';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
 const CreateSpace = () => {
